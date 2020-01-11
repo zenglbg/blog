@@ -11,7 +11,7 @@ export class Admin extends Base {
 
   @Column({
     type: "varchar",
-    length: 255,
+    length: 20,
     unique: true
   })
   name: string;

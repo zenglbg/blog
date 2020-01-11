@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 import Base from "../base";
 
 @Entity()
-export class Admin extends Base {
+export class Example extends Base {
   @PrimaryGeneratedColumn({
     type: "int"
   })
@@ -11,7 +11,7 @@ export class Admin extends Base {
 
   @Column({
     type: "varchar",
-    length: 255,
+    length: 20,
     unique: true
   })
   name: string;
@@ -20,5 +20,5 @@ export class Admin extends Base {
     type: "varchar",
     length: 6
   })
-  password: string;
+  age: string;
 }

@@ -6,7 +6,7 @@
     "ts": "node  -r ts-node/register --inspect"
   },
 
-  "watch": ["./server/*"],
+  "watch": ["./app/*"],
   "env": {
     "NODE_ENV": "development"
   },

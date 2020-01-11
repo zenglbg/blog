@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server/index.ts"
+    "dev": "nodemon app/index.ts",
+    "build": "rm -rf dist && tsc"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.8.0",
     "rxjs": "^6.5.4",
+    "typedi": "^0.8.0",
     "typeorm": "^0.2.22"
   },
   "devDependencies": {

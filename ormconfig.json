@@ -7,12 +7,12 @@
   "database": "test",
   "synchronize": true,
   "logging": false,
-  "entities": ["server/model/entity/**/*.ts"],
-  "migrations": ["server/model/migration/**/*.ts"],
-  "subscribers": ["server/model/subscriber/**/*.ts"],
+  "entities": ["app/model/entity/**/*.ts"],
+  "migrations": ["app/model/migration/**/*.ts"],
+  "subscribers": ["app/model/subscriber/**/*.ts"],
   "cli": {
-    "entitiesDir": "src/entity",
-    "migrationsDir": "src/migration",
-    "subscribersDir": "src/subscriber"
+    "entitiesDir": "app/model/entity",
+    "migrationsDir": "app/model/migration",
+    "subscribersDir": "app/model/subscriber"
   }
 }

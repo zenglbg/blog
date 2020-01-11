@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 import Base from "../base";
 
 @Entity()
-export class Admin extends Base {
+export class Star extends Base {
   @PrimaryGeneratedColumn({
     type: "int"
   })
@@ -14,11 +14,8 @@ export class Admin extends Base {
     length: 255,
     unique: true
   })
-  name: string;
+  title: string;
 
-  @Column({
-    type: "varchar",
-    length: 6
-  })
-  password: string;
+  @Column("varchar")
+  url: string;
 }
