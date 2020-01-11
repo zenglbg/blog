@@ -1,0 +1,14 @@
+{
+  "restartable": "rs",
+  "ignore": [".git", ".svn", "node_modules/**/node_modules"],
+  "verbose": true,
+  "execMap": {
+    "ts": "node  -r ts-node/register --inspect"
+  },
+
+  "watch": ["./server/*"],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js ts json"
+}
