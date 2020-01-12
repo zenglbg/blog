@@ -48,7 +48,6 @@ createConnection()
     const article = new Article();
     const i = Math.floor(Math.random() * 1000);
     article.title = "blog 迁移到 http://xiangxi.red/doc" + i;
-    article.readedCount = 45 + i;
     article.author = "gong" + i;
     article.summary = "迁移" + i;
     article.category = "前端";

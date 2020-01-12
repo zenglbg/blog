@@ -1,10 +1,12 @@
 import { Article } from "../model/entity/article";
 import { Ctx, Param, Get, Post, JsonController } from "routing-controllers";
 // import crypto from "crypto";
-import { Container } from "typedi";
 import { Context } from "koa";
 import { getRepository } from "typeorm";
 
+import { Container } from "typedi";
+import Query from "../server/query";
+const query = Container.get(Query);
 @JsonController("/api")
 export default class {
   @Get("/article/list")
@@ -44,7 +46,7 @@ export default class {
     };
   }
 
-  @Get("/article/listAll")
+  @Get("/article/list/all")
   async listAll(@Ctx() ctx: Context) {
     const listAll = await Article.createQueryBuilder("article")
       .orderBy("createdAt", "DESC")
@@ -88,5 +90,43 @@ export default class {
         category: article.category.split(",")
       }
     };
+  }
+
+  @Post("/article/create")
+  async create(@Ctx() ctx: Context) {
+    const params = ctx.request.body;
+    const { title } = params;
+    if (!title) {
+      return {
+        code: 1003,
+        msg: "分类不能为空"
+      };
+    }
+    return query.create(Article, { title }, { title });
+  }
+
+  @Post("/article/update")
+  public async update(@Ctx() ctx: Context) {
+    const params = ctx.request.body;
+    const { id } = params;
+    delete params.id;
+    try {
+      await Article.update({ id }, params);
+      return {
+        code: 1000,
+        msg: "修改成功"
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        code: 1003,
+        msg: "服务器繁忙"
+      };
+    }
+  }
+
+  @Post("/article/destroy")
+  public async destroy(@Ctx() ctx: Context) {
+    return query.destroy(ctx, Article);
   }
 }
