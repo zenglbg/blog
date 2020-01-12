@@ -1,0 +1,10 @@
+// ./src/webpack/tsconfig.client.json
+
+{
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "sourceMap": true
+  },
+  "include": ["../src/client/**/*", "../src/server/**/*", "../@types/**/*"]
+}
