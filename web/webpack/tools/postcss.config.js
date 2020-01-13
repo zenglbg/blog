@@ -1,31 +1,30 @@
+// https://github.com/michael-ciniawsky/postcss-load-config
+
 module.exports = {
-  // parser: 'sugarss',
-  plugins: [
-    require('postcss-import'),
-    require('autoprefixer')({
-      browsers: ['last 2 versions', '> 2%']
-    }),
-    require('postcss-pxtorem')({
-      rootValue: 75,
+  plugins: {
+    "postcss-import": {},
+    "postcss-url": {},
+    // to edit target browsers: use "browserslist" field in package.json
+    autoprefixer: {},
+    "postcss-px-to-viewport": {
+      viewportWidth: 750,
       unitPrecision: 5,
-      propList: ['*', '!border*'],
+      propList: ["*", "!border*"],
       selectorBlackList: [
-        '.ig-',
-        '.vux-',
-        '.weui-',
-        '.scroller-',
-        '.dp-',
-        '.mt-',
-        '.mint-',
+        "html",
+        ".ig-",
+        ".vux-",
+        ".weui-",
+        ".scroller-",
+        ".dp-",
+        ".mt-",
+        ".mint-",
         // ".range"
-        '.page-infinite-'
+        ".page-infinite-"
       ],
       replace: true,
       mediaQuery: false,
       minPixelValue: 0
-    }),
-    require('css-mqpacker'),
-    require('precss'),
-    require('cssnano')
-  ]
+    }
+  }
 };

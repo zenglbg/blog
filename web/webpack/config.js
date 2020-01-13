@@ -11,7 +11,7 @@ module.exports = {
       }
     },
     output: {
-      path: path.resolve(__dirname, "../../"),
+      path: path.resolve(__dirname, "../dist"),
       // chunkFilename: '[name].[chunkhash:6].chunk.js',
       //     sourceMapFilename: '[name].bundle.map',
       publicPath: "/", //如果react-router 在多级路由下找不到css 或者js 资源的话配置这个可以解决
@@ -43,6 +43,18 @@ module.exports = {
       timings: true,
       version: false,
       warnings: true
+    }
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: "styles",
+          test: /\.css$/,
+          chunks: "all",
+          enforce: true
+        }
+      }
     }
   }
 };

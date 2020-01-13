@@ -25,4 +25,4 @@ module.exports = __DEV__
   ? Object.assign({}, base, {
       devServer: config.dev_server
     })
-  : base;
+  : {...base, optimization: config.optimization};

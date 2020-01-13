@@ -3,6 +3,7 @@ const path = require("path"),
   MiniCssExtractPlugin = require("mini-css-extract-plugin"),
   process = require("process"),
   __DEV__ = (process.env.NODE_ENV || "development") === "development";
+const darkTheme = require("@ant-design/dark-theme");
 
 const getTsRule = configFile => ({
   // 传入tsconfig配置文件返回rule
@@ -18,88 +19,25 @@ const getTsRule = configFile => ({
     }
   ]
 });
-
-// const base_css = {
-//   dev: [
-//     "style-loader",
-//     "css-loader",
-//     {
-//       loader: "postcss-loader",
-//       options: {
-//         config: {
-//           path: path.join(__dirname, "./tools/postcss.config.js")
-//         }
-//       }
-//     },
-//     "sass-loader",
-//     {
-//       loader: "sass-resources-loader",
-//       options: {
-//         // 你也可以从一个文件读取，例如 `variables.scss`
-//         resources: [
-//           path.join(__dirname, "../src/common/scss/variable.scss"),
-//           path.join(__dirname, "../src/common/scss/mixin.scss"),
-//           path.join(__dirname, "../src/common/scss/functions.scss")
-//         ]
-//       }
-//     }
-//   ],
-//   prod: ExtractTextPlugin.extract({
-//     //如果需要，可以在 sass-loader 之前将 resolve-url-loader 链接进来
-//     fallback: "style-loader",
-//     use: [
-//       {
-//         loader: "css-loader",
-//         options: {
-//           minimize: process.env.NODE_ENV === "production", //是否压缩css
-//           modules: false, //开启将会吧选择器变成随机字符串
-//           // localIdentName: "[path][name]__[local]--[hash:base64:5]",
-//           // getLocalIdent: (
-//           //   context,
-//           //   localIdentName,
-//           //   localName,
-//           //   options
-//           // ) => {
-//           //   return "whatever_random_class_name";
-//           // }
-//           importLoaders: 1
-//         }
-//       },
-//       {
-//         loader: "postcss-loader",
-//         options: {
-//           config: {
-//             path: path.join(__dirname, "./tools/postcss.config.js")
-//           }
-//         }
-//       },
-//       {
-//         loader: "sass-loader",
-//         options: {
-//           // 你也可以从一个文件读取，例如 `variables.scss`
-//           // data: path.join(__dirname, '../src/index.scss')
-//         }
-//       },
-//       {
-//         loader: "sass-resources-loader",
-//         options: {
-//           // 你也可以从一个文件读取，例如 `variables.scss`
-//           resources: [
-//             path.join(__dirname, "../src/common/scss/variable.scss"),
-//             path.join(__dirname, "../src/common/scss/mixin.scss"),
-//             path.join(__dirname, "../src/common/scss/functions.scss")
-//           ]
-//         }
-//       }
-//     ]
-//   })
-// };
-
+ 
 const getCssRules = isDev => {
   return {
-    test: /\.(scss|css)$/,
+    test: /\.(less|css)$/,
     use: [
-      "style-loader",
+      isDev
+        ? "style-loader"
+        : {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // 这里可以指定一个 publicPath
+              // 默认使用 webpackOptions.output中的publicPath
+              // publicPath的配置，和plugins中设置的filename和chunkFilename的名字有关
+              // 如果打包后，background属性中的图片显示不出来，请检查publicPath的配置是否有误
+              publicPath: "./",
+              // publicPath: devMode ? './' : '../',   // 根据不同环境指定不同的publicPath
+              hmr: isDev // 仅dev环境启用HMR功能
+            }
+          },
       "css-loader",
       {
         loader: "postcss-loader",
@@ -109,26 +47,26 @@ const getCssRules = isDev => {
           }
         }
       },
-      "sass-loader",
+      {
+        loader: "less-loader",
+        options: {
+          modifyVars: darkTheme,
+          javascriptEnabled: true
+        }
+      },
+
       {
         loader: "sass-resources-loader",
         options: {
           // 你也可以从一个文件读取，例如 `variables.scss`
           resources: [
-            path.join(__dirname, "../src/common/scss/variable.scss"),
-            path.join(__dirname, "../src/common/scss/mixin.scss"),
-            path.join(__dirname, "../src/common/scss/functions.scss")
+            path.join(__dirname, "../src/assets/scss/variable.less")
+            // path.join(__dirname, "../src/common/scss/variable.scss"),
+            // path.join(__dirname, "../src/common/scss/mixin.scss"),
+            // path.join(__dirname, "../src/common/scss/functions.scss")
           ]
         }
-      },
-      __DEV__
-        ? {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === "development"
-            }
-          }
-        : null
+      }
     ]
   };
 };
@@ -136,6 +74,7 @@ const getCssRules = isDev => {
 const baseConfig = [
   getTsRule(path.resolve(__dirname, "./tsconfig.client.json")),
   getCssRules(__DEV__),
+
   {
     test: /\.(png|jpg|jpeg)$/,
     loader: "url-loader",

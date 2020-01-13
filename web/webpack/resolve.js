@@ -11,7 +11,8 @@ module.exports = {
       "scss",
       ".json",
       ".web.jsx",
-      ".jsx"
+      ".jsx",
+      ".tsx"
     ], // require的时候可以直接使用require('file')，不用require('file.js')
     alias: {
       reducers: `${path.resolve(__dirname)}/src/common/reducers`
