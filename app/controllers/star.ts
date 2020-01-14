@@ -19,7 +19,7 @@ export default class {
 
   @Post("/star/create")
   public async create(@Ctx() ctx: Context) {
-    const params = ctx.request.body;
+    const params = (ctx.request as any).body;
     const { title } = params;
     if (!title) {
       return {

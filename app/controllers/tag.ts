@@ -24,7 +24,7 @@ export default class {
 
   @Post("/tag/create")
   public async create(@Ctx() ctx: Context) {
-    const params = ctx.request.body;
+    const params = (ctx.request as any).body;
     if (!params.name) {
       return {
         code: 1003,

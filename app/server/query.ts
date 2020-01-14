@@ -76,7 +76,7 @@ export default class Query {
   }
 
   public async destroy(ctx: Context, Entity) {
-    const params = ctx.request.body;
+    const params = (ctx.request as any).body;
     try {
       const res = await Entity.delete(params);
       if (res.affected === 1) {

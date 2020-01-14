@@ -12,7 +12,7 @@ export default class {
     // admin.name = "tom";
     // admin.password = "123";
     // admin.save();
-    const { user, passwd } = ctx.request.body;
+    const { user, passwd } = (ctx.request as any).body;
     console.log(123, user, passwd);
     const { password } = await Admin.findOne({ name: user });
     const isRight = passwd === password;

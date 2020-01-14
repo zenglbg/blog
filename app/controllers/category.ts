@@ -23,7 +23,7 @@ export default class {
 
   @Post("/category/create")
   public async create(@Ctx() ctx: Context) {
-    const { name } = ctx.request.body;
+    const { name } = (ctx.request as any).body;
     if (!name) {
       return {
         code: 1003,

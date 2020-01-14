@@ -7,6 +7,7 @@ import { getRepository } from "typeorm";
 import { Container } from "typedi";
 import Query from "../server/query";
 const query = Container.get(Query);
+
 @JsonController("/api")
 export default class {
   @Get("/article/list")
@@ -94,7 +95,7 @@ export default class {
 
   @Post("/article/create")
   async create(@Ctx() ctx: Context) {
-    const params = ctx.request.body;
+    const params = (ctx.request as any).body;
     const { title } = params;
     if (!title) {
       return {
@@ -107,7 +108,7 @@ export default class {
 
   @Post("/article/update")
   public async update(@Ctx() ctx: Context) {
-    const params = ctx.request.body;
+    const params = (ctx.request as any).body;
     const { id } = params;
     delete params.id;
     try {

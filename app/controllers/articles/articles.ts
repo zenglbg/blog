@@ -1,5 +1,5 @@
 import { Ctx, Param, Get, JsonController, Post } from 'routing-controllers';
-import { Context } from 'Koa';
+import { Context } from 'koa';
 
 @JsonController('/article')
 export default class {

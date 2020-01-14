@@ -1,7 +1,7 @@
 import * as http from "http";
 import { createConnection } from "typeorm";
 import { Article } from "./model/entity/article";
-import app from "./app";
+import app, { appNext } from "./app";
 import { port, host } from "./config/config";
 interface I_server {
   port: number;
@@ -55,6 +55,8 @@ createConnection()
     article.content = `<p><a href="http://xiangxi.red/doc" target="_self">doc</a>&nbsp;</p>↵`;
     await article.save();
     console.log("Here you can setup and run express/koa/any other framework.");
+
+    await appNext.prepare()
     new Server(port, host);
   })
   .catch(error => console.log(error));
