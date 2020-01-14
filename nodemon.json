@@ -1,0 +1,14 @@
+{
+  "restartable": "rs",
+  "ignore": [".git", ".svn", "node_modules/**/node_modules"],
+  "verbose": true,
+  "execMap": {
+    "ts": "TS_NODE_PROJECT='./tsconfig.server.json' node  -r ts-node/register --inspect"
+  },
+
+  "watch": ["./app/*"],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js ts json"
+}
