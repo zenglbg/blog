@@ -12,7 +12,10 @@ class Home extends React.Component {
     return { userAgent };
   }
 
-  render() {
+  public componentDidMount() {
+  }
+
+  public render() {
     return (
       <div className="example">
         <Head>
@@ -23,7 +26,7 @@ class Home extends React.Component {
           />
         </Head>
         Welcome to Next.js1!
-        <Link href={{ pathname: "/user", query: { name: "quan" } }} replace>
+        <Link prefetch href={{ pathname: "/user", query: { name: "quan" } }} replace>
           <a>user Page</a>
         </Link>
         <Link scroll={false} href="#">
@@ -33,24 +36,13 @@ class Home extends React.Component {
           Click{" "}
           <span
             onClick={() => {
-              Router.beforePopState(({ url, as, options }) => {
-                console.log(url, as, options, "11111111111111111111111");
-                // I only want to allow these two routes!
-                if (as !== "/" || as !== "/other") {
-                  // Have SSR render bad routes as a 404.
-                  window.location.href = as;
-                  return false;
-                }
-
-                return true;
-              });
               Router.push({ pathname: "/user", query: { name: "quan" } });
             }}
           >
             to user page
           </span>
         </div>
-        <img src="../static/snorlax.png" alt="" />
+        <img src="../public/static/snorlax.png" alt="" />
       </div>
     );
   }

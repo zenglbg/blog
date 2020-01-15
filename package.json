@@ -17,6 +17,7 @@
   "dependencies": {
     "@zeit/next-less": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
+    "antd": "^3.26.7",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.0",
     "consolidate": "^0.15.1",
@@ -33,22 +34,31 @@
     "mysql2": "^2.1.0",
     "next": "^9.1.7",
     "next-compose-plugins": "^2.2.0",
+    "next-redux-wrapper": "^4.0.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.5",
+    "redux-observable": "^1.2.0",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.8.0",
     "rxjs": "^6.5.4",
     "typedi": "^0.8.0",
-    "typeorm": "^0.2.22"
+    "typeorm": "^0.2.22",
+    "typesafe-actions": "^5.1.0"
   },
   "devDependencies": {
     "@types/koa": "^2.11.0",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-router": "^7.4.0",
     "@types/next": "^8.0.6",
+    "@types/node": "^13.1.6",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
+    "@types/redux-logger": "^3.0.7",
+    "@types/rx": "^4.1.1",
     "nodemon": "^2.0.2",
+    "redux-logger": "^3.0.6",
     "ts-node": "^8.6.1",
     "typescript": "^3.7.4"
   }

@@ -23,7 +23,7 @@ class User extends React.Component {
         <Link href="/index">
           <a>index Page</a>
         </Link>
-        <img src="../static/snorlax.png" alt="" />
+        <img src="../public/static/snorlax.png" alt="" />
       </div>
     );
   }

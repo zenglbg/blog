@@ -1,4 +1,5 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
     "module": "esnext",
     "target": "es6",
@@ -11,7 +12,7 @@
       "*": [
         "@types/*",
         "node_modules/*"
-      ]
+      ],
     },
     "lib": [
       "dom",
@@ -22,14 +23,20 @@
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "noEmit": false,
     "esModuleInterop": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "importHelpers": true,
+    "declaration": true,
   },
   "include": [
-    "app/**/*"
+    "redux/**/*",
+    "app/**/*",
+    "pages/**/*",
+    "components/**/*",
+    "api/**/*"
   ],
   "exclude": [
     "node_modules"
