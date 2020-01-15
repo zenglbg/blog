@@ -7,8 +7,9 @@ import Router from "next/router";
 
 class Home extends React.Component {
   static async getInitialProps({ req, ...data }) {
+
     const userAgent = req ? req.headers["user-agent"] : navigator.userAgent;
-    console.log(data.pathname, "pathname");
+    console.log(data.pathname, data, "pathname");
     return { userAgent };
   }
 
@@ -18,13 +19,7 @@ class Home extends React.Component {
   public render() {
     return (
       <div className="example">
-        <Head>
-          <title>圈圈</title>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
+        
         Welcome to Next.js1!
         <Link prefetch href={{ pathname: "/user", query: { name: "quan" } }} replace>
           <a>user Page</a>
@@ -42,7 +37,7 @@ class Home extends React.Component {
             to user page
           </span>
         </div>
-        <img src="../public/static/snorlax.png" alt="" />
+        <img src="static/snorlax.png" alt="" />
       </div>
     );
   }

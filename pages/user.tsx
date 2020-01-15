@@ -5,7 +5,7 @@ import React from "react";
 class User extends React.Component {
   static async getInitialProps({ req, ...data }) {
     const userAgent = req ? req.headers["user-agent"] : navigator.userAgent;
-    console.log(data.pathname, "pathname");
+    console.log(data.pathname, data, "pathname");
     return { userAgent };
   }
 
@@ -23,7 +23,7 @@ class User extends React.Component {
         <Link href="/index">
           <a>index Page</a>
         </Link>
-        <img src="../public/static/snorlax.png" alt="" />
+        <img src="static/snorlax.png" alt="" />
       </div>
     );
   }
