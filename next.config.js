@@ -2,7 +2,6 @@ const fs = require("fs");
 const util = require("util");
 const path = require("path");
 const withPlugins = require("next-compose-plugins");
-const withSize = require("next-size");
 const withLess = require("@zeit/next-less");
 const lessToJS = require("less-vars-to-js");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
@@ -108,19 +107,19 @@ const nextConfig = {
       });
       config.devtool = "source-map";
     } else {
-      // config.module.rules.push({
-      //   test: /\.js$/,
-      //   enforce: "pre",
-      //   include: srcFolder,
-      //   options: {
-      //     configFile: path.resolve(".eslintrc"),
-      //     eslint: {
-      //       configFile: path.resolve(__dirname, ".eslintrc")
-      //     }
-      //   },
-      //   loader: "eslint-loader"
-      // });
-      // config.devtool = "cheap-module-inline-source-map";
+      config.module.rules.push({
+        test: /\.js$/,
+        enforce: "pre",
+        include: srcFolder
+        // options: {
+        //   configFile: path.resolve(".eslintrc"),
+        //   eslint: {
+        //     configFile: path.resolve(__dirname, ".eslintrc")
+        //   }
+        // },
+        // loader: "eslint-loader"
+      });
+      config.devtool = "cheap-module-inline-source-map";
     }
     return config;
   },
@@ -132,20 +131,10 @@ const nextConfig = {
   },
   publicRuntimeConfig: {
     // Will be available on both server and client
-    staticFolder: "/public/static",
+    staticFolder: "/static",
     isDev // Pass through env variables
   }
 };
-
-// module.exports = withSize(
-//   withLess({
-//     lessLoaderOptions: {
-//       javascriptEnabled: true,
-//       modifyVars: themeVariables,
-//       localIdentName: "[local]___[hash:base64:5]"
-//     }
-//   })
-// );
 
 module.exports = withPlugins(
   [
