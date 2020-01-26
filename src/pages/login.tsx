@@ -2,11 +2,26 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Particles from "reactparticles.js";
 import { Form, Icon, Input, Button, Card, message } from "antd";
+import { IState } from "../redux/reducer";
+import { userActions } from "../redux/actions";
+
+type PageStateProps = Pick<IState, "user">;
+
+type PageDispatchProps = {
+  doLogin: (obj: any) => void;
+};
+
 interface Props {}
 interface State {}
 
-export class Login extends Component<Props, State> {
+type IProps = PageDispatchProps & Props;
+
+export class Login extends Component<IProps, State> {
   state = {};
+
+  doLogin = () => {
+    this.props.doLogin({ name: "", avatar_url: "123" });
+  };
 
   render() {
     return (
@@ -36,6 +51,8 @@ export class Login extends Component<Props, State> {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  doLogin: userActions.doLogin
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

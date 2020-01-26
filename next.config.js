@@ -11,15 +11,18 @@ const OptimizeCssPlugin = require("optimize-css-assets-webpack-plugin");
 const isDev = process.env.NODE_ENV === "development";
 
 const themeVariables = lessToJS(
-  fs.readFileSync(path.resolve(__dirname, "./assets/antd-custom.less"), "utf8")
+  fs.readFileSync(
+    path.resolve(__dirname, "./src/assets/antd-custom.less"),
+    "utf8"
+  )
 );
 const devAntd = '@import "~antd/dist/antd.less";\n';
 const stylesData = fs.readFileSync(
-  path.resolve(__dirname, "./assets/_styles.less"),
+  path.resolve(__dirname, "./src/assets/_styles.less"),
   "utf-8"
 );
 fs.writeFileSync(
-  path.resolve(__dirname, "./assets/self-styles.less"),
+  path.resolve(__dirname, "./src/assets/self-styles.less"),
   isDev ? `${devAntd}${stylesData}` : stylesData,
   "utf-8"
 );

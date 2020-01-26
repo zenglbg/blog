@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import App from "next/app";
 import withRedux from "next-redux-wrapper";
 import makeStore from "../redux";
-import "../../assets/self-styles.less";
+import "../assets/self-styles.less";
 
 export interface IAppProps {
   [p: string]: any;

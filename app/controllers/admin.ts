@@ -14,13 +14,17 @@ export default class {
     // admin.save();
     const { user, passwd } = (ctx.request as any).body;
     console.log(123, user, passwd);
-    const { password } = await Admin.findOne({ name: user });
-    const isRight = passwd === password;
-    return {
-      code: isRight ? 1000 : 1003,
-      user,
-      passwd,
-      msg: isRight ? "登录成功" : "帐号或密码错误"
-    };
+    try {
+      const findUser = await Admin.findOne({ name: user });
+      const isRight = !findUser ? false : passwd === findUser.password;
+      return {
+        code: isRight ? 1000 : 1003,
+        user,
+        passwd,
+        msg: isRight ? "登录成功" : "帐号或密码错误"
+      };
+    } catch (e) {
+      console.log(e);
+    }
   }
 }

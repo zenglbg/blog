@@ -16,13 +16,13 @@ export default function userReducer(
   action: UserAction
 ): IUserState {
   switch (action.type) {
-    case getType(userActions.doLogin):
-      const {name , avatar_url} = action.payload
+    case getType(userActions.setLogin):
+      const { name, avatar_url } = action.payload;
       return {
         ...state,
         name,
         avatar_url
-      }
+      };
     default:
       return state;
   }
