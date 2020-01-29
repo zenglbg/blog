@@ -8,7 +8,7 @@ import Router from "next/router";
 class Home extends React.Component {
   static async getInitialProps({ req, ...data }) {
     const userAgent = req ? req.headers["user-agent"] : navigator.userAgent;
-    console.log(data.pathname, data, "pathname");
+    // console.log(data.pathname, data, "pathname");
     return { userAgent };
   }
 

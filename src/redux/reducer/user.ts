@@ -1,14 +1,15 @@
 import { getType } from "typesafe-actions";
 import { UserAction, userActions } from "./../actions";
+import { USER } from "../constants";
 
 export interface IUserState {
-  name: string;
-  avatar_url: string;
+  user: string;
+  passwd: string;
 }
 
 const initState = {
-  name: "",
-  avatar_url: ""
+  user: "",
+  passwd: ""
 };
 
 export default function userReducer(
@@ -16,12 +17,12 @@ export default function userReducer(
   action: UserAction
 ): IUserState {
   switch (action.type) {
-    case getType(userActions.setLogin):
-      const { name, avatar_url } = action.payload;
+    case getType(userActions.loginSuccess):
+      console.log("reducer_set_login");
       return {
         ...state,
-        name,
-        avatar_url
+        user: "123",
+        passwd: "12222"
       };
     default:
       return state;

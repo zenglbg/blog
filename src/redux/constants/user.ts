@@ -1,4 +1,5 @@
 export namespace USER {
   export const LOGIN = "LOGIN";
-  export const SET_LOGIN = "SET_LOGIN";
+  export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+  export const LOGIN_ERROR = "LOGIN_ERROR";
 }

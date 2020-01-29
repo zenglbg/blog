@@ -12,13 +12,6 @@ class User extends React.Component {
   render() {
     return (
       <div className="example">
-        <Head>
-          <title>圈圈</title>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
         Welcome to Next.js1!, i'm user page
         <Link href="/index">
           <a>index Page</a>

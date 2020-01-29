@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Card, Input, Button, Icon, Form } from "antd";
 import "./index.less";
 
@@ -26,13 +27,14 @@ export class Login extends Component<IProps, State> {
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const { code, desc, data } = this.props.doLogin(values);
+        console.log(33333331111);
+        this.props.doLogin(values);
       }
     });
   };
 
   render() {
-    console.log(this.props, 1111);
+    // console.log(this.props, 1111);
     const { getFieldDecorator } = this.props.form;
 
     return (
@@ -83,8 +85,8 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-const mapDispatchToProps = { doLogin };
-
-export default Form.create({ name: "normal_login" })(
-  connect(mapStateToProps, mapDispatchToProps)(Login)
-);
+const mapDispatchToProps = {
+  doLogin
+};
+const MyLogin = Form.create({ name: "normal_login" })(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(MyLogin);

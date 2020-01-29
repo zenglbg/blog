@@ -3,8 +3,9 @@ import { UserState } from "../reducer";
 import { UserAction, userActions } from "../actions";
 import { ajax } from "rxjs/ajax";
 import { throwError } from "rxjs";
-import { map, switchMap, catchError } from "rxjs/operators";
+import { map, switchMap, catchError, take, mapTo, delay } from "rxjs/operators";
 import { getType } from "typesafe-actions";
+import { USER } from "../constants";
 
 export const userEpic: Epic<UserAction, UserAction> = (
   actions: ActionsObservable<any>
@@ -24,9 +25,20 @@ export const userEpic: Epic<UserAction, UserAction> = (
         map(
           res => {
             console.log(res, "res");
-            return userActions.doLogin(res);
+            if (res.response.code === 1000) {
+              const data = {
+                user: res.response.user,
+                passwd: res.response.passwd
+              };
+              return userActions.loginSuccess(res);
+            } else {
+              return userActions.loginError(res.response.msg);
+            }
           },
-          catchError(err => throwError(err))
+          catchError(err => {
+            userActions.loginError("发生了错误");
+            return throwError(err);
+          })
         )
       );
     })

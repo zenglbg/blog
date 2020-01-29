@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import { createEpicMiddleware } from "redux-observable";
 import { createLogger } from "redux-logger";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import { rootReducer } from "./reducer";
 import { rootEpics } from "./epics";
@@ -14,7 +15,7 @@ export default function initStore(initialState) {
   const store = createStore(
     rootReducer,
     initialState,
-    applyMiddleware(...middlewares)
+    composeWithDevTools(applyMiddleware(...middlewares))
   );
 
   epicMiddleware.run(rootEpics);
