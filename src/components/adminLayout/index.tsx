@@ -5,7 +5,10 @@ const { Header, Sider, Content, Footer } = Layout;
 import { UserState } from "../../redux/reducer";
 
 import Router from "next/router";
-
+// import "./index.less";
+/**
+ * @todo 引入less 报错
+ */
 interface Props {
   user: UserState;
 }
@@ -29,6 +32,7 @@ export class AdminLayout extends Component<Props, State> {
   render() {
     console.log(this.props.user);
     const { isLogin } = this.props.user;
+    const logoClass = this.state.collapsed ? "logoMin" : "logoMax";
     const menu = (
       <Menu>
         <Menu.Item key="1">login out</Menu.Item>
@@ -37,7 +41,12 @@ export class AdminLayout extends Component<Props, State> {
     return isLogin ? (
       <div>
         <Layout style={{ height: "100vh" }}>
-          <Sider trigger={null} collapsible collapsed={!!this.state.collapsed}>
+          <Sider
+            trigger={null}
+            collapsible
+            collapsed={!!this.state.collapsed}
+            className={logoClass}
+          >
             <div />
             <Menu
               theme="dark"
@@ -48,18 +57,12 @@ export class AdminLayout extends Component<Props, State> {
             ></Menu>
           </Sider>
           <Layout>
-            <Header
-              style={{
-                color: "#fff",
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center"
-              }}
-            >
+            <Header>
               <Icon
+                className="trigger"
                 type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
               ></Icon>
-              <span>
+              <span className="user">
                 <Avatar style={{ backgroundColor: "#fff" }}>
                   {this.props.user.user}
                 </Avatar>
@@ -70,7 +73,9 @@ export class AdminLayout extends Component<Props, State> {
             </Header>
 
             <Layout>
-              <Content>{this.props.children}</Content>
+              <div className="wrap-content">
+                <Content className="content">{this.props.children}</Content>
+              </div>
             </Layout>
             <Footer>footer</Footer>
           </Layout>
