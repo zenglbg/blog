@@ -27,7 +27,6 @@ export class Login extends Component<IProps, State> {
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log(33333331111);
         this.props.doLogin(values);
       }
     });

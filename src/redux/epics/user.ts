@@ -1,11 +1,10 @@
 import { ofType, Epic, ActionsObservable } from "redux-observable";
-import { UserState } from "../reducer";
 import { UserAction, userActions } from "../actions";
 import { ajax } from "rxjs/ajax";
 import { throwError } from "rxjs";
 import { map, switchMap, catchError, take, mapTo, delay } from "rxjs/operators";
 import { getType } from "typesafe-actions";
-import { USER } from "../constants";
+import Router from "next/router";
 
 export const userEpic: Epic<UserAction, UserAction> = (
   actions: ActionsObservable<any>
@@ -30,7 +29,8 @@ export const userEpic: Epic<UserAction, UserAction> = (
                 user: res.response.user,
                 passwd: res.response.passwd
               };
-              return userActions.loginSuccess(res);
+              Router.push("/admin/home");
+              return userActions.loginSuccess(data);
             } else {
               return userActions.loginError(res.response.msg);
             }

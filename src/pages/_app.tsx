@@ -14,7 +14,6 @@ class MyApp extends App<IAppProps> {
     const pageProps = Component.getInitialProps
       ? await Component.getInitialProps(ctx)
       : {};
-
     return { pageProps };
   }
 

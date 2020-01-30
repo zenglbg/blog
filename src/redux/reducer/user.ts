@@ -5,11 +5,13 @@ import { USER } from "../constants";
 export interface IUserState {
   user: string;
   passwd: string;
+  isLogin: boolean;
 }
 
 const initState = {
   user: "",
-  passwd: ""
+  passwd: "",
+  isLogin: false
 };
 
 export default function userReducer(
@@ -18,11 +20,18 @@ export default function userReducer(
 ): IUserState {
   switch (action.type) {
     case getType(userActions.loginSuccess):
-      console.log("reducer_set_login");
       return {
         ...state,
         user: "123",
-        passwd: "12222"
+        passwd: "12222",
+        isLogin: true
+      };
+    case getType(userActions.loginError):
+      return {
+        ...state,
+        user: "",
+        passwd: "",
+        isLogin: false
       };
     default:
       return state;
