@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { Menu, Layout, Icon, Avatar, Dropdown } from "antd";
 const { Header, Sider, Content, Footer } = Layout;
 import { UserState } from "../../redux/reducer";
-
 import Router from "next/router";
-// import "./index.less";
+import Link from "next/link";
+import adminRoutes from "../../config/adminRoutes";
 /**
  * @todo 引入less 报错
  */
@@ -13,11 +13,11 @@ interface Props {
   user: UserState;
 }
 interface State {
-  collapsed: string;
+  collapsed: boolean;
 }
 
 export class AdminLayout extends Component<Props, State> {
-  state = { collapsed: "" };
+  state = { collapsed: false };
 
   componentDidMount() {
     const { isLogin } = this.props.user;
@@ -29,6 +29,23 @@ export class AdminLayout extends Component<Props, State> {
     }
   }
 
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
+  };
+  handleClickMenuItem = (item: any) => {};
+
+  menuItem = () =>
+    adminRoutes.map((item, index) => (
+      <Menu.Item key={index} onClick={item => this.handleClickMenuItem(item)}>
+        <a href={item.path}>
+          <Icon type={item.icon} />
+          <span>{item.title}</span>
+        </a>
+      </Menu.Item>
+    ));
+
   render() {
     console.log(this.props.user);
     const { isLogin } = this.props.user;
@@ -39,12 +56,54 @@ export class AdminLayout extends Component<Props, State> {
       </Menu>
     );
     return isLogin ? (
-      <div>
+      <div id="adminLayout">
+        <style jsx>
+          {`
+            .trigger {
+              font-size: 18px;
+              line-height: 64px;
+              padding: 0 24px;
+              cursor: pointer;
+              transition: color 0.3s;
+            }
+
+            .trigger:hover {
+              color: #1890ff;
+            }
+
+            .logoMax {
+              height: 32px;
+              margin: 16px;
+              border-radius: 4px;
+              background: url("../../../assets/img/max.jpg") no-repeat center;
+            }
+            .logoMin {
+              height: 32px;
+              margin: 16px;
+              border-radius: 4px;
+              background: url("../../../assets/img/min.jpg") no-repeat center;
+            }
+            .wrap-content {
+              height: calc(100vh - 64px);
+              overflow: auto;
+            }
+            .content {
+              background: #fff;
+              padding: 20px;
+              margin: 16px;
+            }
+            .user {
+              padding: 0 24px;
+              float: right;
+            }
+          `}
+        </style>
+
         <Layout style={{ height: "100vh" }}>
           <Sider
             trigger={null}
             collapsible
-            collapsed={!!this.state.collapsed}
+            collapsed={this.state.collapsed}
             className={logoClass}
           >
             <div />
@@ -54,16 +113,19 @@ export class AdminLayout extends Component<Props, State> {
               defaultSelectedKeys={[
                 sessionStorage.getItem("menuItmeKey") || "0"
               ]}
-            ></Menu>
+            >
+              {this.menuItem()}
+            </Menu>
           </Sider>
           <Layout>
-            <Header>
+            <Header style={{ background: "#fff", padding: 0 }}>
               <Icon
                 className="trigger"
                 type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
+                onClick={this.toggle}
               ></Icon>
               <span className="user">
-                <Avatar style={{ backgroundColor: "#fff" }}>
+                <Avatar style={{ backgroundColor: "#f56a00" }}>
                   {this.props.user.user}
                 </Avatar>
                 <Dropdown overlay={menu} className="ml10">

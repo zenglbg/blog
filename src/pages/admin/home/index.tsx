@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Menu, Layout, Icon, Avatar } from "antd";
 
-const { Header, Sider, Content, Footer } = Layout;
 import AdminLayout from "../../../components/adminLayout";
 
 interface Props {
