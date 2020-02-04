@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import * as path from "path";
-import * as serve from "koa-static";
 // import * as koaBody from 'koa-body';
 import next from "next";
 const dev = process.env.NODE_ENV === "development";
@@ -13,8 +12,6 @@ import { distPath, configs } from "./config/config";
 const app = createKoaServer({
   controllers: [`${__dirname}/controllers/**/*{.js,.ts}`]
 });
-
-// app.use(serve(distPath));
 
 const mysqlConfig = configs.mysql as MysqlConfig;
 

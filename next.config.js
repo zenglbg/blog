@@ -7,8 +7,7 @@ const lessToJS = require("less-vars-to-js");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const TerserPlugin = require("terser-webpack-plugin");
 const OptimizeCssPlugin = require("optimize-css-assets-webpack-plugin");
-
-const isDev = process.env.NODE_ENV === "development";
+import { port, isDev } from "./app/config/config";
 
 const themeVariables = lessToJS(
   fs.readFileSync(
@@ -131,6 +130,11 @@ const nextConfig = {
     // console.log(config, '@@')
     // Important: return the modified config
     return config;
+  },
+  serverRuntimeConfig: {
+    // Will only be available on the server side
+    rootDir: path.join(__dirname, "./"),
+    PORT: port
   },
   publicRuntimeConfig: {
     // Will be available on both server and client

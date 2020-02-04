@@ -75,13 +75,13 @@ export class AdminLayout extends Component<Props, State> {
               height: 32px;
               margin: 16px;
               border-radius: 4px;
-              background: url("../../../assets/img/max.jpg") no-repeat center;
+              background: url("/static/images/max.jpg") no-repeat center;
             }
             .logoMin {
               height: 32px;
               margin: 16px;
               border-radius: 4px;
-              background: url("../../../assets/img/min.jpg") no-repeat center;
+              background: url("/static/images/min.jpg") no-repeat center;
             }
             .wrap-content {
               height: calc(100vh - 64px);
@@ -106,7 +106,7 @@ export class AdminLayout extends Component<Props, State> {
             collapsed={this.state.collapsed}
             className={logoClass}
           >
-            <div />
+            <div className={logoClass}></div>
             <Menu
               theme="dark"
               mode="inline"

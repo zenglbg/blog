@@ -1,8 +1,10 @@
 import * as http from "http";
+import * as path from "path";
 import { createConnection } from "typeorm";
-import { Article } from "./model/entity/article";
+import serve from "koa-static";
 import app, { appNext } from "./app";
 import { port, host } from "./config/config";
+
 interface I_server {
   port: number;
   host: string;
