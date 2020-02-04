@@ -6,6 +6,7 @@ import { UserState } from "../../redux/reducer";
 import Router from "next/router";
 import Link from "next/link";
 import adminRoutes from "../../config/adminRoutes";
+import "./index.less";
 /**
  * @todo 引入less 报错
  */
@@ -57,55 +58,8 @@ export class AdminLayout extends Component<Props, State> {
     );
     return isLogin ? (
       <div id="adminLayout">
-        <style jsx>
-          {`
-            .trigger {
-              font-size: 18px;
-              line-height: 64px;
-              padding: 0 24px;
-              cursor: pointer;
-              transition: color 0.3s;
-            }
-
-            .trigger:hover {
-              color: #1890ff;
-            }
-
-            .logoMax {
-              height: 32px;
-              margin: 16px;
-              border-radius: 4px;
-              background: url("/static/images/max.jpg") no-repeat center;
-            }
-            .logoMin {
-              height: 32px;
-              margin: 16px;
-              border-radius: 4px;
-              background: url("/static/images/min.jpg") no-repeat center;
-            }
-            .wrap-content {
-              height: calc(100vh - 64px);
-              overflow: auto;
-            }
-            .content {
-              background: #fff;
-              padding: 20px;
-              margin: 16px;
-            }
-            .user {
-              padding: 0 24px;
-              float: right;
-            }
-          `}
-        </style>
-
         <Layout style={{ height: "100vh" }}>
-          <Sider
-            trigger={null}
-            collapsible
-            collapsed={this.state.collapsed}
-            className={logoClass}
-          >
+          <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
             <div className={logoClass}></div>
             <Menu
               theme="dark"
@@ -139,7 +93,7 @@ export class AdminLayout extends Component<Props, State> {
                 <Content className="content">{this.props.children}</Content>
               </div>
             </Layout>
-            <Footer>footer</Footer>
+            {/* <Footer>footer</Footer> */}
           </Layout>
         </Layout>
       </div>
