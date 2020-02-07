@@ -2,7 +2,7 @@ import * as http from "http";
 import * as path from "path";
 import { createConnection } from "typeorm";
 import serve from "koa-static";
-import app, { appNext } from "./app";
+import app, { appNext, handle } from "./app";
 import { port, host } from "./config/config";
 
 interface I_server {
@@ -22,6 +22,12 @@ class Server implements I_server {
   }
 
   public init() {
+    app.use(async ctx => {
+      // console.log(ctx, 123, ctx.req, 3333, ctx.res);
+      // handle(ctx.req, ctx.res);
+      await appNext.render(ctx.req, ctx.res, ctx.path, ctx.query);
+    });
+
     const currentApp = app.callback();
 
     const server = http.createServer(currentApp);
@@ -37,28 +43,6 @@ class Server implements I_server {
 createConnection()
   .then(async connection => {
     console.log("Inserting a new user into the database...");
-    // const user = new User();
-    // user.firstName = "Timber";
-    // user.lastName = "Saw";
-    // user.age = 25;
-    // await connection.manager.save(user);
-    // console.log("Saved a new user with id: " + user.id);
-
-    // console.log("Loading users from the database...");
-    // const users = await connection.manager.find(User);
-    // console.log("Loaded users: ", users);
-
-    // const article = new Article();
-    // const i = Math.floor(Math.random() * 1000);
-    // article.title = "blog 迁移到 http://xiangxi.red/doc" + i;
-    // article.author = "gong" + i;
-    // article.summary = "迁移" + i;
-    // article.category = "前端";
-    // article.tag = "JS";
-    // article.content = `<p><a href="http://xiangxi.red/doc" target="_self">doc</a>&nbsp;</p>↵`;
-    // await article.save();
-    console.log("Here you can setup and run express/koa/any other framework.");
-
     await appNext.prepare();
     new Server(port, host);
   })

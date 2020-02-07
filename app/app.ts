@@ -1,18 +1,43 @@
 import "reflect-metadata";
 import * as path from "path";
+import serve from "koa-static";
+
 // import * as koaBody from 'koa-body';
 import next from "next";
 const dev = process.env.NODE_ENV === "development";
 const appNext = next({ dev });
-import { createKoaServer } from "routing-controllers";
+const handle = appNext.getRequestHandler();
+import { createKoaServer, useKoaServer, Action } from "routing-controllers";
 import { MysqlConfig } from "config";
 
 import { distPath, configs } from "./config/config";
 
+// import Koa from "koa";
+// const app = new Koa();
+// useKoaServer(app, {
+//   routePrefix: "/api",
+//   cors: true,
+//   controllers: [`${__dirname}/controllers/**/*{.js,.ts}`]
+// });
+
 const app = createKoaServer({
-  controllers: [`${__dirname}/controllers/**/*{.js,.ts}`]
+  cors: true,
+  middlewares: [
+    serve(path.resolve(__dirname, "../public/")),
+    ctx => {
+      console.log(ctx);
+    }
+  ],
+  controllers: [`${__dirname}/controllers/**/*{.js,.ts}`],
+  authorizationChecker: async (action: Action, roles: string[]) => {
+    // console.log(roles);
+    console.log(action, "action");
+    const token = action.request.headers["authorization"];
+    if (token) return true;
+    return false;
+  }
 });
 
 const mysqlConfig = configs.mysql as MysqlConfig;
 
-export { app as default, appNext };
+export { app as default, appNext, handle };

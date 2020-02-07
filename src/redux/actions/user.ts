@@ -1,6 +1,5 @@
 import { USER } from "../constants";
 import { createAction, ActionType, getType } from "typesafe-actions";
-import { IUserState } from "../reducer/user";
 export type UserAction = ActionType<typeof userActions>;
 
 export namespace userActions {

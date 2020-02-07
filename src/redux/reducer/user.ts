@@ -1,6 +1,5 @@
 import { getType } from "typesafe-actions";
 import { UserAction, userActions } from "./../actions";
-import { USER } from "../constants";
 
 export interface IUserState {
   user: string;

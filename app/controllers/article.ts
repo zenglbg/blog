@@ -22,6 +22,8 @@ export default class {
     // article.tag = "JS" + i;
     // article.content = `<p><a href="http://xiangxi.red/doc" target="_self">doc</a>&nbsp;</p>↵`;
     // await article.save();
+    console.log(` 被请求了文章列表`);
+
     const { title = "blog", pageNo = 1, pageSize = 5 } = ctx.query;
     const data = await getRepository(Article)
       .createQueryBuilder("article")

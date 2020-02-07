@@ -1,27 +1,42 @@
 export default [
   {
-    path: "/admin/home",
+    menu: true,
+    icon: "home",
     title: "首页",
-    icon: "home"
+    path: "/admin/home"
   },
   {
-    path: "/admin/home",
+    menu: true,
+    icon: "edit",
     title: "文章",
-    icon: "home"
+    path: "/admin/article"
   },
   {
-    path: "/admin/home",
+    menu: true,
+    icon: "tags",
     title: "标签",
-    icon: "home"
+    path: "/admin/tags"
   },
   {
-    path: "/admin/home",
+    menu: true,
+    icon: "folder",
     title: "分类",
-    icon: "home"
+    path: "/admin/category"
   },
   {
-    path: "/admin/home",
+    menu: true,
+    icon: "star",
     title: "收藏",
-    icon: "home"
+    path: "/admin/star"
+  },
+  {
+    icon: "edit",
+    title: "新增文章",
+    path: "/admin/article-add"
+  },
+  {
+    icon: "edit",
+    title: "文章详情",
+    path: "/admin/article-edit/:id"
   }
 ];

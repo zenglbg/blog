@@ -35,17 +35,27 @@ export class AdminLayout extends Component<Props, State> {
       collapsed: !this.state.collapsed
     });
   };
-  handleClickMenuItem = (item: any) => {};
+  handleClickMenuItem = (item: any) => {
+    sessionStorage.setItem("menuItmeKey", item.key);
+    Router.push(item.path);
+  };
 
   menuItem = () =>
-    adminRoutes.map((item, index) => (
-      <Menu.Item key={index} onClick={item => this.handleClickMenuItem(item)}>
-        <a href={item.path}>
-          <Icon type={item.icon} />
-          <span>{item.title}</span>
-        </a>
-      </Menu.Item>
-    ));
+    adminRoutes
+      .filter(item => item.menu)
+      .map((item, index) => (
+        <Menu.Item
+          key={index}
+          onClick={() => {
+            this.handleClickMenuItem(item);
+          }}
+        >
+          <a>
+            <Icon type={item.icon} />
+            <span>{item.title}</span>
+          </a>
+        </Menu.Item>
+      ));
 
   render() {
     console.log(this.props.user);
