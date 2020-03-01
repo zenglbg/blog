@@ -12,22 +12,9 @@ import { MysqlConfig } from "config";
 
 import { distPath, configs } from "./config/config";
 
-// import Koa from "koa";
-// const app = new Koa();
-// useKoaServer(app, {
-//   routePrefix: "/api",
-//   cors: true,
-//   controllers: [`${__dirname}/controllers/**/*{.js,.ts}`]
-// });
-
 const app = createKoaServer({
   cors: true,
-  middlewares: [
-    serve(path.resolve(__dirname, "../public/")),
-    ctx => {
-      console.log(ctx);
-    }
-  ],
+  middlewares: [serve(path.resolve(__dirname, "../public/static"))],
   controllers: [`${__dirname}/controllers/**/*{.js,.ts}`],
   authorizationChecker: async (action: Action, roles: string[]) => {
     // console.log(roles);

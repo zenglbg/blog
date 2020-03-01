@@ -1,8 +1,7 @@
 import * as http from "http";
 import * as path from "path";
 import { createConnection } from "typeorm";
-import serve from "koa-static";
-import app, { appNext, handle } from "./app";
+import app, { appNext } from "./app";
 import { port, host } from "./config/config";
 
 interface I_server {
@@ -22,12 +21,6 @@ class Server implements I_server {
   }
 
   public init() {
-    app.use(async ctx => {
-      // console.log(ctx, 123, ctx.req, 3333, ctx.res);
-      // handle(ctx.req, ctx.res);
-      await appNext.render(ctx.req, ctx.res, ctx.path, ctx.query);
-    });
-
     const currentApp = app.callback();
 
     const server = http.createServer(currentApp);
@@ -40,7 +33,16 @@ class Server implements I_server {
   }
 }
 
-createConnection()
+createConnection({
+  type: "mysql",
+  host: "localhost",
+  port: 3306,
+  username: "blog",
+  password: "123",
+  database: "test",
+  synchronize: true,
+  entities: [`${__dirname}/model/**/*{.js,.ts}`]
+})
   .then(async connection => {
     console.log("Inserting a new user into the database...");
     await appNext.prepare();
