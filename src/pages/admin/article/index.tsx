@@ -4,15 +4,18 @@ import { Table, Form, Input, Button, Tag } from "antd";
 import Router from "next/router";
 import Link from "next/link";
 
-import { ArticleState } from "../../../redux/reducer";
+import { IState } from "../../../redux/reducer";
 import { articleActions, ArticleAction } from "../../../redux/actions";
-const { getArticleList } = articleActions;
 import AdminLayout from "../../../components/adminLayout";
+const { getArticleList, delArticle } = articleActions;
+import { color } from "../../../utils";
 
 interface Props {
   form: any;
   getArticleList: (obj: any) => void;
+  delArticle: Function;
 }
+type ArticleState = Pick<IState, "article">;
 interface State {
   loading: boolean;
 }
@@ -20,7 +23,99 @@ interface State {
 export type IProps = Props & ArticleState;
 
 export class Article extends Component<IProps, State> {
-  state = { loading: false, title: "blog", pageNo: 1, pageSize: 10 };
+  state = {
+    loading: false,
+    title: "blog",
+    pageNo: 1,
+    pageSize: 10,
+    columns: [
+      {
+        title: "序号",
+        dataIndex: "id",
+        key: "index",
+        width: 80,
+        align: "center"
+      },
+      {
+        title: "标题",
+        dataIndex: "title",
+        key: "title"
+      },
+      {
+        title: "摘要",
+        dataIndex: "summary",
+        key: "summary",
+        width: 400
+      },
+      {
+        title: "分类",
+        dataIndex: "category",
+        key: "category",
+        render: category =>
+          category.map((v, index) => (
+            <Tag
+              key={index}
+              color={color[Math.floor(Math.random() * color.length)]}
+            >
+              {v}
+            </Tag>
+          ))
+      },
+      {
+        title: "访问次数",
+        dataIndex: "readedCount",
+        key: "readedCount",
+        width: 100
+      },
+      {
+        title: "创建时间",
+        dataIndex: "createdAt",
+        key: "createdAt"
+      },
+      {
+        title: "更新时间",
+        dataIndex: "updatedAt",
+        key: "updatedAt"
+      },
+      {
+        title: "操作",
+        align: "center",
+        width: 180,
+        render: record => (
+          <span>
+            <Button
+              ghost
+              type="primary"
+              className="mr10"
+              onClick={() => {
+                this.handleEdit(record.id);
+              }}
+            >
+              edit
+            </Button>
+            <Button
+              ghost
+              type="danger"
+              onClick={() => {
+                this.handleDelete(record.id);
+              }}
+            >
+              delete
+            </Button>
+          </span>
+        )
+      }
+    ]
+  };
+
+  private handleEdit = (id: number) => {
+    console.log(id);
+  };
+
+  private handleDelete = (id: number) => {
+    console.log(id);
+    this.props.delArticle({ id });
+  };
 
   public componentDidMount() {
     console.log(this.props);
@@ -34,6 +129,7 @@ export class Article extends Component<IProps, State> {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { article_list } = this.props.article;
     const { loading } = this.state;
     return (
       <div id="article">
@@ -53,7 +149,15 @@ export class Article extends Component<IProps, State> {
               </Link>
             </Form.Item>
           </Form>
-          <Table className="mt10" loading={loading} />
+          <Table
+            bordered
+            className="mt10"
+            loading={this.state.loading}
+            columns={this.state.columns}
+            dataSource={article_list}
+            rowKey={(record: any) => record.id}
+          />
+          /> />
         </AdminLayout>
       </div>
     );
@@ -65,7 +169,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getArticleList
+  getArticleList,
+  delArticle
 };
 const M_article = connect(mapStateToProps, mapDispatchToProps)(Article);
 export default Form.create({ name: "horizontal_login" })(M_article);

@@ -2,15 +2,11 @@ import { getType } from "typesafe-actions";
 import { ArticleAction, articleActions } from "./../actions";
 
 export interface IArticleState {
-  user: string;
-  passwd: string;
-  isLogin: boolean;
+  article_list: null;
 }
 
 const initState = {
-  user: "",
-  passwd: "",
-  isLogin: false
+  article_list: null
 };
 
 export default function articleReducer(
@@ -21,9 +17,7 @@ export default function articleReducer(
     case getType(articleActions.getArticleSuccess):
       return {
         ...state,
-        user: "",
-        passwd: "",
-        isLogin: false
+        article_list: action.payload.data
       };
     default:
       return state;

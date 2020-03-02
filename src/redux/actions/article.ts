@@ -16,4 +16,17 @@ export namespace articleActions {
     Article.get_article_error,
     article => article
   )();
+
+  export const delArticle = createAction(
+    Article.del_article,
+    article => article
+  )();
+  export const delArticleSuccess = createAction(
+    Article.del_article_success,
+    article => article
+  )();
+  export const delArticleError = createAction(
+    Article.del_article_error,
+    article => article
+  )();
 }

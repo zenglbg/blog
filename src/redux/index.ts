@@ -17,7 +17,6 @@ export default function initStore(initialState) {
     initialState,
     composeWithDevTools(applyMiddleware(...middlewares))
   );
-
   epicMiddleware.run(rootEpics);
   return store;
 }

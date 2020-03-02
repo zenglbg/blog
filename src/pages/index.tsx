@@ -26,6 +26,9 @@ class Home extends React.Component {
         >
           <a>user Page</a>
         </Link>
+        <Link href="/admin/home">
+          <a>admin home Page</a>
+        </Link>
         <Link scroll={false} href="#">
           <a>#####</a>
         </Link>
