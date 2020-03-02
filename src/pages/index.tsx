@@ -1,8 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
+import getConfig from "next/config";
 import React from "react";
 
 import Router from "next/router";
+const {
+  publicRuntimeConfig: { staticFolder }
+} = getConfig();
 
 class Home extends React.Component {
   static async getInitialProps({ req, ...data }) {
@@ -35,7 +39,7 @@ class Home extends React.Component {
             to user page
           </span>
         </div>
-        <img src="static/snorlax.png" alt="" />
+        <img src={`${staticFolder}/snorlax.png`} alt="" />
       </div>
     );
   }

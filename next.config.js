@@ -40,7 +40,7 @@ const nextConfig = {
   distDir: "build",
   webpack: (config, { buildId, dev, isServer, defaultLoaders }) => {
     // modify the `config` here
-    console.log(config.module.rules);
+    // console.log(config.module.rules);
     if (isServer) {
       // deal antd style
       const antStyles = /antd\/.*?\/style.*?/;
@@ -109,18 +109,18 @@ const nextConfig = {
       });
       config.devtool = "source-map";
     } else {
-      config.module.rules.push({
-        test: /\.js$/,
-        enforce: "pre",
-        include: srcFolder
-        // options: {
-        //   configFile: path.resolve(".eslintrc"),
-        //   eslint: {
-        //     configFile: path.resolve(__dirname, ".eslintrc")
-        //   }
-        // },
-        // loader: "eslint-loader"
-      });
+      // config.module.rules.push({
+      //   test: /\.js$/,
+      //   enforce: "pre",
+      //   include: srcFolder
+      // options: {
+      //   configFile: path.resolve(".eslintrc"),
+      //   eslint: {
+      //     configFile: path.resolve(__dirname, ".eslintrc")
+      //   }
+      // },
+      // loader: "eslint-loader"
+      // });
       config.devtool = "cheap-module-inline-source-map";
     }
     return config;
@@ -143,16 +143,14 @@ const nextConfig = {
   }
 };
 
-module.exports = withPlugins(
-  [
-    //https://www.npmjs.com/package/next-compose-plugins
-    withLess({
-      lessLoaderOptions: {
-        javascriptEnabled: true,
-        modifyVars: themeVariables,
-        localIdentName: "[local]___[hash:base64:5]"
-      }
-    })
-  ],
-  nextConfig
-);
+module.exports = withPlugins([
+  //https://www.npmjs.com/package/next-compose-plugins
+  withLess({
+    lessLoaderOptions: {
+      javascriptEnabled: true,
+      modifyVars: themeVariables,
+      localIdentName: "[local]___[hash:base64:5]"
+    },
+    ...nextConfig
+  })
+]);
