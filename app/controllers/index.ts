@@ -35,10 +35,4 @@ export default class {
     console.log("管理后台路径log", pathUrl);
     await handle(ctx.req, ctx.res);
   }
-  @Get("/_next/*")
-  async router(@Ctx() ctx: Context, @Req() req: Request, @Res() res: Response) {
-    const pathUrl = ctx.path;
-    console.log("管理后台路径log", pathUrl);
-    await handle(ctx.req, ctx.res);
-  }
 }
