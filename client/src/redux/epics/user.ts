@@ -5,7 +5,7 @@ import { throwError } from "rxjs";
 import { map, switchMap, catchError, take, mapTo, delay } from "rxjs/operators";
 import { getType } from "typesafe-actions";
 import Router from "next/router";
-import { Api } from "../../utils/api";
+import { Api } from "../../../utils/api";
 
 export const userEpic: Epic<UserAction, UserAction> = (
   action$: ActionsObservable<any>

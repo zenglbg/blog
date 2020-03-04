@@ -3,7 +3,7 @@ import { getType } from "typesafe-actions";
 import { from, throwError } from "rxjs";
 import { map, switchMap, catchError } from "rxjs/operators";
 import { ArticleAction, articleActions } from "../actions";
-import { Api } from "../../utils/api";
+import { Api } from "../../../utils/api";
 
 export const get_articleEpic: Epic<ArticleAction, ArticleAction> = (
   action$: ActionsObservable<any>

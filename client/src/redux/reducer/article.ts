@@ -1,5 +1,5 @@
 import { getType } from "typesafe-actions";
-import { ArticleAction, articleActions } from "./../actions";
+import { ArticleAction, articleActions } from "../actions";
 
 export interface IArticleState {
   article_list: null;
