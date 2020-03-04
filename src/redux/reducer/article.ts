@@ -27,7 +27,7 @@ export default function articleReducer(
         ...state,
         list_loading: false
       };
-    case getType(articleActions.get_article_status):
+    case getType(articleActions.getArticleStatus):
       return {
         ...state,
         list_loading: action.payload.list_loading

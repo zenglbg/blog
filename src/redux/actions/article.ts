@@ -16,7 +16,7 @@ export namespace articleActions {
     Article.get_article_error,
     article => article
   )();
-  export const get_article_status = createAction(
+  export const getArticleStatus = createAction(
     Article.get_article_status,
     (list_loading: boolean = false) => ({ list_loading })
   )();

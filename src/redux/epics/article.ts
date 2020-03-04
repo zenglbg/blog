@@ -13,7 +13,6 @@ export const get_articleEpic: Epic<ArticleAction, ArticleAction> = (
     switchMap(({ payload }) => {
       return Api.instance.get("/api/article/list", payload).pipe(
         map(res => {
-          articleActions.get_article_status();
           return articleActions.getArticleSuccess(res.response);
         }),
         catchError(err => {

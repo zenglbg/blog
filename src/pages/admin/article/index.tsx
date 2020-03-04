@@ -1,20 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Table, Form, Input, Button, Tag } from "antd";
+import { FormComponentProps } from "antd/lib/form";
 import Link from "next/link";
 import { IState } from "../../../redux/reducer";
 import { articleActions, ArticleAction } from "../../../redux/actions";
 import AdminLayout from "../../../components/adminLayout";
 import { color } from "../../../utils";
-const { getArticleList, delArticle } = articleActions;
+const { getArticleList, delArticle, getArticleStatus } = articleActions;
 
 interface Props {
-  form: any;
   getArticleList: (obj: any) => void;
   delArticle: Function;
+  getArticleStatus: Function;
 }
 type ArticleState = Pick<IState, "article">;
-export type IProps = Props & ArticleState;
+export type IProps = Props & ArticleState & FormComponentProps;
 
 export class Article extends Component<IProps> {
   state: {
@@ -125,11 +126,21 @@ export class Article extends Component<IProps> {
     });
   }
 
+  private search = () => {
+    const { title, pageNo, pageSize } = this.state;
+    const { getArticleList, getArticleStatus } = this.props;
+    getArticleStatus(true);
+    getArticleList({
+      title,
+      pageNo,
+      pageSize
+    });
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { article_list, list_loading } = this.props.article;
-    const { getArticleList } = this.props;
-    const { columns, title, pageNo, pageSize } = this.state;
+    const { columns, title } = this.state;
     return (
       <div id="article">
         <AdminLayout>
@@ -144,15 +155,9 @@ export class Article extends Component<IProps> {
                 className="mr10"
                 type="primary"
                 htmlType="submit"
-                onClick={() => {
-                  getArticleList({
-                    title,
-                    pageNo,
-                    pageSize
-                  });
-                }}
+                onClick={this.search}
               >
-                search {title}
+                search
               </Button>
               <Link href="/admin/article-add">
                 <Button type="primary">create</Button>
@@ -177,6 +182,6 @@ const mapStateToProps = state => ({
   article: state.article
 });
 
-const mapDispatchToProps = { getArticleList, delArticle };
+const mapDispatchToProps = { getArticleList, delArticle, getArticleStatus };
 const M_article = connect(mapStateToProps, mapDispatchToProps)(Article);
 export default Form.create({ name: "horizontal_login" })(M_article);
