@@ -1,9 +1,6 @@
 import "reflect-metadata";
 // import * as koaBody from 'koa-body';
 import next from "next";
-const dev = process.env.NODE_ENV === "development";
-const appNext = next({ dev });
-const handle = appNext.getRequestHandler();
 import { createKoaServer, Action } from "routing-controllers";
 import { MysqlConfig } from "config";
 
@@ -26,4 +23,4 @@ const app = createKoaServer({
 
 const mysqlConfig = configs.mysql as MysqlConfig;
 
-export { app as default, appNext, handle };
+export { app as default };

@@ -3,7 +3,7 @@
   "ignore": [".git", ".svn", "node_modules/**/node_modules"],
   "verbose": true,
   "execMap": {
-    "ts": "TS_NODE_PROJECT='./tsconfig.server.json' node  -r ts-node/register --inspect"
+    "ts": "TS_NODE_PROJECT='./tsconfig.json' node  -r ts-node/register --inspect"
   },
 
   "watch": ["./app/*"],

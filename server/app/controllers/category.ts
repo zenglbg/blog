@@ -1,41 +1,40 @@
-import { Tag } from "../model/entity/tag";
+import { Category } from "../model/entity/category";
 import { Ctx, Param, Get, Post, JsonController } from "routing-controllers";
 import { Context } from "koa";
 // import crypto from "crypto";
-import { getRepository } from "typeorm";
 import { Container, Inject, Service } from "typedi";
-import Query from "../server/query";
+import Query from "../service/query";
 const query = Container.get(Query);
 
 @JsonController("/api")
 export default class {
-  @Get("/tag/list")
+  @Get("/category/list")
   async list(@Ctx() ctx: Context) {
     const { name, pageNo, pageSize } = ctx.query;
     const where = `entity.name like :name`;
     const params = { name: `%${name}%` };
-    return query.list(Tag, where, params, pageNo, pageSize);
+    return query.list(Category, where, params, pageNo, pageSize);
   }
 
-  @Get("/tag/list/all")
+  @Get("/category/list/all")
   public async listAll(@Ctx() ctx: Context) {
-    return query.listAll(Tag);
+    return query.listAll(Category);
   }
 
-  @Post("/tag/create")
+  @Post("/category/create")
   public async create(@Ctx() ctx: Context) {
-    const params = (ctx.request as any).body;
-    if (!params.name) {
+    const { name } = (ctx.request as any).body;
+    if (!name) {
       return {
         code: 1003,
         msg: "分类不能为空"
       };
     }
-    return query.create(Tag, { name: params.name }, params);
+    return query.create(Category, { name }, { name });
   }
 
-  @Post("/tag/destroy")
+  @Post("/category/destroy")
   public async destroy(@Ctx() ctx: Context) {
-    return query.destroy(ctx, Tag);
+    return query.destroy(ctx, Category);
   }
 }

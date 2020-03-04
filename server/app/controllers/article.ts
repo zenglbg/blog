@@ -5,7 +5,7 @@ import { Context } from "koa";
 import { getRepository } from "typeorm";
 
 import { Container } from "typedi";
-import Query from "../server/query";
+import Query from "../service/query";
 const query = Container.get(Query);
 
 @JsonController("/api")

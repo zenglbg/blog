@@ -5,11 +5,8 @@
   "main": "index.js",
   "scripts": {
     "first": "npm run build && npm run dev",
-    "next": "next",
-    "node": "ts-node --project ./tsconfig.server.json ./app/index.ts",
-    "dev": "nodemon ./app/index.ts",
-    "build": "next build",
-    "start": "next start"
+    "node": "ts-node --project ./tsconfig.json ./app/index.ts",
+    "dev": "nodemon ./app/index.ts"
   },
   "keywords": [],
   "author": "",

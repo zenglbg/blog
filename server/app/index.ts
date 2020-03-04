@@ -1,7 +1,7 @@
 import * as http from "http";
 import * as path from "path";
 import { createConnection } from "typeorm";
-import app, { appNext } from "./app";
+import app from "./app";
 import { port, host } from "./config/config";
 
 interface I_server {
@@ -45,7 +45,6 @@ createConnection({
 })
   .then(async connection => {
     console.log("Inserting a new user into the database...");
-    await appNext.prepare();
     new Server(port, host);
   })
   .catch(error => console.log(error));
