@@ -12,7 +12,10 @@ export const get_articleEpic: Epic<ArticleAction, ArticleAction> = (
     ofType(getType(articleActions.getArticleList)),
     switchMap(({ payload }) => {
       return Api.instance.get("/api/article/list", payload).pipe(
-        map(res => articleActions.getArticleSuccess(res.response)),
+        map(res => {
+          articleActions.get_article_status();
+          return articleActions.getArticleSuccess(res.response);
+        }),
         catchError(err => {
           articleActions.getArticleError("发生了错误");
           return throwError(err);
@@ -31,9 +34,30 @@ export const del_articleEpic: Epic<ArticleAction, ArticleAction> = (
         map(res => {
           return articleActions.delArticleSuccess(res);
         }),
-        catchError(error => {
-          articleActions.delArticleError(error);
-          return throwError(error);
+        map(del => {
+          return articleActions.getArticleList();
+        }),
+        catchError(err => {
+          articleActions.delArticleError(err);
+          return throwError(err);
+        })
+      );
+    })
+  );
+
+export const create_articleEpic: Epic<ArticleAction> = (
+  action$: ActionsObservable<any>
+) =>
+  action$.pipe(
+    ofType(getType(articleActions.createArticle)),
+    switchMap(({ payload }) => {
+      return Api.instance.post("/api/article/create", payload).pipe(
+        map(res => {
+          return articleActions.createArticleSuccess(res);
+        }),
+        catchError(err => {
+          articleActions.createArticleError(err);
+          return throwError(err);
         })
       );
     })

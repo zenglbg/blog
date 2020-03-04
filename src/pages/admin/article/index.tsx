@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Table, Form, Input, Button, Tag } from "antd";
-import Router from "next/router";
 import Link from "next/link";
-
 import { IState } from "../../../redux/reducer";
 import { articleActions, ArticleAction } from "../../../redux/actions";
 import AdminLayout from "../../../components/adminLayout";
-const { getArticleList, delArticle } = articleActions;
 import { color } from "../../../utils";
+const { getArticleList, delArticle } = articleActions;
 
 interface Props {
   form: any;
@@ -16,14 +14,16 @@ interface Props {
   delArticle: Function;
 }
 type ArticleState = Pick<IState, "article">;
-interface State {
-  loading: boolean;
-}
-
 export type IProps = Props & ArticleState;
 
-export class Article extends Component<IProps, State> {
-  state = {
+export class Article extends Component<IProps> {
+  state: {
+    loading: boolean;
+    title: string;
+    pageNo: number;
+    pageSize: number;
+    columns: Array<any>;
+  } = {
     loading: false,
     title: "blog",
     pageNo: 1,
@@ -113,12 +113,10 @@ export class Article extends Component<IProps, State> {
   };
 
   private handleDelete = (id: number) => {
-    console.log(id);
     this.props.delArticle({ id });
   };
 
   public componentDidMount() {
-    console.log(this.props);
     const { title, pageNo, pageSize } = this.state;
     this.props.getArticleList({
       title,
@@ -129,20 +127,32 @@ export class Article extends Component<IProps, State> {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { article_list } = this.props.article;
-    const { loading } = this.state;
+    const { article_list, list_loading } = this.props.article;
+    const { getArticleList } = this.props;
+    const { columns, title, pageNo, pageSize } = this.state;
     return (
       <div id="article">
         <AdminLayout>
           <Form layout="inline">
             <Form.Item>
-              {getFieldDecorator("title")(
-                <Input placeholder="请输入标题" allowClear={true} />
-              )}
+              {getFieldDecorator("title", {
+                rules: [{ required: true, message: "请输入标题" }]
+              })(<Input placeholder="请输入标题" allowClear={true} />)}
             </Form.Item>
             <Form.Item>
-              <Button className="mr10" type="primary" htmlType="submit">
-                search
+              <Button
+                className="mr10"
+                type="primary"
+                htmlType="submit"
+                onClick={() => {
+                  getArticleList({
+                    title,
+                    pageNo,
+                    pageSize
+                  });
+                }}
+              >
+                search {title}
               </Button>
               <Link href="/admin/article-add">
                 <Button type="primary">create</Button>
@@ -152,12 +162,11 @@ export class Article extends Component<IProps, State> {
           <Table
             bordered
             className="mt10"
-            loading={this.state.loading}
-            columns={this.state.columns}
+            loading={list_loading}
+            columns={columns}
             dataSource={article_list}
             rowKey={(record: any) => record.id}
           />
-          /> />
         </AdminLayout>
       </div>
     );
@@ -168,9 +177,6 @@ const mapStateToProps = state => ({
   article: state.article
 });
 
-const mapDispatchToProps = {
-  getArticleList,
-  delArticle
-};
+const mapDispatchToProps = { getArticleList, delArticle };
 const M_article = connect(mapStateToProps, mapDispatchToProps)(Article);
 export default Form.create({ name: "horizontal_login" })(M_article);

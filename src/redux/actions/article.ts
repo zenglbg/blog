@@ -6,7 +6,7 @@ export type ArticleAction = ActionType<typeof articleActions>;
 export namespace articleActions {
   export const getArticleList = createAction(
     Article.get_article_list,
-    article => article
+    (article?: any) => article
   )();
   export const getArticleSuccess = createAction(
     Article.get_article_success,
@@ -15,6 +15,10 @@ export namespace articleActions {
   export const getArticleError = createAction(
     Article.get_article_error,
     article => article
+  )();
+  export const get_article_status = createAction(
+    Article.get_article_status,
+    (list_loading: boolean = false) => ({ list_loading })
   )();
 
   export const delArticle = createAction(
@@ -27,6 +31,19 @@ export namespace articleActions {
   )();
   export const delArticleError = createAction(
     Article.del_article_error,
+    article => article
+  )();
+
+  export const createArticle = createAction(
+    Article.create_article,
+    (article: { title: string }) => article
+  )();
+  export const createArticleSuccess = createAction(
+    Article.create_article_success,
+    article => article
+  )();
+  export const createArticleError = createAction(
+    Article.create_article_error,
     article => article
   )();
 }
