@@ -23,14 +23,21 @@ export const routes: Routes[] = [
     title: "首页",
     path: "/web/index",
     exact: true,
-    component: () => import("../components/home"),
+    component: () => import("../components/web/index"),
     beforeEnter: (routeProps, extraProps) => {}
   },
   {
     title: "admin",
-    path: "/admin/index",
+    path: "/admin/home",
     exact: true,
-    component: () => import("../components/home"),
+    component: () => import("../components/admin/home"),
+    beforeEnter: (routeProps, extraProps) => {}
+  },
+  {
+    title: "登录",
+    path: "/admin/login",
+    exact: true,
+    component: () => import("../components/admin/login"),
     beforeEnter: (routeProps, extraProps) => {}
   },
   {

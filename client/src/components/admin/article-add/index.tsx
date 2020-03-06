@@ -3,7 +3,8 @@ import { Form, Input, Button, Select, message } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 
 import { connect } from "react-redux";
-import AdminLayout from "../../../components/adminLayout";
+import AdminLayout from "../../common/adminLayout";
+
 interface Props {}
 interface State {}
 

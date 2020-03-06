@@ -23,7 +23,7 @@ class RouterGuard extends React.Component<IProps> {
 
     if (authorization) replace("./login");
 
-    if (location.pathname === "/") replace("./web/index");
+    if (location.pathname === "/") replace("/admin/login");
     // 跳转前执行函数
     beforeEnter && beforeEnter(1, 1);
     console.log("路由跳转前的拦截", this.props);

@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Table, Form, Input, Button, Tag } from "antd";
 import { FormComponentProps } from "antd/lib/form";
-import Link from "next/link";
 import { IState } from "../../../redux/reducer";
-import { articleActions, ArticleAction } from "../../../redux/actions";
-import AdminLayout from "../../../components/adminLayout";
+import AdminLayout from "../../common/adminLayout";
 import { color } from "../../../utils";
-const { getArticleList, delArticle, getArticleStatus } = articleActions;
+import { Article } from "../../../redux/actions";
 
 interface Props {
   getArticleList: (obj: any) => void;
@@ -17,7 +15,7 @@ interface Props {
 type ArticleState = Pick<IState, "article">;
 export type IProps = Props & ArticleState & FormComponentProps;
 
-export class Article extends Component<IProps> {
+export class Article_doc extends Component<IProps> {
   state: {
     loading: boolean;
     title: string;
@@ -159,9 +157,9 @@ export class Article extends Component<IProps> {
               >
                 search
               </Button>
-              <Link href="/admin/article-add">
+              <a href="/admin/article-add">
                 <Button type="primary">create</Button>
-              </Link>
+              </a>
             </Form.Item>
           </Form>
           <Table
@@ -182,6 +180,10 @@ const mapStateToProps = state => ({
   article: state.article
 });
 
-const mapDispatchToProps = { getArticleList, delArticle, getArticleStatus };
-const M_article = connect(mapStateToProps, mapDispatchToProps)(Article);
+const mapDispatchToProps = {
+  getArticleList: Article.instance.getArticleList,
+  delArticle: Article.instance.delArticle,
+  getArticleStatus: Article.instance.getArticleStatus
+};
+const M_article = connect(mapStateToProps, mapDispatchToProps)(Article_doc);
 export default Form.create({ name: "horizontal_login" })(M_article);

@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Menu, Layout, Icon, Avatar, Dropdown } from "antd";
 const { Header, Sider, Content, Footer } = Layout;
-import { UserState } from "../../redux/reducer";
-import Router from "next/router";
-import Link from "next/link";
-import adminRoutes from "../../config/adminRoutes";
+import { UserState } from "../../../redux/reducer";
+// import adminRoutes from "../../config/adminRoutes";
+const adminRoutes = [];
 import "./index.less";
+
 /**
  * @todo 引入less 报错
  */
@@ -26,7 +26,6 @@ export class AdminLayout extends Component<Props, State> {
       /**
        * 如果isLogin 成功为true , 则render 返回null
        */
-      Router.push("/admin/login");
     }
   }
 
@@ -37,7 +36,6 @@ export class AdminLayout extends Component<Props, State> {
   };
   handleClickMenuItem = (item: any) => {
     sessionStorage.setItem("menuItmeKey", item.key);
-    Router.push(item.path);
   };
 
   menuItem = () =>

@@ -4,8 +4,7 @@ import { bindActionCreators } from "redux";
 import { Card, Input, Button, Icon, Form } from "antd";
 import "./index.less";
 
-import { userActions } from "../../../redux/actions";
-const { doLogin } = userActions;
+import { User } from "../../../redux/actions";
 
 type PageDispatchProps = {
   doLogin: (obj: any) => void;
@@ -85,7 +84,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  doLogin
+  doLogin: User.instance.doLogin
 };
 const MyLogin = Form.create({ name: "normal_login" })(Login);
 export default connect(mapStateToProps, mapDispatchToProps)(MyLogin);

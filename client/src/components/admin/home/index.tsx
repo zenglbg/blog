@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Menu, Layout, Icon, Avatar } from "antd";
 
-import AdminLayout from "../../../components/adminLayout";
+import AdminLayout from "../../common/adminLayout";
 
 interface Props {
   user: any;
@@ -25,7 +24,7 @@ export class index extends Component<Props, State> {
     console.log(this.props);
   }
   handleClick() {
-    // this.props.history.push('/login')
+    // this.props.history.push("/login");
   }
   render() {
     console.log(this.props.user);
