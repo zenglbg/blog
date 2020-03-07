@@ -1,21 +1,16 @@
-import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Provider } from "react-redux";
-import RouteView from "../routes";
-import store from "../redux";
+import React, { Component } from "react";
 
-import "./App.scss";
+interface Props {}
+interface State {}
 
-function App() {
-  return (
-    <div className="App">
-      <Provider store={store()}>
-        <Router>
-          <RouteView />
-        </Router>
-      </Provider>
-    </div>
-  );
+export default class index extends Component<Props, State> {
+  state = {};
+
+  render() {
+    return (
+      <div>
+        <h1>us3333er</h1>
+      </div>
+    );
+  }
 }
-
-export default App;

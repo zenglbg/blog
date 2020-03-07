@@ -1,9 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.less";
-import App from "./container/App";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from "react-redux";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+import RouteView from "./routes";
+import store from "./redux";
+import "./index.less";
+
+ReactDOM.render(
+  <>
+    <Provider store={store()}>
+      <Router>
+        <RouteView />
+      </Router>
+    </Provider>
+  </>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

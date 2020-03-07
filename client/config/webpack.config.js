@@ -116,12 +116,21 @@ module.exports = function(webpackEnv) {
             sourceMap: isEnvProduction && shouldUseSourceMap
           }
         },
-        {
-          loader: require.resolve(preProcessor),
-          options: {
-            sourceMap: true
-          }
-        }
+
+        /less/.test(preProcessor)
+          ? {
+              loader: require.resolve(preProcessor),
+              options: {
+                javascriptEnabled: true,
+                sourceMap: true
+              }
+            }
+          : {
+              loader: require.resolve(preProcessor),
+              options: {
+                sourceMap: true
+              }
+            }
       );
     }
     return loaders;
@@ -374,8 +383,8 @@ module.exports = function(webpackEnv) {
                     "import",
                     {
                       libraryName: "antd",
-                      libraryDirectory: "lib", // default: lib
-                      style: true // or 'css'
+                      libraryDirectory: "es" // default: lib
+                      // style: "css" // or 'css'
                     }
                   ],
                   [
@@ -479,6 +488,7 @@ module.exports = function(webpackEnv) {
             },
             {
               test: lessRegex,
+              exclude: sassModuleRegex,
               use: getStyleLoaders(
                 {
                   importLoaders: 3,
