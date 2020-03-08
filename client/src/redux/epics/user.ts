@@ -1,11 +1,12 @@
 import { ofType, Epic, ActionsObservable } from "redux-observable";
 import { User } from "../actions";
-import { throwError } from "rxjs";
+import { throwError, of, merge, combineLatest } from "rxjs";
 import { map, switchMap, catchError, take, mapTo, delay } from "rxjs/operators";
 import { getType } from "typesafe-actions";
+import { push } from "connected-react-router";
 import { Api } from "../../utils/api";
 
-export const userEpic = (action$: ActionsObservable<any>) =>
+export const userEpic = (action$: ActionsObservable<any>, state$) =>
   action$.pipe(
     ofType(getType(User.instance.doLogin)),
     switchMap(({ payload }) => {
@@ -16,12 +17,12 @@ export const userEpic = (action$: ActionsObservable<any>) =>
         })
         .pipe(
           map(res => {
-            console.log(res, "res");
             if (res.response.code === 1000) {
               const data = {
                 user: res.response.user,
                 passwd: res.response.passwd
               };
+              return push("/admin/home");
               return User.instance.loginSuccess(data);
             } else {
               return User.instance.loginError(res.response.msg);

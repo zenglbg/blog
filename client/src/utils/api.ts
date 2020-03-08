@@ -29,14 +29,14 @@ interface IParams {
 
 export class Api {
   private static api: Api;
-
+  private url = "http://0.0.0.0:9998";
   public get(url: string, params: IParams) {
     const _params = Object.keys(params).reduce((acc, val) => {
       return acc + `${val}=${params[val]}&`;
     }, "");
     const _url = url.replace(/\?$/, "") + "?";
     return ajax({
-      url: (_url + _params).replace(/\&$/, ""),
+      url: this.url + (_url + _params).replace(/\&$/, ""),
       headers: {
         "Content-Type": "application/json; charset=utf-8"
       }
@@ -45,7 +45,7 @@ export class Api {
 
   public post(url: string, body: IParams) {
     return ajax({
-      url: url,
+      url: this.url + url,
       method: "post",
       body: body
     });

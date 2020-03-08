@@ -1,6 +1,13 @@
 import React from "react";
-import { Switch, Route, RouteComponentProps } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  RouteComponentProps,
+  withRouter
+} from "react-router-dom";
 import Loadable from "react-loadable";
+
+interface IProps {}
 
 export class Routes {
   public title: string;
@@ -16,35 +23,35 @@ export const routes: Routes[] = [
   {
     title: "根",
     path: "/",
-    exact: true,
+    exact: false,
     component: () => import("../container/App"),
     beforeEnter: (routeProps, extraProps) => {},
     routes: [
       {
         title: "首页",
         path: "/web/index",
-        exact: true,
+        exact: false,
         component: () => import("../components/web/index"),
         beforeEnter: (routeProps, extraProps) => {}
       },
       {
         title: "admin",
-        path: "/admin/index",
-        exact: true,
-        component: () => import("../components/admin/index"),
+        path: "/admin",
+        exact: false,
+        component: () => import("../components/admin"),
         beforeEnter: (routeProps, extraProps) => {},
         routes: [
           {
             title: "首页",
             path: "/admin/home",
-            exact: false,
+            exact: true,
             component: () => import("../components/admin/home"),
             beforeEnter: (routeProps, extraProps) => {}
           },
           {
             title: "登录",
             path: "/admin/login",
-            exact: false,
+            exact: true,
             component: () => import("../components/admin/login"),
             beforeEnter: (routeProps, extraProps) => {}
           }
@@ -65,26 +72,29 @@ export default class RouteView extends React.PureComponent {
   public Guard = ({
     component,
     routes,
-    history
+    history,
+    ...props
   }: Routes & RouteComponentProps) => {
+    console.log(routes);
+
     const LoadableComponent = Loadable({
       loader: component,
       loading: () => <span>11111</span>
     });
-
     return (
-      <div>
+      <>
         <LoadableComponent />
         {routes ? this.routesRenderMsp(routes) : null}
-      </div>
+      </>
     );
   };
 
   public routesRenderMsp = (routes: Routes[]) => {
     return routes.map((route: Routes, index) => (
       <Route
-        key={`key${index}`}
+        key={`key${route.path}`}
         path={route.path}
+        exact={route.exact}
         render={(props: RouteComponentProps) =>
           this.Guard({ ...route, ...props })
         }
@@ -93,6 +103,6 @@ export default class RouteView extends React.PureComponent {
   };
 
   public render() {
-    return <div className="route">{this.routesRenderMsp(this.routes)}</div>;
+    return <Switch>{this.routesRenderMsp(this.routes)}</Switch>;
   }
 }

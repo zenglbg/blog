@@ -2,19 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
+import { ConnectedRouter } from "connected-react-router";
 
 import RouteView from "./routes";
-import store from "./redux";
+import store, { history } from "./redux";
 import "./index.less";
 
 ReactDOM.render(
-  <>
-    <Provider store={store()}>
-      <Router>
-        <RouteView />
-      </Router>
-    </Provider>
-  </>,
+  <Provider store={store()}>
+    <ConnectedRouter history={history}>
+      <RouteView />
+    </ConnectedRouter>
+  </Provider>,
   document.getElementById("root")
 );
 

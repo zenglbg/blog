@@ -30,6 +30,8 @@ export class index extends Component<Props, State> {
     console.log(this.props.user);
     return (
       <div>
+        <h3>i'm content</h3>
+
         <AdminLayout>
           <h3>i'm content</h3>
         </AdminLayout>

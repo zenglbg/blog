@@ -13,20 +13,6 @@ export default class index extends Component<
 
   render() {
     console.log(this.props);
-    return (
-      <div className="home">
-        <h1>admin</h1>
-        <h2
-          onClick={() => {
-            this.props.history.push("/admin/login");
-          }}
-        >
-          home
-        </h2>
-        {this.props.routes.map((item, index) => (
-          <Route key={index} path={item.path} component={item.component} />
-        ))}
-      </div>
-    );
+    return <div className="home"></div>;
   }
 }
