@@ -12,7 +12,6 @@ export default class index extends Component<
   state = {};
 
   render() {
-    console.log(this.props);
     return <div className="home"></div>;
   }
 }

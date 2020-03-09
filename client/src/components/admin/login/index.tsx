@@ -32,7 +32,6 @@ export class Login extends Component<IProps, State> {
   };
 
   render() {
-    // console.log(this.props, 1111);
     const { getFieldDecorator } = this.props.form;
 
     return (

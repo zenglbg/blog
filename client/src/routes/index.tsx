@@ -25,6 +25,7 @@ export const routes: Routes[] = [
     path: "/",
     exact: false,
     component: () => import("../container/App"),
+    // component: "../container/App",
     beforeEnter: (routeProps, extraProps) => {},
     routes: [
       {
@@ -32,6 +33,7 @@ export const routes: Routes[] = [
         path: "/web/index",
         exact: false,
         component: () => import("../components/web/index"),
+        // component: "../components/web/index",
         beforeEnter: (routeProps, extraProps) => {}
       },
       {
@@ -39,6 +41,7 @@ export const routes: Routes[] = [
         path: "/admin",
         exact: false,
         component: () => import("../components/admin"),
+        // component: "../components/admin",
         beforeEnter: (routeProps, extraProps) => {},
         routes: [
           {
@@ -46,6 +49,7 @@ export const routes: Routes[] = [
             path: "/admin/home",
             exact: true,
             component: () => import("../components/admin/home"),
+            // component: "../components/admin/home",
             beforeEnter: (routeProps, extraProps) => {}
           },
           {
@@ -53,6 +57,7 @@ export const routes: Routes[] = [
             path: "/admin/login",
             exact: true,
             component: () => import("../components/admin/login"),
+            // component: "../components/admin/login",
             beforeEnter: (routeProps, extraProps) => {}
           }
         ]
@@ -60,11 +65,24 @@ export const routes: Routes[] = [
       // {
       //   title: "notFound",
       //   exact: true,
-      //   component: "../components/notFound"
+      //   component: "components/notFound"
       // }
     ]
   }
 ];
+
+class LoadableView extends React.PureComponent<any> {
+  public render() {
+    const { component } = this.props;
+    const LoadableComponent = Loadable({
+      loader: component,
+      loading: () => <span>11111</span>
+    });
+    return <LoadableComponent {...this.props} />;
+  }
+}
+
+const WithRouterLoadable = withRouter(LoadableView);
 
 export default class RouteView extends React.PureComponent {
   public routes: Routes[] = routes;
@@ -75,15 +93,9 @@ export default class RouteView extends React.PureComponent {
     history,
     ...props
   }: Routes & RouteComponentProps) => {
-    console.log(routes);
-
-    const LoadableComponent = Loadable({
-      loader: component,
-      loading: () => <span>11111</span>
-    });
     return (
       <>
-        <LoadableComponent />
+        <WithRouterLoadable {...props} component={component} />
         {routes ? this.routesRenderMsp(routes) : null}
       </>
     );

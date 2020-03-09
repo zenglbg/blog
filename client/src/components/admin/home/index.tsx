@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { RouteComponentProps } from "react-router-dom";
 import AdminLayout from "../../common/adminLayout";
 
 interface Props {
@@ -10,7 +10,7 @@ interface State {
   collapsed: string;
 }
 
-export class index extends Component<Props, State> {
+export class index extends Component<Props & RouteComponentProps, State> {
   state = {
     collapsed: ""
   };
@@ -23,17 +23,14 @@ export class index extends Component<Props, State> {
   componentDidUpdate() {
     console.log(this.props);
   }
-  handleClick() {
-    // this.props.history.push("/login");
-  }
+  handleClick = () => {
+    this.props.history.push("/admin/login");
+  };
   render() {
-    console.log(this.props.user);
     return (
       <div>
-        <h3>i'm content</h3>
-
         <AdminLayout>
-          <h3>i'm content</h3>
+          <h3 onClick={this.handleClick}>i'm content</h3>
         </AdminLayout>
       </div>
     );

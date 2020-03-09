@@ -56,7 +56,6 @@ export class AdminLayout extends Component<Props, State> {
       ));
 
   render() {
-    console.log(this.props.user);
     const { isLogin } = this.props.user;
     const logoClass = this.state.collapsed ? "logoMin" : "logoMax";
     const menu = (
