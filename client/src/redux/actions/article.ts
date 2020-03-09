@@ -16,6 +16,14 @@ export class Article {
   public create_article_success: string = "CREATE_ARTICLE_SUCCESS";
   public create_article_error: string = "CREATE_ARTICLE_ERROR";
 
+  public get_category_all: string = "GET_CATEGORY_ALL";
+  public get_category_all_success: string = "GET_CATEGORY_ALL_SUCCESS";
+  public get_category_all_error: string = "GET_CATEGORY_ALL_ERROR";
+
+  public get_tag_all: string = "GET_TAG_ALL";
+  public get_tag_all_success: string = "GET_TAG_ALL_SUCCESS";
+  public get_tag_all_error: string = "GET_TAG_ALL_ERROR";
+
   public static article: Article;
 
   public static get instance() {
@@ -64,4 +72,18 @@ export class Article {
     this.create_article_error,
     article => article
   )();
+
+  public getCategoryAll = createAction(this.get_category_all)();
+  public getCategoryAllSuccess = createAction(
+    this.get_category_all_success,
+    category_list_all => category_list_all
+  )();
+  public getCategoryAllError = createAction(this.get_category_all_error)();
+
+  public getTagAll = createAction(this.get_tag_all)();
+  public getTagAllSuccess = createAction(
+    this.get_tag_all_success,
+    tag_list_all => tag_list_all
+  )();
+  public getTagAllError = createAction(this.get_tag_all_error)();
 }

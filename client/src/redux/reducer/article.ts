@@ -2,12 +2,14 @@ import { getType } from "typesafe-actions";
 import { Article } from "../actions";
 
 export interface IArticleState {
-  article_list: null;
+  article_list: Array<any>;
+  article_list_all: Array<any>;
   list_loading: boolean;
 }
 
 const initState = {
   article_list: null,
+  article_list_all: null,
   list_loading: false
 };
 

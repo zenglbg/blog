@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+
 import AdminLayout from "../../common/adminLayout";
 
 interface Props {
@@ -20,9 +21,7 @@ export class index extends Component<Props & RouteComponentProps, State> {
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
   }
-  componentDidUpdate() {
-    console.log(this.props);
-  }
+
   handleClick = () => {
     this.props.history.push("/admin/login");
   };

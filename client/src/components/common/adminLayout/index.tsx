@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Menu, Layout, Icon, Avatar, Dropdown } from "antd";
 const { Header, Sider, Content, Footer } = Layout;
 import { UserState } from "../../../redux/reducer";
-// import adminRoutes from "../../config/adminRoutes";
-const adminRoutes = [];
+import { menuConfig } from "../../../utils";
 import "./index.less";
 
 /**
@@ -35,25 +35,25 @@ export class AdminLayout extends Component<Props, State> {
     });
   };
   handleClickMenuItem = (item: any) => {
+    console.log(this.props);
+    // (this.props as any).history.push(item.path);
     sessionStorage.setItem("menuItmeKey", item.key);
   };
 
   menuItem = () =>
-    adminRoutes
-      .filter(item => item.menu)
-      .map((item, index) => (
-        <Menu.Item
-          key={index}
-          onClick={() => {
-            this.handleClickMenuItem(item);
-          }}
-        >
-          <a>
-            <Icon type={item.icon} />
-            <span>{item.title}</span>
-          </a>
-        </Menu.Item>
-      ));
+    menuConfig.map((item, index) => (
+      <Menu.Item
+        key={index}
+        onClick={() => {
+          this.handleClickMenuItem(item);
+        }}
+      >
+        <Link to={item.path}>
+          <Icon type={item.icon} />
+          <span>{item.title}</span>
+        </Link>
+      </Menu.Item>
+    ));
 
   render() {
     const { isLogin } = this.props.user;

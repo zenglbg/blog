@@ -2,13 +2,16 @@ import { combineEpics } from "redux-observable";
 import { catchError } from "rxjs/operators";
 import { userEpic } from "./user";
 import { get_articleEpic, del_articleEpic } from "./article";
-
+import { get_tag_all } from "./tag";
+import { get_category_all } from "./category";
 export const rootEpics = (action$, store$, dependencies) =>
-  combineEpics(userEpic, get_articleEpic, del_articleEpic)(
-    action$,
-    store$,
-    dependencies
-  ).pipe(
+  combineEpics(
+    userEpic,
+    get_articleEpic,
+    del_articleEpic,
+    get_tag_all,
+    get_category_all
+  )(action$, store$, dependencies).pipe(
     catchError((err, source) => {
       console.log(err);
       return source;

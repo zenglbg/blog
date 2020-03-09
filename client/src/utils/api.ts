@@ -30,10 +30,12 @@ interface IParams {
 export class Api {
   private static api: Api;
   private url = "http://0.0.0.0:9998";
-  public get(url: string, params: IParams) {
-    const _params = Object.keys(params).reduce((acc, val) => {
-      return acc + `${val}=${params[val]}&`;
-    }, "");
+  public get(url: string, params?: IParams) {
+    const _params = params
+      ? Object.keys(params).reduce((acc, val) => {
+          return acc + `${val}=${params[val]}&`;
+        }, "")
+      : "";
     const _url = url.replace(/\?$/, "") + "?";
     return ajax({
       url: this.url + (_url + _params).replace(/\&$/, ""),

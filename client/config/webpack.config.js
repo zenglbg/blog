@@ -299,6 +299,10 @@ module.exports = function(webpackEnv) {
       alias: {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
+        "@": path.resolve(__dirname, "../src"),
+        "@actions": path.resolve(__dirname, "../src/redux/actions"),
+        "@reducer": path.resolve(__dirname, "../src/redux/reducer"),
+        "@epics": path.resolve(__dirname, "../src/redux/epics"),
         "react-native": "react-native-web",
         // Allows for better profiling with ReactDevTools
         ...(isEnvProductionProfile && {

@@ -16,7 +16,6 @@ import {
 import { getType } from "typesafe-actions";
 import { push } from "connected-react-router";
 import { Api } from "../../utils/api";
-import { connect } from "http2";
 
 export const userEpic1 = (action$: ActionsObservable<any>, state$) =>
   action$.pipe(

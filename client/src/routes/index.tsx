@@ -25,7 +25,6 @@ export const routes: Routes[] = [
     path: "/",
     exact: false,
     component: () => import("../container/App"),
-    // component: "../container/App",
     beforeEnter: (routeProps, extraProps) => {},
     routes: [
       {
@@ -33,7 +32,6 @@ export const routes: Routes[] = [
         path: "/web/index",
         exact: false,
         component: () => import("../components/web/index"),
-        // component: "../components/web/index",
         beforeEnter: (routeProps, extraProps) => {}
       },
       {
@@ -41,7 +39,6 @@ export const routes: Routes[] = [
         path: "/admin",
         exact: false,
         component: () => import("../components/admin"),
-        // component: "../components/admin",
         beforeEnter: (routeProps, extraProps) => {},
         routes: [
           {
@@ -49,7 +46,6 @@ export const routes: Routes[] = [
             path: "/admin/home",
             exact: true,
             component: () => import("../components/admin/home"),
-            // component: "../components/admin/home",
             beforeEnter: (routeProps, extraProps) => {}
           },
           {
@@ -57,7 +53,27 @@ export const routes: Routes[] = [
             path: "/admin/login",
             exact: true,
             component: () => import("../components/admin/login"),
-            // component: "../components/admin/login",
+            beforeEnter: (routeProps, extraProps) => {}
+          },
+          {
+            title: "文章",
+            path: "/admin/article",
+            exact: true,
+            component: () => import("../components/admin/article"),
+            beforeEnter: (routeProps, extraProps) => {}
+          },
+          {
+            title: "收藏",
+            path: "/admin/star",
+            exact: true,
+            component: () => import("../components/admin/star"),
+            beforeEnter: (routeProps, extraProps) => {}
+          },
+          {
+            title: "文章添加",
+            path: "/admin/article-add",
+            exact: true,
+            component: () => import("../components/admin/article-add"),
             beforeEnter: (routeProps, extraProps) => {}
           }
         ]
