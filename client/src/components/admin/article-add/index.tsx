@@ -1,10 +1,15 @@
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
 import "./index.less";
 import React, { Component } from "react";
 import { Form, Input, Button, Select, message } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { connect } from "react-redux";
+import { RouteComponentProps } from "react-router-dom";
+import { EditorState, convertToRaw, ContentState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+
 import AdminLayout from "../../common/adminLayout";
 import { Category, Tag, Article } from "@actions";
 import { IState } from "@reducer";
@@ -12,6 +17,7 @@ import { IState } from "@reducer";
 interface Props {
   get_category_all: Function;
   get_tag_all: Function;
+  getArticleItem: Function;
 }
 interface State {
   editorState: any;
@@ -19,42 +25,69 @@ interface State {
 
 type IProps = Props &
   FormComponentProps &
+  RouteComponentProps &
   Pick<IState, "tag"> &
   Pick<IState, "category">;
 export class ArticleAdd extends Component<IProps, State> {
   state = {
     id: "",
-    title: "",
-    author: "",
-    summary: "",
     category: "",
     tag: "",
-    editorState: null
+    editorState: EditorState.createEmpty()
   };
 
   public componentDidMount() {
-    const { get_category_all, get_tag_all } = this.props;
+    const { get_category_all, get_tag_all, getArticleItem } = this.props;
     get_category_all();
     get_tag_all();
-    console.log(this.props);
+    getArticleItem();
   }
-
   private onEditorStateChange = (editorState: any) => {
+    console.log(editorState);
     this.setState({
       editorState
     });
   };
 
-  render() {
+  public handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        const content = draftToHtml(
+          convertToRaw(this.state.editorState.getCurrentContent())
+        );
+        let params = {
+          ...values,
+          category: String(values.category),
+          tag: String(values.tag),
+          content
+        };
+        console.log(params);
+      }
+    });
+  };
+
+  public render() {
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 8 },
+        sm: { span: 5 },
+        xxl: { span: 2 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+        md: { span: 12 }
+      }
+    };
     const { editorState, id } = this.state;
     const { getFieldDecorator } = this.props.form;
     const txt = id ? "update" : "create";
-    console.log(txt);
     return (
       <div className="admin-article">
         <AdminLayout>
           <div className="admin-article">
-            <Form>
+            <Form onSubmit={this.handleSubmit} {...formItemLayout}>
               <Form.Item label="标题">
                 {getFieldDecorator("title", {
                   rules: [{ required: true, message: "请输入标题" }]
@@ -108,7 +141,8 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = {
   get_category_all: Category.instance.getCategoryAll,
-  get_tag_all: Tag.instance.getTagAll
+  get_tag_all: Tag.instance.getTagAll,
+  getArticleItem: Article.instance.getArticleItem
 };
 
 export default Form.create({ name: "article_add" })(

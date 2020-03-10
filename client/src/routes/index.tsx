@@ -5,9 +5,7 @@ import {
   RouteComponentProps,
   withRouter
 } from "react-router-dom";
-import Loadable from "react-loadable";
-
-interface IProps {}
+import { Loadable } from "../utils";
 
 export class Routes {
   public title: string;
@@ -19,61 +17,79 @@ export class Routes {
   public routes?: Array<Routes>;
 }
 
+const App = Loadable(() => import("../container/App"));
+const web_index = Loadable(() => import("../components/web"));
+const admin_index = Loadable(() => import("../components/admin"));
+const admin_home = Loadable(() => import("../components/admin/home"));
+const admin_login = Loadable(() => import("../components/admin/login"));
+const admin_article = Loadable(() => import("../components/admin/article"));
+const admin_star = Loadable(() => import("../components/admin/star"));
+const admin_articleAdd = Loadable(() =>
+  import("../components/admin/article-add")
+);
+
 export const routes: Routes[] = [
   {
     title: "根",
     path: "/",
     exact: false,
-    component: () => import("../container/App"),
+    component: App,
     beforeEnter: (routeProps, extraProps) => {},
     routes: [
       {
         title: "首页",
-        path: "/web/index",
+        path: "/web",
         exact: false,
-        component: () => import("../components/web/index"),
+        component: web_index,
         beforeEnter: (routeProps, extraProps) => {}
       },
       {
         title: "admin",
         path: "/admin",
         exact: false,
-        component: () => import("../components/admin"),
+        component: admin_index,
         beforeEnter: (routeProps, extraProps) => {},
         routes: [
           {
             title: "首页",
             path: "/admin/home",
             exact: true,
-            component: () => import("../components/admin/home"),
+            component: admin_home,
             beforeEnter: (routeProps, extraProps) => {}
           },
           {
             title: "登录",
             path: "/admin/login",
             exact: true,
-            component: () => import("../components/admin/login"),
+            component: admin_login,
             beforeEnter: (routeProps, extraProps) => {}
           },
           {
             title: "文章",
             path: "/admin/article",
             exact: true,
-            component: () => import("../components/admin/article"),
+            component: admin_article,
             beforeEnter: (routeProps, extraProps) => {}
           },
           {
             title: "收藏",
             path: "/admin/star",
             exact: true,
-            component: () => import("../components/admin/star"),
+            component: admin_star,
             beforeEnter: (routeProps, extraProps) => {}
           },
           {
             title: "文章添加",
-            path: "/admin/article-add",
+            path: "/admin/article-add/",
             exact: true,
-            component: () => import("../components/admin/article-add"),
+            component: admin_articleAdd,
+            beforeEnter: (routeProps, extraProps) => {}
+          },
+          {
+            title: "文章添加",
+            path: "/admin/article-edit/:id",
+            exact: true,
+            component: admin_articleAdd,
             beforeEnter: (routeProps, extraProps) => {}
           }
         ]
@@ -90,11 +106,9 @@ export const routes: Routes[] = [
 class LoadableView extends React.PureComponent<any> {
   public render() {
     const { component } = this.props;
-    const LoadableComponent = Loadable({
-      loader: component,
-      loading: () => <span>11111</span>
-    });
-    return <LoadableComponent {...this.props} />;
+    const LoadableComponent = component;
+
+    return <LoadableComponent {...this.props}></LoadableComponent>;
   }
 }
 
@@ -111,7 +125,10 @@ export default class RouteView extends React.PureComponent {
   }: Routes & RouteComponentProps) => {
     return (
       <>
-        <WithRouterLoadable {...props} component={component} />
+        <WithRouterLoadable
+          {...props}
+          component={component}
+        ></WithRouterLoadable>
         {routes ? this.routesRenderMsp(routes) : null}
       </>
     );

@@ -16,13 +16,9 @@ export class Article {
   public create_article_success: string = "CREATE_ARTICLE_SUCCESS";
   public create_article_error: string = "CREATE_ARTICLE_ERROR";
 
-  public get_category_all: string = "GET_CATEGORY_ALL";
-  public get_category_all_success: string = "GET_CATEGORY_ALL_SUCCESS";
-  public get_category_all_error: string = "GET_CATEGORY_ALL_ERROR";
-
-  public get_tag_all: string = "GET_TAG_ALL";
-  public get_tag_all_success: string = "GET_TAG_ALL_SUCCESS";
-  public get_tag_all_error: string = "GET_TAG_ALL_ERROR";
+  public get_article_item = "GET_ARTICLE_ITEM";
+  public get_article_item_success = "GET_ARTICLE_ITEM_SUCCESS";
+  public get_article_item_error = "GET_ARTICLE_ITEM_ERROR";
 
   public static article: Article;
 
@@ -73,17 +69,16 @@ export class Article {
     article => article
   )();
 
-  public getCategoryAll = createAction(this.get_category_all)();
-  public getCategoryAllSuccess = createAction(
-    this.get_category_all_success,
-    category_list_all => category_list_all
+  public getArticleItem = createAction(
+    this.get_article_item,
+    (params?: any) => params
   )();
-  public getCategoryAllError = createAction(this.get_category_all_error)();
-
-  public getTagAll = createAction(this.get_tag_all)();
-  public getTagAllSuccess = createAction(
-    this.get_tag_all_success,
-    tag_list_all => tag_list_all
+  public getArticleItemSuccess = createAction(
+    this.get_article_item_success,
+    articleItem => articleItem
   )();
-  public getTagAllError = createAction(this.get_tag_all_error)();
+  public getArticleItemError = createAction(
+    this.get_article_item_error,
+    err => err
+  )();
 }

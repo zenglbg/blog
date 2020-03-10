@@ -67,15 +67,20 @@ export default class {
     const { id } = ctx.query;
 
     const data = await Article.findOne({ id });
-    const _data = {
-      ...data,
-      tag: data.tag.split(","),
-      category: data.category.split(",")
-    };
-    console.log(data, _data);
+    if (data) {
+      const _data = {
+        ...data,
+        tag: data.tag.split(","),
+        category: data.category.split(",")
+      };
+      return {
+        code: 1000,
+        data: _data
+      };
+    }
     return {
-      code: 1000,
-      data: _data
+      code: 1003,
+      msg: "分类不存在"
     };
   }
 

@@ -1,7 +1,15 @@
 import { ofType, Epic, ActionsObservable } from "redux-observable";
-import { getType } from "typesafe-actions";
-import { from, throwError } from "rxjs";
-import { map, switchMap, catchError } from "rxjs/operators";
+import { getType, action } from "typesafe-actions";
+import { from, throwError, of } from "rxjs";
+import {
+  map,
+  switchMap,
+  catchError,
+  mapTo,
+  distinctUntilChanged,
+  combineLatest
+} from "rxjs/operators";
+import { IState } from "@reducer";
 import { Article } from "../actions";
 import { Api } from "../../utils/api";
 
@@ -55,3 +63,36 @@ export const create_articleEpic = (action$: ActionsObservable<any>) =>
       );
     })
   );
+
+export const get_articleItem = (action$: ActionsObservable<any>, state$) => {
+  const params$ = state$.pipe(
+    map(({ article }: IState) => {
+      const { article_item } = article;
+      return {
+        id: 1
+      };
+    }),
+    distinctUntilChanged()
+  );
+
+  return action$.pipe(
+    ofType(getType(Article.instance.getArticleItem)),
+    combineLatest(params$, (action, params) => params),
+    switchMap(({ params }) => {
+      if (params && params.id) {
+        return Api.instance.get("/api/article/item", { id: params.id }).pipe(
+          map((res: any) => {
+            if (res.response.code === 1000) {
+              return Article.instance.getArticleItemSuccess({
+                article_item: res.response.data
+              });
+            }
+            return Article.instance.getArticleItemError(res.response.msg);
+          })
+        );
+      } else {
+        return of(Article.instance.getArticleItemError(""));
+      }
+    })
+  );
+};
