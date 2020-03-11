@@ -12,7 +12,7 @@ import { rootEpics } from "./epics";
 
 const epicMiddleware = createEpicMiddleware();
 const logger = createLogger({ collapsed: true }); // log every action to see what's happening behind the scenes.
-export const history = createBrowserHistory();
+const history = createBrowserHistory();
 const persistConfig = {
   key: "root",
   storage
@@ -20,15 +20,16 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer(history));
 
 const middlewares = [logger, epicMiddleware, routerMiddleware(history)];
+const initialState = {};
 
-export default function initStore(initialState = {}) {
-  const store = createStore(
-    persistedReducer,
-    initialState,
-    composeWithDevTools(applyMiddleware(...middlewares))
-  );
-  let persistor = persistStore(store);
+const store = createStore(
+  persistedReducer,
+  // rootReducer(history),
+  initialState,
+  composeWithDevTools(applyMiddleware(...middlewares))
+);
+let persistor = persistStore(store);
 
-  epicMiddleware.run(rootEpics);
-  return { store, persistor };
-}
+epicMiddleware.run(rootEpics);
+export { store as default, history, persistor };
+// return { store, persistor };

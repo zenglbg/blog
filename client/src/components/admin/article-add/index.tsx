@@ -18,6 +18,7 @@ interface Props {
   get_category_all: Function;
   get_tag_all: Function;
   getArticleItem: Function;
+  createArticle: Function;
 }
 interface State {
   editorState: any;
@@ -27,6 +28,7 @@ type IProps = Props &
   FormComponentProps &
   RouteComponentProps &
   Pick<IState, "tag"> &
+  Pick<IState, "article"> &
   Pick<IState, "category">;
 export class ArticleAdd extends Component<IProps, State> {
   state = {
@@ -51,6 +53,7 @@ export class ArticleAdd extends Component<IProps, State> {
 
   public handleSubmit = e => {
     e.preventDefault();
+    const { article_item } = this.props.article;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const content = draftToHtml(
@@ -62,6 +65,10 @@ export class ArticleAdd extends Component<IProps, State> {
           tag: String(values.tag),
           content
         };
+        if (article_item && article_item.id) {
+        } else {
+          this.props.createArticle(params);
+        }
         console.log(params);
       }
     });
@@ -137,12 +144,21 @@ export class ArticleAdd extends Component<IProps, State> {
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = ({ tag, category, article }) => ({
+  tag,
+  category,
+  article
+});
 
 const mapDispatchToProps = {
   get_category_all: Category.instance.getCategoryAll,
   get_tag_all: Tag.instance.getTagAll,
+  createArticle: Article.instance.createArticle,
   getArticleItem: Article.instance.getArticleItem
+  // getArticleItem: (payload: any) => ({
+  //   type: "GET_ARTICLE_ITEM",
+  //   payload: payload
+  // })
 };
 
 export default Form.create({ name: "article_add" })(

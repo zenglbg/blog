@@ -5,12 +5,12 @@ import { ConnectedRouter } from "connected-react-router";
 import { PersistGate } from "redux-persist/integration/react";
 
 import RouteView from "./routes";
-import store, { history } from "./redux";
+import store, { history, persistor } from "./redux";
 import "./index.less";
 
 ReactDOM.render(
-  <Provider store={store().store}>
-    <PersistGate loading={null} persistor={store().persistor}>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <ConnectedRouter history={history}>
         <RouteView />
       </ConnectedRouter>

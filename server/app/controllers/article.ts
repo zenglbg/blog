@@ -3,25 +3,17 @@ import { Ctx, Param, Get, Post, JsonController } from "routing-controllers";
 // import crypto from "crypto";
 import { Context } from "koa";
 import { getRepository } from "typeorm";
-
-import { Container } from "typedi";
+import { Service, Inject } from "typedi";
 import Query from "../service/query";
-const query = Container.get(Query);
-
+@Service()
 @JsonController("/api")
 export default class {
+  constructor(private query: Query) {
+    this.query = new Query();
+  }
+
   @Get("/article/list")
   async list(@Ctx() ctx: Context) {
-    // const article = new Article();
-    // const i = 123;
-    // article.title = "blog 迁移到 http://xiangxi.red/doc" + i;
-    // article.readedCount = 45 + i;
-    // article.author = "gong" + i;
-    // article.summary = "迁移" + i;
-    // article.category = "前端" + i;
-    // article.tag = "JS" + i;
-    // article.content = `<p><a href="http://xiangxi.red/doc" target="_self">doc</a>&nbsp;</p>↵`;
-    // await article.save();
     console.log(` 被请求了文章列表`);
 
     const { title = "blog", pageNo = 1, pageSize = 5 } = ctx.query;
@@ -110,7 +102,7 @@ export default class {
         msg: "分类不能为空"
       };
     }
-    return query.create(Article, { title }, { title });
+    return this.query.create(Article, { title }, params);
   }
 
   @Post("/article/update")
@@ -135,6 +127,6 @@ export default class {
 
   @Post("/article/destroy")
   public async destroy(@Ctx() ctx: Context) {
-    return query.destroy(ctx, Article);
+    return this.query.destroy(ctx, Article);
   }
 }

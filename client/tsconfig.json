@@ -19,7 +19,9 @@
       "@actions": ["./src/redux/actions"],
       "@reducer": ["./src/redux/reducer"],
       "@epics": ["./src/redux/epics"]
-    }
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]

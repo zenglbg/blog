@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Table, Form, Input, Button, Tag } from "antd";
 import { FormComponentProps } from "antd/lib/form";
-import { IState } from "../../../redux/reducer";
-import AdminLayout from "../../common/adminLayout";
 import { color } from "../../../utils";
-import { Article } from "../../../redux/actions";
+import { IState } from "@reducer";
+import { Article } from "@actions";
 
+import AdminLayout from "../../common/adminLayout";
 interface Props {
   getArticleList: (obj: any) => void;
   delArticle: Function;
@@ -157,9 +158,9 @@ export class Article_doc extends Component<IProps> {
               >
                 search
               </Button>
-              <a href="/admin/article-add">
+              <Link to="/admin/article-add">
                 <Button type="primary">create</Button>
-              </a>
+              </Link>
             </Form.Item>
           </Form>
           <Table

@@ -24,7 +24,8 @@ export class Article extends Base {
 
   @Column({
     type: "varchar",
-    length: 20
+    length: 20,
+    default: "zenglbg"
   })
   author: string;
 

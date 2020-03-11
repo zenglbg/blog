@@ -53,6 +53,7 @@ export default class Query {
   }
 
   public async create(Entity, query, save) {
+    console.log(3333, Entity, query, save);
     try {
       const category = await Entity.findOne(query);
       if (category) {
