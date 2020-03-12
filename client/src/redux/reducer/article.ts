@@ -37,8 +37,10 @@ export default function articleReducer(
         list_loading: action.payload.list_loading
       };
     case getType(Article.instance.getArticleItemSuccess):
+      const { article_item } = action.payload;
       return {
-        ...state
+        ...state,
+        article_item
       };
     default:
       return state;

@@ -46,7 +46,7 @@ export class Article {
     (list_loading: boolean = false) => ({ list_loading })
   )();
 
-  public delArticle = createAction(this.del_article, article => article)();
+  public delArticle = createAction(this.del_article, id => id)();
   public delArticleSuccess = createAction(
     this.del_article_success,
     article => article

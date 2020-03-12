@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Table, Form, Input, Button, Tag } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { color } from "../../../utils";
@@ -14,7 +14,10 @@ interface Props {
   getArticleStatus: Function;
 }
 type ArticleState = Pick<IState, "article">;
-export type IProps = Props & ArticleState & FormComponentProps;
+export type IProps = Props &
+  ArticleState &
+  FormComponentProps &
+  RouteComponentProps;
 
 export class Article_doc extends Component<IProps> {
   state: {
@@ -25,7 +28,7 @@ export class Article_doc extends Component<IProps> {
     columns: Array<any>;
   } = {
     loading: false,
-    title: "blog",
+    title: "",
     pageNo: 1,
     pageSize: 10,
     columns: [
@@ -109,7 +112,7 @@ export class Article_doc extends Component<IProps> {
   };
 
   private handleEdit = (id: number) => {
-    console.log(id);
+    this.props.history.push("/admin/article-add", { id });
   };
 
   private handleDelete = (id: number) => {
@@ -125,37 +128,42 @@ export class Article_doc extends Component<IProps> {
     });
   }
 
-  private search = () => {
-    const { title, pageNo, pageSize } = this.state;
+  private handleSubmit = e => {
+    e.preventDefault();
+    const { pageNo, pageSize } = this.state;
     const { getArticleList, getArticleStatus } = this.props;
-    getArticleStatus(true);
-    getArticleList({
-      title,
-      pageNo,
-      pageSize
+    this.props.form.validateFields(async (err, values) => {
+      if (!err) {
+        const { title = "" } = values;
+        await this.setState({
+          pageNo: 1,
+          title
+        });
+        getArticleStatus(true);
+        getArticleList({
+          title,
+          pageNo,
+          pageSize
+        });
+      }
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
     const { article_list, list_loading } = this.props.article;
-    const { columns, title } = this.state;
+    const { columns } = this.state;
     return (
       <div id="article">
         <AdminLayout>
-          <Form layout="inline">
+          <Form layout="inline" onSubmit={this.handleSubmit}>
             <Form.Item>
-              {getFieldDecorator("title", {
-                rules: [{ required: true, message: "请输入标题" }]
-              })(<Input placeholder="请输入标题" allowClear={true} />)}
+              {getFieldDecorator("title")(
+                <Input placeholder="请输入标题" allowClear={true} />
+              )}
             </Form.Item>
             <Form.Item>
-              <Button
-                className="mr10"
-                type="primary"
-                htmlType="submit"
-                onClick={this.search}
-              >
+              <Button className="mr10" type="primary" htmlType="submit">
                 search
               </Button>
               <Link to="/admin/article-add">

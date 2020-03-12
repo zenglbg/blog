@@ -1,4 +1,4 @@
-import { Article } from "../model/entity/article";
+import { Tag, Category, Article } from "../model/entity";
 import { Ctx, Param, Get, Post, JsonController } from "routing-controllers";
 // import crypto from "crypto";
 import { Context } from "koa";
@@ -95,13 +95,15 @@ export default class {
   @Post("/article/create")
   async create(@Ctx() ctx: Context) {
     const params = (ctx.request as any).body;
-    const { title } = params;
+    const { title, category, tag } = params;
     if (!title) {
       return {
         code: 1003,
         msg: "分类不能为空"
       };
     }
+    // this.query.create(Tag, { name: tag }, { name: tag });
+    // this.query.create(Category, { name: category }, { name: category });
     return this.query.create(Article, { title }, params);
   }
 

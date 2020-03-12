@@ -66,52 +66,32 @@ export const create_articleEpic = (action$: ActionsObservable<any>) =>
     })
   );
 
-export const get_articleItem = (action$: ActionsObservable<any>) =>
-  action$.pipe(
+export const get_articleItem = (action$: ActionsObservable<any>, state$) => {
+  const params$ = state$.pipe(
+    map(({ router }: IState) => {
+      return router.location.state;
+    }),
+    distinctUntilChanged()
+  );
+
+  return action$.pipe(
     ofType(getType(Article.instance.getArticleItem)),
-    switchMap(() => {
-      return ajax.getJSON("https://api.github.com/users/soraping").pipe(
-        map(res => ({
-          type: "hello",
-          payload: res
-        })),
-        catchError(err => throwError(err))
-      );
+    combineLatest(params$, (action, params) => params),
+    switchMap((params: any) => {
+      if (params) {
+        return Api.instance.get("/api/article/item", params).pipe(
+          map((res: any) => {
+            if (res.response.code === 1000) {
+              return Article.instance.getArticleItemSuccess({
+                article_item: res.response.data
+              });
+            }
+            return Article.instance.getArticleItemError(res.response.msg);
+          })
+        );
+      } else {
+        return of(Article.instance.getArticleItemError(""));
+      }
     })
   );
-// export const get_articleItem = (action$: ActionsObservable<any>, state$) => {
-//   const params$ = state$.pipe(
-//     map(({ article }: IState) => {
-//       const { article_item } = article;
-//       return {
-//         id: 1
-//       };
-//     }),
-//     distinctUntilChanged()
-//   );
-
-//   return action$.pipe(
-//     ofType(getType(Article.instance.getArticleItem)),
-
-//     combineLatest(params$, (action, params) => {
-//       console.log("我执行了一次");
-//       return params;
-//     }),
-//     switchMap(({ params }) => {
-//       if (params && params.id) {
-//         return Api.instance.get("/api/article/item", { id: params.id }).pipe(
-//           map((res: any) => {
-//             if (res.response.code === 1000) {
-//               return Article.instance.getArticleItemSuccess({
-//                 article_item: res.response.data
-//               });
-//             }
-//             return Article.instance.getArticleItemError(res.response.msg);
-//           })
-//         );
-//       } else {
-//         return of(Article.instance.getArticleItemError(""));
-//       }
-//     })
-//   );
-// };
+};
