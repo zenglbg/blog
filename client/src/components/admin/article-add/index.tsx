@@ -1,21 +1,32 @@
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
 import "./index.less";
+
 import React, { Component, SyntheticEvent } from "react";
-import { Form } from "antd";
+import { Form, Input, Button, Select, message } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { EditorState, convertToRaw, ContentState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
+import { Editor } from "react-draft-wysiwyg";
 
 import AdminLayout from "../../common/adminLayout";
 import { Category, Tag, Article } from "@actions";
 import { IState } from "@reducer";
 
-import SForm from "./child/Form";
-
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 8 },
+    sm: { span: 5 },
+    xxl: { span: 2 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+    md: { span: 12 }
+  }
+};
 interface Props {
   get_category_all: Function;
   get_tag_all: Function;
@@ -34,6 +45,8 @@ type IProps = Props &
   Pick<IState, "article"> &
   Pick<IState, "category">;
 export class ArticleAdd extends Component<IProps, State> {
+  private formItemLayout = formItemLayout;
+
   state = {
     editorState: EditorState.createEmpty()
   };
@@ -44,13 +57,13 @@ export class ArticleAdd extends Component<IProps, State> {
     get_tag_all();
     getArticleItem();
   }
-  public shouldComponentUpdate(np, ns) {
-    if (this.props.article.article_item === np.article.article_item) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // public shouldComponentUpdate(np, ns) {
+  //   if (this.props.article.article_item === np.article.article_item) {
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
   public componentWillUnmount() {
     this.props.getArticleItemSuccess({
       article_item: null
@@ -58,22 +71,9 @@ export class ArticleAdd extends Component<IProps, State> {
   }
 
   private onEditorStateChange = (editorState: any) => {
-    console.log(33333, editorState);
     this.setState({
       editorState
     });
-  };
-
-  private getDetail = (article_item: any, content: any) => {
-    if (article_item) {
-      const contentBlock = htmlToDraft(article_item.content);
-      const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks
-      );
-      return EditorState.createWithContent(contentState);
-    } else {
-      return content;
-    }
   };
 
   public handleSubmit = (e: SyntheticEvent) => {
@@ -100,41 +100,73 @@ export class ArticleAdd extends Component<IProps, State> {
 
   public render() {
     const { editorState } = this.state;
+    const { getFieldDecorator } = this.props.form;
     const { article_item } = this.props.article;
     const { category_list_all = [] } = this.props.category;
     const { tag_list_all = [] } = this.props.tag;
-    const _article_item = article_item
-      ? article_item
-      : {
-          title: "",
-          summary: "",
-          author: "zenglbg",
-          content: editorState,
-          category: category_list_all,
-          tag: tag_list_all
-        };
+
     const txt = article_item ? "update" : "create";
+    const categoryOption =
+      category_list_all &&
+      category_list_all.map((item: any, index) => (
+        <Select.Option value={item.name} key={index}>
+          {item.name}
+        </Select.Option>
+      ));
+    const tagOption =
+      tag_list_all &&
+      tag_list_all.map((item: any, index) => (
+        <Select.Option value={item.name} key={index}>
+          {item.name}
+        </Select.Option>
+      ));
     return (
       <div className="admin-article">
         <AdminLayout>
           <div className="admin-article">
-            {article_item ? (
-              <SForm
-                {..._article_item}
-                content={this.getDetail(article_item, editorState)}
-                onEditorStateChange={this.onEditorStateChange}
-                handleSubmit={this.handleSubmit}
-                txt={txt}
-              />
-            ) : (
-              <SForm
-                {..._article_item}
-                content={this.getDetail(article_item, editorState)}
-                onEditorStateChange={this.onEditorStateChange}
-                handleSubmit={this.handleSubmit}
-                txt={txt}
-              />
-            )}
+            <Form onSubmit={this.handleSubmit} {...this.formItemLayout}>
+              <Form.Item label="标题">
+                {getFieldDecorator("title", {
+                  rules: [{ required: true, message: "请输入标题" }]
+                })(<Input placeholder="请输入标题" />)}
+              </Form.Item>
+              <Form.Item label="作者">
+                {getFieldDecorator("author", {
+                  rules: [{ required: true, message: "请输入作者" }]
+                })(<Input placeholder="请输入作者" />)}
+              </Form.Item>
+              <Form.Item label="摘要">
+                {getFieldDecorator("summary", {
+                  rules: [{ required: true, message: "请输入摘要" }]
+                })(<Input placeholder="请输入摘要" />)}
+              </Form.Item>
+              <Form.Item label="分类">
+                {getFieldDecorator("category", {
+                  rules: [{ required: true, message: "请输入分类" }]
+                })(<Select>{categoryOption}</Select>)}
+              </Form.Item>
+              <Form.Item label="标签">
+                {getFieldDecorator("tag", {
+                  rules: [{ required: true, message: "请输入标签" }]
+                })(<Select>{tagOption}</Select>)}
+              </Form.Item>
+              <Form.Item label="内容">
+                <Editor
+                  editorState={editorState}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onEditorStateChange={this.onEditorStateChange}
+                />
+              </Form.Item>
+              <Form.Item wrapperCol={{ span: 24 }}>
+                <div className="article-button">
+                  <Button type="primary" htmlType="submit">
+                    {txt}
+                  </Button>
+                </div>
+              </Form.Item>
+            </Form>
           </div>
         </AdminLayout>
       </div>
