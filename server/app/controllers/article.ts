@@ -49,16 +49,16 @@ export default class {
   }
 
   @Get("/article/list/all")
-  async listAll(@Ctx() ctx: Context) {
-    const listAll = await Article.createQueryBuilder("article")
-      .orderBy("createdAt", "DESC")
-      .getMany();
+  public async listAll() {
+    const data: any = await this.query.listAll(Article);
 
-    return {
-      code: 1000,
-      data: listAll,
-      msg: "success"
-    };
+    if (data.code === 1000) {
+      data.data.forEach(function(v: any) {
+        v.tag = v.tag.split(",");
+        v.category = v.category.split(",");
+      });
+    }
+    return data;
   }
 
   @Get("/article/item")

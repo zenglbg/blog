@@ -12,8 +12,31 @@ import {
 } from "rxjs/operators";
 import moment from "moment";
 import { IState } from "@reducer";
-import { Article } from "../actions";
+import { Article } from "@actions";
 import { Api } from "../../utils/api";
+
+export const get_article_all = (action$: ActionsObservable<any>) =>
+  action$.pipe(
+    ofType(getType(Article.instance.getArticleListAll)),
+    switchMap(() =>
+      Api.instance.get("/api/article/list/all").pipe(
+        map(res => {
+          if (res.response.code === 1000) {
+            const data = res.response.data.map((item: any) => {
+              console.log(item);
+              return {
+                ...item,
+                createdAt: moment(item.createdAt).format("YYYY-MM-DD, h:mm:ss"),
+                updatedAt: moment(item.updatedAt).format("YYYY-MM-DD, h:mm:ss")
+              };
+            });
+            return Article.instance.getArticleSuccess(data);
+          }
+          return Article.instance.getArticleError(res.response.msg);
+        })
+      )
+    )
+  );
 
 export const get_articleEpic = (action$: ActionsObservable<any>) =>
   action$.pipe(
@@ -30,10 +53,11 @@ export const get_articleEpic = (action$: ActionsObservable<any>) =>
               };
             });
             return Article.instance.getArticleSuccess(data);
+          } else {
+            Article.instance.getArticleError(res.response.msg);
           }
         }),
         catchError(err => {
-          Article.instance.getArticleError("发生了错误");
           return throwError(err);
         })
       );

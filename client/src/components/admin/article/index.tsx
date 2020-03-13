@@ -9,6 +9,7 @@ import { Article } from "@actions";
 
 import AdminLayout from "../../common/adminLayout";
 interface Props {
+  getArticleListAll: Function;
   getArticleList: (obj: any) => void;
   delArticle: Function;
   getArticleStatus: Function;
@@ -54,15 +55,19 @@ export class Article_doc extends Component<IProps> {
         title: "分类",
         dataIndex: "category",
         key: "category",
-        render: category =>
-          category.map((v, index) => (
-            <Tag
-              key={index}
-              color={color[Math.floor(Math.random() * color.length)]}
-            >
-              {v}
-            </Tag>
-          ))
+        render: category => {
+          console.log(category);
+          return <div>category</div>;
+        }
+        //   category &&
+        //   category.map((v, index) => (
+        //     <Tag
+        //       key={index}
+        //       color={color[Math.floor(Math.random() * color.length)]}
+        //     >
+        //       {v}
+        //     </Tag>
+        //   ))
       },
       {
         title: "访问次数",
@@ -121,11 +126,12 @@ export class Article_doc extends Component<IProps> {
 
   public componentDidMount() {
     const { title, pageNo, pageSize } = this.state;
-    this.props.getArticleList({
-      title,
-      pageNo,
-      pageSize
-    });
+    this.props.getArticleListAll();
+    // this.props.getArticleList({
+    //   title,
+    //   pageNo,
+    //   pageSize
+    // });
   }
 
   private handleSubmit = e => {
@@ -190,6 +196,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  getArticleListAll: Article.instance.getArticleListAll,
   getArticleList: Article.instance.getArticleList,
   delArticle: Article.instance.delArticle,
   getArticleStatus: Article.instance.getArticleStatus

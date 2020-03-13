@@ -4,6 +4,7 @@ export type ArticleType = ActionType<typeof Article.instance>;
 
 export class Article {
   public get_article_list: string = "GET_ARTICLE_LIST";
+  public get_article_list_all: string = "GET_ARTICLE_LIST_ALL";
   public get_article_success: string = "GET_ARTICLE_SUCCESS";
   public get_article_error: string = "GET_ARTICLE_ERROR";
   public get_article_status: string = "GET_ARTICLE_STATUS";
@@ -33,6 +34,7 @@ export class Article {
     this.get_article_list,
     (article?: any) => article
   )();
+  public getArticleListAll = createAction(this.get_article_list_all)();
   public getArticleSuccess = createAction(
     this.get_article_success,
     article => article

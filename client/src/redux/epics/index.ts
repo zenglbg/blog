@@ -2,6 +2,7 @@ import { combineEpics } from "redux-observable";
 import { catchError } from "rxjs/operators";
 import { userEpic } from "./user";
 import {
+  get_article_all,
   get_articleEpic,
   del_articleEpic,
   create_articleEpic,
@@ -19,6 +20,8 @@ import {
 export const rootEpics = (action$, store$, dependencies) =>
   combineEpics(
     userEpic,
+
+    get_article_all,
     get_articleEpic,
     del_articleEpic,
     create_articleEpic,
