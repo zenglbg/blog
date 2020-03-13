@@ -1,25 +1,35 @@
 import { Tag } from "../model/entity/tag";
-import { Ctx, Param, Get, Post, JsonController } from "routing-controllers";
+import {
+  Ctx,
+  Param,
+  Get,
+  Post,
+  JsonController,
+  Body
+} from "routing-controllers";
 import { Context } from "koa";
 // import crypto from "crypto";
-import { getRepository } from "typeorm";
-import { Container, Inject, Service } from "typedi";
+import { Container, Service } from "typedi";
 import Query from "../service/query";
 const query = Container.get(Query);
-
+@Service()
 @JsonController("/api")
 export default class {
+  constructor(private query: Query) {
+    this.query = new Query();
+  }
+
   @Get("/tag/list")
   async list(@Ctx() ctx: Context) {
     const { name, pageNo, pageSize } = ctx.query;
     const where = `entity.name like :name`;
     const params = { name: `%${name}%` };
-    return query.list(Tag, where, params, pageNo, pageSize);
+    return this.query.list(Tag, where, params, pageNo, pageSize);
   }
 
   @Get("/tag/list/all")
   public async listAll(@Ctx() ctx: Context) {
-    return query.listAll(Tag);
+    return this.query.listAll(Tag);
   }
 
   @Post("/tag/create")
@@ -31,11 +41,11 @@ export default class {
         msg: "分类不能为空"
       };
     }
-    return query.create(Tag, { name: params.name }, params);
+    return this.query.create(Tag, { name: params.name }, params);
   }
 
   @Post("/tag/destroy")
-  public async destroy(@Ctx() ctx: Context) {
-    return query.destroy(ctx, Tag);
+  public async destroy(@Body() id: { id: number }) {
+    return this.query.destroy(id, Tag);
   }
 }

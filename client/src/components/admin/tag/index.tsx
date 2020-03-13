@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, ChangeEvent, SyntheticEvent } from "react";
 import { connect } from "react-redux";
-import { Link, RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Table, Modal, Form, Input, Button, Tag } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { color } from "../../../utils";
@@ -10,7 +10,10 @@ import { Tags } from "@actions";
 import AdminLayout from "../../common/adminLayout";
 
 interface Props {
-  getTagAll: Function;
+  getTag: Function;
+  get_tag_all: Function;
+  createTag: Function;
+  delTag: Function;
 }
 
 export type IProps = Props &
@@ -18,13 +21,16 @@ export type IProps = Props &
   FormComponentProps &
   RouteComponentProps;
 
-@(Form.create({ name: "tag" }) as any)
+@(Form.create({ name: "categoy" }) as any)
 @(connect(
-  (state: IState) => ({
-    tag: state.tag
+  ({ tag }: IState) => ({
+    tag
   }),
   {
-    getTagAll: Tags.instance.getTagAll
+    getTag: Tags.instance.getTag,
+    get_tag_all: Tags.instance.getTagAll,
+    createTag: Tags.instance.createTag,
+    delTag: Tags.instance.delTag
   }
 ) as any)
 export default class Article_doc extends Component<IProps> {
@@ -37,7 +43,7 @@ export default class Article_doc extends Component<IProps> {
       align: "center"
     },
     {
-      title: "标签",
+      title: "分类",
       dataIndex: "name",
       render: name => (
         <Tag color={color[Math.floor(Math.random() * color.length)]}>
@@ -56,37 +62,83 @@ export default class Article_doc extends Component<IProps> {
       align: "center",
       render: record => (
         <span>
-          <Button ghost type="danger" onClick={this.handleClick}>
+          <Button
+            ghost
+            type="danger"
+            onClick={this.handleClick.bind(this, record)}
+          >
             delete
           </Button>
         </span>
       )
     }
   ];
+
   state = {
     visible: false,
-    tag: null
+    category: ""
   };
+
   public componentDidMount() {
-    this.props.getTagAll();
+    this.props.get_tag_all();
   }
-  private handleOk = () => {};
+
+  public componentWillReceiveProps(np) {
+    if (this.props.tag !== np.tag) {
+      this.setState({ visible: false });
+    }
+  }
+
+  // 创建标签
+  private handleOk = () =>
+    this.state.category && this.props.createTag({ name: this.state.category });
 
   private handleCancel = () =>
     this.setState({
       visible: false
     });
 
-  private handleChange = () => {};
+  private handleChange = (e: ChangeEvent<any>) => {
+    this.setState({
+      category: e.target.value
+    });
+  };
 
-  private handleSubmit = () => {};
+  private handleSubmit = (e: SyntheticEvent) => {
+    /**
+     * 搜索分类
+     * @params {
+     *    name: string,
+     *    pageNo: number,
+     *    pageSize: number
+     *   }
+     */
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      console.log(values);
 
-  private handleClick = () => {};
+      if (!err) {
+        const { name = "" } = values;
+        this.props.getTag({
+          name,
+          pageNo: 1,
+          pageSize: 10
+        });
+      }
+    });
+  };
+
+  /**
+   * 点击删除
+   */
+  private handleClick(record) {
+    this.props.delTag({ id: record.id });
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
     const { tag_list_all } = this.props.tag;
-    const { visible, tag } = this.state;
+    const { visible, category } = this.state;
     return (
       <div id="article">
         <AdminLayout>
@@ -98,7 +150,7 @@ export default class Article_doc extends Component<IProps> {
           >
             <Input
               placeholder="请输入标签"
-              value={tag}
+              value={category}
               onChange={this.handleChange}
             ></Input>
           </Modal>

@@ -158,7 +158,7 @@ export default class Article_doc extends Component<IProps> {
           <Form layout="inline" onSubmit={this.handleSubmit}>
             <Form.Item>
               {getFieldDecorator("name")(
-                <Input placeholder="请输入标签" allowClear={true}></Input>
+                <Input placeholder="请输入分类" allowClear={true}></Input>
               )}
             </Form.Item>
             <Form.Item>
