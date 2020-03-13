@@ -115,12 +115,11 @@ export default class {
   }
 
   @Post("/article/update")
-  public async update(@Ctx() ctx: Context) {
-    const params = (ctx.request as any).body;
-    const { id } = params;
-    delete params.id;
+  public async update(@Body() body: any) {
+    const { id } = body;
+    delete body.id;
     try {
-      await Article.update({ id }, params);
+      await Article.update({ id }, body);
       return {
         code: 1000,
         msg: "修改成功"

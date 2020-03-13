@@ -13,6 +13,7 @@ export class Article {
   public del_article_success: string = "DEL_ARTICLE_SUCCESS";
   public del_article_error: string = "DEL_ARTICLE_ERROR";
 
+  public update_article: string = "UPDATE_ARTICLE";
   public create_article: string = "CREATE_ARTICLE";
   public create_article_success: string = "CREATE_ARTICLE_SUCCESS";
   public create_article_error: string = "CREATE_ARTICLE_ERROR";
@@ -58,6 +59,10 @@ export class Article {
     article => article
   )();
 
+  public updateArticle = createAction(
+    this.update_article,
+    (article: { id: number; title: string }) => article
+  )();
   public createArticle = createAction(
     this.create_article,
     (article: { title: string }) => article

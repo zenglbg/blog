@@ -6,6 +6,7 @@ import {
   get_articleEpic,
   del_articleEpic,
   create_articleEpic,
+  upadte_articleEpic,
   get_articleItem
 } from "./article";
 import { get_tag_all, get_tag, createTag, del_tag } from "./tag";
@@ -25,6 +26,7 @@ export const rootEpics = (action$, store$, dependencies) =>
     get_articleEpic,
     del_articleEpic,
     create_articleEpic,
+    upadte_articleEpic,
     get_articleItem,
 
     get_tag_all,

@@ -1,6 +1,7 @@
 import { ofType, Epic, ActionsObservable } from "redux-observable";
 import { getType, action } from "typesafe-actions";
-import { from, throwError, of } from "rxjs";
+import { push } from "connected-react-router";
+import { throwError, of, concat } from "rxjs";
 import {
   map,
   switchMap,
@@ -8,12 +9,15 @@ import {
   mapTo,
   distinctUntilChanged,
   combineLatest,
-  takeLast
+  takeLast,
+  mergeMap,
+  concatAll
 } from "rxjs/operators";
 import moment from "moment";
 import { IState } from "@reducer";
 import { Article } from "@actions";
 import { Api } from "../../utils/api";
+import { connect } from "http2";
 
 export const get_article_all = (action$: ActionsObservable<any>) =>
   action$.pipe(
@@ -97,6 +101,28 @@ export const create_articleEpic = (action$: ActionsObservable<any>) =>
         })
       );
     })
+  );
+export const upadte_articleEpic = (action$: ActionsObservable<any>) =>
+  action$.pipe(
+    ofType(getType(Article.instance.updateArticle)),
+    switchMap(({ payload }) => {
+      return Api.instance.post("/api/article/update", payload).pipe(
+        catchError(err => {
+          return throwError(err);
+        })
+      );
+    }),
+    map(res => {
+      if (res.response.code === 1000) {
+        return concat(
+          of(Article.instance.createArticleSuccess(res)),
+          of(push("/admin/article"))
+        );
+      } else {
+        return of(Article.instance.createArticleError(res.response.msg));
+      }
+    }),
+    concatAll()
   );
 
 export const get_articleItem = (action$: ActionsObservable<any>, state$) => {

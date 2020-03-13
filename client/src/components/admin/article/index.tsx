@@ -55,19 +55,15 @@ export class Article_doc extends Component<IProps> {
         title: "分类",
         dataIndex: "category",
         key: "category",
-        render: category => {
-          console.log(category);
-          return <div>category</div>;
-        }
-        //   category &&
-        //   category.map((v, index) => (
-        //     <Tag
-        //       key={index}
-        //       color={color[Math.floor(Math.random() * color.length)]}
-        //     >
-        //       {v}
-        //     </Tag>
-        //   ))
+        render: category =>
+          category.map((v, index) => (
+            <Tag
+              key={index}
+              color={color[Math.floor(Math.random() * color.length)]}
+            >
+              {v}
+            </Tag>
+          ))
       },
       {
         title: "访问次数",
@@ -125,13 +121,7 @@ export class Article_doc extends Component<IProps> {
   };
 
   public componentDidMount() {
-    const { title, pageNo, pageSize } = this.state;
     this.props.getArticleListAll();
-    // this.props.getArticleList({
-    //   title,
-    //   pageNo,
-    //   pageSize
-    // });
   }
 
   private handleSubmit = e => {

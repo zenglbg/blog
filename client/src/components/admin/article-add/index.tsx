@@ -32,6 +32,7 @@ interface Props {
   get_tag_all: Function;
   getArticleItem: Function;
   createArticle: Function;
+  updateArticle: Function;
   getArticleItemSuccess: Function;
 }
 interface State {
@@ -57,13 +58,29 @@ export class ArticleAdd extends Component<IProps, State> {
     get_tag_all();
     getArticleItem();
   }
-  // public shouldComponentUpdate(np, ns) {
-  //   if (this.props.article.article_item === np.article.article_item) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
+  public componentWillReceiveProps(np) {
+    if (
+      this.props.article.article_item &&
+      this.props.article.article_item !== np.article.article_item
+    ) {
+      const {
+        title,
+        author,
+        summary,
+        category,
+        tag,
+        content
+      } = this.props.article.article_item;
+      this.props.form.setFieldsValue({ title, author, summary, category, tag });
+      const contentBlock = htmlToDraft(content);
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      const editorState = EditorState.createWithContent(contentState);
+      this.setState({ editorState });
+    }
+  }
+
   public componentWillUnmount() {
     this.props.getArticleItemSuccess({
       article_item: null
@@ -78,6 +95,7 @@ export class ArticleAdd extends Component<IProps, State> {
 
   public handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
+    console.log(`提交文章`);
     const { article_item } = this.props.article;
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -91,6 +109,8 @@ export class ArticleAdd extends Component<IProps, State> {
           content
         };
         if (article_item && article_item.id) {
+          params.id = article_item.id;
+          this.props.updateArticle(params);
         } else {
           this.props.createArticle(params);
         }
@@ -132,7 +152,8 @@ export class ArticleAdd extends Component<IProps, State> {
               </Form.Item>
               <Form.Item label="作者">
                 {getFieldDecorator("author", {
-                  rules: [{ required: true, message: "请输入作者" }]
+                  rules: [{ required: true, message: "请输入作者" }],
+                  initialValue: "zenglbg"
                 })(<Input placeholder="请输入作者" />)}
               </Form.Item>
               <Form.Item label="摘要">
@@ -184,6 +205,7 @@ const mapDispatchToProps = {
   get_category_all: Category.instance.getCategoryAll,
   get_tag_all: Tags.instance.getTagAll,
   createArticle: Article.instance.createArticle,
+  updateArticle: Article.instance.updateArticle,
   getArticleItem: Article.instance.getArticleItem,
   getArticleItemSuccess: Article.instance.getArticleItemSuccess
 };
