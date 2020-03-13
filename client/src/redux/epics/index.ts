@@ -8,7 +8,12 @@ import {
   get_articleItem
 } from "./article";
 import { get_tag_all } from "./tag";
-import { get_category_all } from "./category";
+import {
+  get_category_all,
+  createCategory,
+  del_category,
+  get_category
+} from "./category";
 
 export const rootEpics = (action$, store$, dependencies) =>
   combineEpics(
@@ -18,7 +23,10 @@ export const rootEpics = (action$, store$, dependencies) =>
     create_articleEpic,
     get_articleItem,
     get_tag_all,
-    get_category_all
+    get_category,
+    get_category_all,
+    createCategory,
+    del_category
   )(action$, store$, dependencies).pipe(
     catchError((err, source) => {
       console.log(err);

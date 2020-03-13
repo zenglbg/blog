@@ -1,5 +1,12 @@
 import { Category } from "../model/entity/category";
-import { Ctx, Param, Get, Post, JsonController } from "routing-controllers";
+import {
+  Ctx,
+  Param,
+  Get,
+  Post,
+  JsonController,
+  Body
+} from "routing-controllers";
 import { Context } from "koa";
 // import crypto from "crypto";
 import { Container, Inject, Service } from "typedi";
@@ -34,7 +41,7 @@ export default class {
   }
 
   @Post("/category/destroy")
-  public async destroy(@Ctx() ctx: Context) {
-    return query.destroy(ctx, Category);
+  public async destroy(@Body() id: { id: number }) {
+    return query.destroy(id, Category);
   }
 }

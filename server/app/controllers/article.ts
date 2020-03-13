@@ -1,5 +1,12 @@
 import { Tag, Category, Article } from "../model/entity";
-import { Ctx, Param, Get, Post, JsonController } from "routing-controllers";
+import {
+  Ctx,
+  Param,
+  Get,
+  Post,
+  JsonController,
+  Body
+} from "routing-controllers";
 // import crypto from "crypto";
 import { Context } from "koa";
 import { getRepository } from "typeorm";
@@ -16,7 +23,7 @@ export default class {
   async list(@Ctx() ctx: Context) {
     console.log(` 被请求了文章列表`);
 
-    const { title = "blog", pageNo = 1, pageSize = 5 } = ctx.query;
+    const { title = "", pageNo = 1, pageSize = 5 } = ctx.query;
     const data = await getRepository(Article)
       .createQueryBuilder("article")
       .where("article.title like :param")
@@ -128,7 +135,7 @@ export default class {
   }
 
   @Post("/article/destroy")
-  public async destroy(@Ctx() ctx: Context) {
-    return this.query.destroy(ctx, Article);
+  public async destroy(@Body() id: { id: number }) {
+    return this.query.destroy(id, Article);
   }
 }

@@ -24,6 +24,8 @@ const admin_home = Loadable(() => import("../components/admin/home"));
 const admin_login = Loadable(() => import("../components/admin/login"));
 const admin_article = Loadable(() => import("../components/admin/article"));
 const admin_star = Loadable(() => import("../components/admin/star"));
+const admin_tag = Loadable(() => import("../components/admin/tag"));
+const admin_category = Loadable(() => import("../components/admin/category"));
 const admin_articleAdd = Loadable(() =>
   import("../components/admin/article-add")
 );
@@ -76,6 +78,20 @@ export const routes: Routes[] = [
             path: "/admin/star",
             exact: true,
             component: admin_star,
+            beforeEnter: (routeProps, extraProps) => {}
+          },
+          {
+            title: "标签",
+            path: "/admin/tags",
+            exact: true,
+            component: admin_tag,
+            beforeEnter: (routeProps, extraProps) => {}
+          },
+          {
+            title: "分类",
+            path: "/admin/category",
+            exact: true,
+            component: admin_category,
             beforeEnter: (routeProps, extraProps) => {}
           },
           {

@@ -48,7 +48,7 @@ export class Article_doc extends Component<IProps> {
         title: "摘要",
         dataIndex: "summary",
         key: "summary",
-        width: 400
+        width: 300
       },
       {
         title: "分类",
@@ -68,7 +68,7 @@ export class Article_doc extends Component<IProps> {
         title: "访问次数",
         dataIndex: "readedCount",
         key: "readedCount",
-        width: 100
+        width: 50
       },
       {
         title: "创建时间",

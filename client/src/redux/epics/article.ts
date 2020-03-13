@@ -1,7 +1,6 @@
 import { ofType, Epic, ActionsObservable } from "redux-observable";
 import { getType, action } from "typesafe-actions";
 import { from, throwError, of } from "rxjs";
-import { ajax } from "rxjs/ajax";
 import {
   map,
   switchMap,
@@ -11,6 +10,7 @@ import {
   combineLatest,
   takeLast
 } from "rxjs/operators";
+import moment from "moment";
 import { IState } from "@reducer";
 import { Article } from "../actions";
 import { Api } from "../../utils/api";
@@ -21,7 +21,16 @@ export const get_articleEpic = (action$: ActionsObservable<any>) =>
     switchMap(({ payload }) => {
       return Api.instance.get("/api/article/list", payload).pipe(
         map(res => {
-          return Article.instance.getArticleSuccess(res.response);
+          if (res.response.code === 1000) {
+            const data = res.response.data.map((item: any) => {
+              return {
+                ...item,
+                createdAt: moment(item.createdAt).format("YYYY-MM-DD, h:mm:ss"),
+                updatedAt: moment(item.updatedAt).format("YYYY-MM-DD, h:mm:ss")
+              };
+            });
+            return Article.instance.getArticleSuccess(data);
+          }
         }),
         catchError(err => {
           Article.instance.getArticleError("发生了错误");

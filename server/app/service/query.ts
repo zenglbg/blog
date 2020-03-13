@@ -75,21 +75,26 @@ export default class Query {
     }
   }
 
-  public async destroy(ctx: Context, Entity) {
-    const params = (ctx.request as any).body;
+  public async destroy(body: any, Entity) {
     try {
-      const res = await Entity.delete(params);
-      if (res.affected === 1) {
-        return {
-          code: 1000,
-          msg: "删除成功"
-        };
-      } else {
-        return {
-          code: 1003,
-          msg: "此数据不存在"
-        };
+      if (body.id) {
+        const res = await Entity.delete(body);
+        if (res.affected === 1) {
+          return {
+            code: 1000,
+            msg: "删除成功"
+          };
+        } else {
+          return {
+            code: 1003,
+            msg: "此数据不存在"
+          };
+        }
       }
+      return {
+        code: 1002,
+        msg: "参数错误"
+      };
     } catch (err) {
       return {
         code: 1003,

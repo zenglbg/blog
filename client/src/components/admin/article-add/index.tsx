@@ -12,7 +12,7 @@ import htmlToDraft from "html-to-draftjs";
 import { Editor } from "react-draft-wysiwyg";
 
 import AdminLayout from "../../common/adminLayout";
-import { Category, Tag, Article } from "@actions";
+import { Category, Tags, Article } from "@actions";
 import { IState } from "@reducer";
 
 const formItemLayout = {
@@ -182,7 +182,7 @@ const mapStateToProps = ({ tag, category, article }) => ({
 
 const mapDispatchToProps = {
   get_category_all: Category.instance.getCategoryAll,
-  get_tag_all: Tag.instance.getTagAll,
+  get_tag_all: Tags.instance.getTagAll,
   createArticle: Article.instance.createArticle,
   getArticleItem: Article.instance.getArticleItem,
   getArticleItemSuccess: Article.instance.getArticleItemSuccess

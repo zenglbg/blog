@@ -1,5 +1,5 @@
 import { getType } from "typesafe-actions";
-import { Tag } from "@actions";
+import { Tags } from "@actions";
 
 interface TagState {
   tag_list: Array<any>;
@@ -19,7 +19,7 @@ export default function tag(
   }
 ): TagState {
   switch (action.type) {
-    case getType(Tag.instance.getTagAllSuccess):
+    case getType(Tags.instance.getTagAllSuccess):
       const { tag_list_all = null } = action.payload;
       return { ...state, tag_list_all };
     default:
