@@ -6,11 +6,13 @@ import userReducer from "./user";
 import articleReducer from "./article";
 import tag from "./tag";
 import category from "./category";
+import star from "./star";
 
 export type UserState = StateType<typeof userReducer>;
 export type ArticleState = StateType<typeof articleReducer>;
 export type TagState = StateType<typeof tag>;
 export type Category = StateType<typeof category>;
+export type Star = StateType<typeof star>;
 
 export interface IState {
   router: RouterState;
@@ -18,7 +20,7 @@ export interface IState {
   article: ArticleState;
   tag: TagState;
   category: Category;
-  [p: string]: any;
+  star: Star;
 }
 
 export const rootReducer = (history: History) =>
@@ -27,5 +29,6 @@ export const rootReducer = (history: History) =>
     user: userReducer,
     article: articleReducer,
     tag,
-    category
+    category,
+    star
   });

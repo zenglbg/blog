@@ -8,6 +8,7 @@ import {
   get_articleItem
 } from "./article";
 import { get_tag_all, get_tag, createTag, del_tag } from "./tag";
+import { get_star_all, get_star, createStar, del_star } from "./star";
 import {
   get_category_all,
   createCategory,
@@ -27,6 +28,11 @@ export const rootEpics = (action$, store$, dependencies) =>
     get_tag,
     createTag,
     del_tag,
+
+    get_star_all,
+    get_star,
+    createStar,
+    del_star,
 
     get_category,
     get_category_all,
