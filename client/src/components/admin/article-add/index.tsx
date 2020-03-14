@@ -56,13 +56,18 @@ export class ArticleAdd extends Component<IProps, State> {
     const { get_category_all, get_tag_all, getArticleItem } = this.props;
     get_category_all();
     get_tag_all();
-    getArticleItem();
+    this.getUpdatePage();
   }
-  public componentWillReceiveProps(np) {
-    if (
-      this.props.article.article_item &&
-      this.props.article.article_item !== np.article.article_item
-    ) {
+
+  public componentWillUnmount() {
+    this.props.getArticleItemSuccess({
+      article_item: null
+    });
+  }
+
+  private getUpdatePage = () => {
+    const { article_item } = this.props.article;
+    if (article_item) {
       const {
         title,
         author,
@@ -79,13 +84,7 @@ export class ArticleAdd extends Component<IProps, State> {
       const editorState = EditorState.createWithContent(contentState);
       this.setState({ editorState });
     }
-  }
-
-  public componentWillUnmount() {
-    this.props.getArticleItemSuccess({
-      article_item: null
-    });
-  }
+  };
 
   private onEditorStateChange = (editorState: any) => {
     this.setState({

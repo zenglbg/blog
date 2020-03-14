@@ -1,7 +1,7 @@
 import { ofType, Epic, ActionsObservable } from "redux-observable";
 import { getType, action } from "typesafe-actions";
 import { push } from "connected-react-router";
-import { throwError, of, concat } from "rxjs";
+import { throwError, of, concat, merge } from "rxjs";
 import {
   map,
   switchMap,
@@ -126,31 +126,34 @@ export const upadte_articleEpic = (action$: ActionsObservable<any>) =>
   );
 
 export const get_articleItem = (action$: ActionsObservable<any>, state$) => {
-  const params$ = state$.pipe(
-    map(({ router }: IState) => {
-      return router.location.state;
-    }),
-    distinctUntilChanged()
-  );
+  // const params$ = state$.pipe(
+  //   map(({ router }: IState) => {
+  //     return router.location.state;
+  //   }),
+  //   distinctUntilChanged()
+  // );
 
   return action$.pipe(
     ofType(getType(Article.instance.getArticleItem)),
-    combineLatest(params$, (action, params) => params),
-    switchMap((params: any) => {
-      if (params) {
-        return Api.instance.get("/api/article/item", params).pipe(
-          map((res: any) => {
-            if (res.response.code === 1000) {
-              return Article.instance.getArticleItemSuccess({
-                article_item: res.response.data
-              });
-            }
-            return Article.instance.getArticleItemError(res.response.msg);
-          })
+    // combineLatest(params$, (action, params) => params),
+    switchMap(({ payload, ...aaa }) => {
+      console.log(payload, aaa, "payloadpayloadpayloadpayload");
+      return Api.instance
+        .get("/api/article/item", payload)
+        .pipe(map(res => res));
+    }),
+    mergeMap((res: any) => {
+      if (res.response.code === 1000) {
+        return merge(
+          of(
+            Article.instance.getArticleItemSuccess({
+              article_item: res.response.data
+            })
+          ),
+          of(push("/admin/article-add"))
         );
-      } else {
-        return of(Article.instance.getArticleItemError(""));
       }
+      return of(Article.instance.getArticleItemError(res.response.msg));
     })
   );
 };

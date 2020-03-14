@@ -8,9 +8,11 @@ import { IState } from "@reducer";
 import { Article } from "@actions";
 
 import AdminLayout from "../../common/adminLayout";
+import { throwInvalidAsyncActionArgument } from "typesafe-actions/dist/create-async-action";
 interface Props {
   getArticleListAll: Function;
   getArticleList: (obj: any) => void;
+  getArticleItem: Function;
   delArticle: Function;
   getArticleStatus: Function;
 }
@@ -113,7 +115,7 @@ export class Article_doc extends Component<IProps> {
   };
 
   private handleEdit = (id: number) => {
-    this.props.history.push("/admin/article-add", { id });
+    this.props.getArticleItem({ id });
   };
 
   private handleDelete = (id: number) => {
@@ -188,6 +190,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getArticleListAll: Article.instance.getArticleListAll,
   getArticleList: Article.instance.getArticleList,
+  getArticleItem: Article.instance.getArticleItem,
   delArticle: Article.instance.delArticle,
   getArticleStatus: Article.instance.getArticleStatus
 };

@@ -78,7 +78,10 @@ export class Article {
 
   public getArticleItem = createAction(
     this.get_article_item,
-    (params?: any) => params
+    (id: { id: number }) => {
+      console.log(id, "idgetArticleItemgetArticleItemgetArticleItem");
+      return id;
+    }
   )();
   public getArticleItemSuccess = createAction(
     this.get_article_item_success,
