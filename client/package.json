@@ -184,5 +184,6 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ]
-  }
+  },
+  "proxy": "http://localhost:9998"
 }
