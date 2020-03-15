@@ -153,31 +153,29 @@ export class Article_doc extends Component<IProps> {
     const { columns } = this.state;
     return (
       <div id="article">
-        <AdminLayout>
-          <Form layout="inline" onSubmit={this.handleSubmit}>
-            <Form.Item>
-              {getFieldDecorator("title")(
-                <Input placeholder="请输入标题" allowClear={true} />
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button className="mr10" type="primary" htmlType="submit">
-                search
-              </Button>
-              <Link to="/admin/article-add">
-                <Button type="primary">create</Button>
-              </Link>
-            </Form.Item>
-          </Form>
-          <Table
-            bordered
-            className="mt10"
-            loading={list_loading}
-            columns={columns}
-            dataSource={article_list}
-            rowKey={(record: any) => record.id}
-          />
-        </AdminLayout>
+        <Form layout="inline" onSubmit={this.handleSubmit}>
+          <Form.Item>
+            {getFieldDecorator("title")(
+              <Input placeholder="请输入标题" allowClear={true} />
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Button className="mr10" type="primary" htmlType="submit">
+              search
+            </Button>
+            <Link to="/admin/article-add">
+              <Button type="primary">create</Button>
+            </Link>
+          </Form.Item>
+        </Form>
+        <Table
+          bordered
+          className="mt10"
+          loading={list_loading}
+          columns={columns}
+          dataSource={article_list}
+          rowKey={(record: any) => record.id}
+        />
       </div>
     );
   }

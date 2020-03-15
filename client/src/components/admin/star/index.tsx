@@ -147,45 +147,43 @@ export default class Article_doc extends Component<IProps> {
     const { visible, title, url } = this.state;
     return (
       <div id="article">
-        <AdminLayout>
-          <Modal
-            title="分类"
-            visible={visible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-          >
-            <Input
-              placeholder="请输入标题"
-              value={title}
-              onChange={e => this.handleChange(e, "title")}
-            ></Input>
-            <Input
-              placeholder="请输入链接"
-              value={url}
-              onChange={e => this.handleChange(e, "url")}
-            ></Input>
-          </Modal>
-          <Form layout="inline" onSubmit={this.handleSubmit}>
-            <Form.Item>
-              {getFieldDecorator("title")(
-                <Input placeholder="请输入标题" allowClear={true}></Input>
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button className="mr10" type="primary" htmlType="submit">
-                search
-              </Button>
-              <Button onClick={() => this.setState({ visible: true })}>
-                create
-              </Button>
-            </Form.Item>
-          </Form>
-          <Table
-            columns={this.columns}
-            dataSource={star_list_all}
-            rowKey={record => record.id}
-          />
-        </AdminLayout>
+        <Modal
+          title="分类"
+          visible={visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <Input
+            placeholder="请输入标题"
+            value={title}
+            onChange={e => this.handleChange(e, "title")}
+          ></Input>
+          <Input
+            placeholder="请输入链接"
+            value={url}
+            onChange={e => this.handleChange(e, "url")}
+          ></Input>
+        </Modal>
+        <Form layout="inline" onSubmit={this.handleSubmit}>
+          <Form.Item>
+            {getFieldDecorator("title")(
+              <Input placeholder="请输入标题" allowClear={true}></Input>
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Button className="mr10" type="primary" htmlType="submit">
+              search
+            </Button>
+            <Button onClick={() => this.setState({ visible: true })}>
+              create
+            </Button>
+          </Form.Item>
+        </Form>
+        <Table
+          columns={this.columns}
+          dataSource={star_list_all}
+          rowKey={record => record.id}
+        />
       </div>
     );
   }

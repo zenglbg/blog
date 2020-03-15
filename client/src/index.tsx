@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import { PersistGate } from "redux-persist/integration/react";
 
-import RouteView from "./routes";
+import RouteView from "./routes/index2";
 import store, { history, persistor } from "./redux";
 
 ReactDOM.render(

@@ -28,9 +28,7 @@ export class index extends Component<Props & RouteComponentProps, State> {
   render() {
     return (
       <div>
-        <AdminLayout>
-          <h3 onClick={this.handleClick}>i'm content</h3>
-        </AdminLayout>
+        <h3 onClick={this.handleClick}>i'm content</h3>
       </div>
     );
   }

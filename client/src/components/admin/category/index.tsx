@@ -142,40 +142,38 @@ export default class Article_doc extends Component<IProps> {
     const { visible, category } = this.state;
     return (
       <div id="article">
-        <AdminLayout>
-          <Modal
-            title="分类"
-            visible={visible}
-            onOk={this.handleOk}
-            onCancel={this.handleCancel}
-          >
-            <Input
-              placeholder="请输入分类"
-              value={category}
-              onChange={this.handleChange}
-            ></Input>
-          </Modal>
-          <Form layout="inline" onSubmit={this.handleSubmit}>
-            <Form.Item>
-              {getFieldDecorator("name")(
-                <Input placeholder="请输入分类" allowClear={true}></Input>
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button className="mr10" type="primary" htmlType="submit">
-                search
-              </Button>
-              <Button onClick={() => this.setState({ visible: true })}>
-                create
-              </Button>
-            </Form.Item>
-          </Form>
-          <Table
-            columns={this.columns}
-            dataSource={category_list_all}
-            rowKey={record => record.id}
-          />
-        </AdminLayout>
+        <Modal
+          title="分类"
+          visible={visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <Input
+            placeholder="请输入分类"
+            value={category}
+            onChange={this.handleChange}
+          ></Input>
+        </Modal>
+        <Form layout="inline" onSubmit={this.handleSubmit}>
+          <Form.Item>
+            {getFieldDecorator("name")(
+              <Input placeholder="请输入分类" allowClear={true}></Input>
+            )}
+          </Form.Item>
+          <Form.Item>
+            <Button className="mr10" type="primary" htmlType="submit">
+              search
+            </Button>
+            <Button onClick={() => this.setState({ visible: true })}>
+              create
+            </Button>
+          </Form.Item>
+        </Form>
+        <Table
+          columns={this.columns}
+          dataSource={category_list_all}
+          rowKey={record => record.id}
+        />
       </div>
     );
   }

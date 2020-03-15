@@ -6,7 +6,7 @@
   "scripts": {
     "first": "npm run build && npm run dev",
     "node": "ts-node --project ./tsconfig.json ./app/index.ts",
-    "dev": "nodemon ./app/index.ts"
+    "dev": "./node_modules/.bin/nodemon ./app/index.ts"
   },
   "keywords": [],
   "author": "",

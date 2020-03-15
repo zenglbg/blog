@@ -18,7 +18,10 @@ export class Routes {
 }
 
 const App = Loadable(() => import("../container/App"));
+
 const web_index = Loadable(() => import("../components/web"));
+const web_home = Loadable(() => import("../components/web/home"));
+
 const admin_index = Loadable(() => import("../components/admin"));
 const admin_home = Loadable(() => import("../components/admin/home"));
 const admin_login = Loadable(() => import("../components/admin/login"));
@@ -43,7 +46,16 @@ export const routes: Routes[] = [
         path: "/web",
         exact: false,
         component: web_index,
-        beforeEnter: (routeProps, extraProps) => {}
+        beforeEnter: (routeProps, extraProps) => {},
+        routes: [
+          {
+            title: "首页",
+            path: "/web/home",
+            exact: true,
+            component: web_home,
+            beforeEnter: (routeProps, extraProps) => {}
+          }
+        ]
       },
       {
         title: "admin",

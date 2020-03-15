@@ -303,6 +303,7 @@ module.exports = function(webpackEnv) {
         "@actions": path.resolve(__dirname, "../src/redux/actions"),
         "@reducer": path.resolve(__dirname, "../src/redux/reducer"),
         "@epics": path.resolve(__dirname, "../src/redux/epics"),
+        "@utils": path.resolve(__dirname, "../src/utils"),
         "react-native": "react-native-web",
         // Allows for better profiling with ReactDevTools
         ...(isEnvProductionProfile && {

@@ -18,7 +18,8 @@
     "paths": {
       "@actions": ["./src/redux/actions"],
       "@reducer": ["./src/redux/reducer"],
-      "@epics": ["./src/redux/epics"]
+      "@epics": ["./src/redux/epics"],
+      "@utils": ["./src/utils"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true

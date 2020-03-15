@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
+import { Layout } from "antd";
 interface Props {}
 interface State {}
 
-export class WebLayout extends Component<Props, State> {
+import RHeader from "./child/header";
+
+export default class WebLayout extends Component<Props, State> {
   state = {};
 
   render() {
-    return <div>webLayout</div>;
+    return (
+      <div>
+        <Layout>
+          <RHeader />
+          {this.props.children}
+        </Layout>
+      </div>
+    );
   }
 }
-
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(WebLayout);
