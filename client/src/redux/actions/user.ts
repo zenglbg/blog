@@ -15,6 +15,9 @@ export class User {
   }
 
   public doLogin = createAction(this.LOGIN)();
-  public loginSuccess = createAction(this.LOGIN_SUCCESS, user => user)();
+  public loginSuccess = createAction(this.LOGIN_SUCCESS, user => {
+    sessionStorage.setItem("user", user.user);
+    return user;
+  })();
   public loginError = createAction(this.LOGIN_ERROR, user => user)();
 }

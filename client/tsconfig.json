@@ -19,7 +19,8 @@
       "@actions": ["./src/redux/actions"],
       "@reducer": ["./src/redux/reducer"],
       "@epics": ["./src/redux/epics"],
-      "@utils": ["./src/utils"]
+      "@utils": ["./src/utils"],
+      "@routes": ["src/routes"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true

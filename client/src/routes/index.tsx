@@ -1,181 +1,78 @@
-import React from "react";
-import {
-  Switch,
-  Route,
-  RouteComponentProps,
-  withRouter
-} from "react-router-dom";
-import { Loadable } from "../utils";
+import React, { ReactElement } from "react";
+import { Loadable } from "@utils";
+import { Route, Redirect, RouteComponentProps } from "react-router-dom";
+import { admins } from "./admin";
+import { webs } from "./web";
+export * from "./admin";
+export * from "./web";
+import requireLogin from "./requireLogin";
 
 export class Routes {
-  public title: string;
+  public title?: string;
   public component?: any;
   public path?: string;
+  public menu?: boolean;
   public exact?: boolean;
   public render?: Function;
   public beforeEnter?: (routeProps: any, extraProps: any) => any;
   public routes?: Array<Routes>;
 }
 
-const App = Loadable(() => import("../container/App"));
-
-const web_index = Loadable(() => import("../components/web"));
-const web_home = Loadable(() => import("../components/web/home"));
-
-const admin_index = Loadable(() => import("../components/admin"));
-const admin_home = Loadable(() => import("../components/admin/home"));
+const AdminLayout = Loadable(() => import("../components/common/adminLayout"));
+const WebLayout = Loadable(() => import("../components/common/webLayout"));
 const admin_login = Loadable(() => import("../components/admin/login"));
-const admin_article = Loadable(() => import("../components/admin/article"));
-const admin_star = Loadable(() => import("../components/admin/star"));
-const admin_tag = Loadable(() => import("../components/admin/tag"));
-const admin_category = Loadable(() => import("../components/admin/category"));
-const admin_articleAdd = Loadable(() =>
-  import("../components/admin/article-add")
-);
 
-export const routes: Routes[] = [
+export const routes = [
   {
-    title: "根",
-    path: "/",
-    exact: false,
-    component: App,
-    beforeEnter: (routeProps, extraProps) => {},
-    routes: [
-      {
-        title: "首页",
-        path: "/web",
-        exact: false,
-        component: web_index,
-        beforeEnter: (routeProps, extraProps) => {},
-        routes: [
-          {
-            title: "首页",
-            path: "/web/home",
-            exact: true,
-            component: web_home,
-            beforeEnter: (routeProps, extraProps) => {}
-          }
-        ]
-      },
-      {
-        title: "admin",
-        path: "/admin",
-        exact: false,
-        component: admin_index,
-        beforeEnter: (routeProps, extraProps) => {},
-        routes: [
-          {
-            title: "首页",
-            path: "/admin/home",
-            exact: true,
-            component: admin_home,
-            beforeEnter: (routeProps, extraProps) => {}
-          },
-          {
-            title: "登录",
-            path: "/admin/login",
-            exact: true,
-            component: admin_login,
-            beforeEnter: (routeProps, extraProps) => {}
-          },
-          {
-            title: "文章",
-            path: "/admin/article",
-            exact: true,
-            component: admin_article,
-            beforeEnter: (routeProps, extraProps) => {}
-          },
-          {
-            title: "收藏",
-            path: "/admin/star",
-            exact: true,
-            component: admin_star,
-            beforeEnter: (routeProps, extraProps) => {}
-          },
-          {
-            title: "标签",
-            path: "/admin/tags",
-            exact: true,
-            component: admin_tag,
-            beforeEnter: (routeProps, extraProps) => {}
-          },
-          {
-            title: "分类",
-            path: "/admin/category",
-            exact: true,
-            component: admin_category,
-            beforeEnter: (routeProps, extraProps) => {}
-          },
-          {
-            title: "文章添加",
-            path: "/admin/article-add/",
-            exact: true,
-            component: admin_articleAdd,
-            beforeEnter: (routeProps, extraProps) => {}
-          },
-          {
-            title: "文章添加",
-            path: "/admin/article-edit/:id",
-            exact: true,
-            component: admin_articleAdd,
-            beforeEnter: (routeProps, extraProps) => {}
-          }
-        ]
-      }
-      // {
-      //   title: "notFound",
-      //   exact: true,
-      //   component: "components/notFound"
-      // }
-    ]
+    path: "/admin",
+    component: AdminLayout,
+    routes: admins
+  },
+  {
+    path: "/web",
+    component: WebLayout,
+    routes: webs
+  },
+  {
+    title: "登录",
+    path: "/login",
+    exact: true,
+    menu: false,
+    component: admin_login,
+    beforeEnter: (routeProps, extraProps) => {}
   }
 ];
 
-class LoadableView extends React.PureComponent<any> {
-  public render() {
-    const { component } = this.props;
-    const LoadableComponent = component;
+interface Props {}
 
-    return <LoadableComponent {...this.props}></LoadableComponent>;
-  }
-}
-
-const WithRouterLoadable = withRouter(LoadableView);
-
-export default class RouteView extends React.PureComponent {
+export default class RouteView extends React.PureComponent<Props> {
   public routes: Routes[] = routes;
-
-  public Guard = ({
-    component,
-    routes,
-    history,
-    ...props
-  }: Routes & RouteComponentProps) => {
-    return (
-      <>
-        <WithRouterLoadable
-          {...props}
-          component={component}
-        ></WithRouterLoadable>
-        {routes ? this.routesRenderMsp(routes) : null}
-      </>
-    );
-  };
-
-  public routesRenderMsp = (routes: Routes[]) => {
+  private routesRenderMsp = (routes: Routes[]) => {
     return routes.map((route: Routes, index) => (
       <Route
         key={`key${route.path}`}
         path={route.path}
         exact={route.exact}
-        render={(props: RouteComponentProps) =>
-          this.Guard({ ...route, ...props })
-        }
+        render={(props: RouteComponentProps) => {
+          const Component = route.path.includes("/admin")
+            ? requireLogin(route.component)
+            : route.component;
+          return (
+            <Component {...props}>
+              {route.routes ? this.routesRenderMsp(route.routes) : null}
+            </Component>
+          );
+        }}
       />
     ));
   };
 
   public render() {
-    return <Switch>{this.routesRenderMsp(this.routes)}</Switch>;
+    return (
+      <div className="route">
+        <Route exact path="/" render={() => <Redirect to="/web/1" push />} />
+        {this.routesRenderMsp(this.routes)}
+      </div>
+    );
   }
 }

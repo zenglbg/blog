@@ -299,7 +299,7 @@ module.exports = function(webpackEnv) {
       alias: {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-        "@": path.resolve(__dirname, "../src"),
+        "@routes": path.resolve(__dirname, "../src/routes"),
         "@actions": path.resolve(__dirname, "../src/redux/actions"),
         "@reducer": path.resolve(__dirname, "../src/redux/reducer"),
         "@epics": path.resolve(__dirname, "../src/redux/epics"),

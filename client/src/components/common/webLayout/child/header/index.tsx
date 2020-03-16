@@ -1,10 +1,25 @@
+import "./index.less";
 import React, { useState } from "react";
 import { Layout, Row, Col, Menu, Icon } from "antd";
+import { NavLink } from "react-router-dom";
+import { webs } from "@routes";
 
-export default function header() {
-  function menuList() {
-    return <div>333</div>;
-  }
+export default function header(props) {
+  const menuList = webs.map((route, index) => {
+    if (route.menu) {
+      return (
+        <Menu.Item
+          key={index}
+          onClick={() => sessionStorage.setItem("webKey", "0")}
+        >
+          <NavLink to={route.path}>
+            <Icon type={route.icon} />
+            <span className="nav-text">{route.title}</span>
+          </NavLink>
+        </Menu.Item>
+      );
+    }
+  });
 
   const key = sessionStorage.getItem("webKey") || "0";
 
