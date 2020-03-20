@@ -40,9 +40,7 @@ export const get_star = (action$: ActionsObservable<any>) => {
               ...item,
               createdAt: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss")
             }));
-            return Star.instance.getStarAllSuccess({
-              star_list_all: data
-            });
+            return Star.instance.getStarSuccess(data);
           }
         }),
         catchError(err => throwError(err))

@@ -27,7 +27,7 @@ export default class {
   async list(
     @QueryParams() query: { title: string; pageNo: number; pageSize: number }
   ) {
-    const { title, pageNo, pageSize } = query;
+    const { title, pageNo = 1, pageSize = 10 } = query;
     const where = `entity.title like :title`;
     const params = { title: `%${title}%` };
     return this.query.list(Star, where, params, pageNo, pageSize);

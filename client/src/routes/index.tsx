@@ -70,7 +70,7 @@ export default class RouteView extends React.PureComponent<Props> {
   public render() {
     return (
       <div className="route">
-        <Route exact path="/" render={() => <Redirect to="/web/1" push />} />
+        <Route exact path="/" render={() => <Redirect to="/web/home" push />} />
         {this.routesRenderMsp(this.routes)}
       </div>
     );

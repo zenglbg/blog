@@ -2,7 +2,7 @@ import "./index.less";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Layout, Col } from "antd";
-import { Tags } from "@actions";
+import { Tags, Article } from "@actions";
 import { IState } from "@reducer";
 
 interface Props {}
@@ -11,19 +11,25 @@ interface State {}
 import RHeader from "./child/header/index";
 import RSlider from "./child/slider/index";
 @(connect(
-  ({ tag }: IState) => ({
-    tag
+  ({ tag, article }: IState) => ({
+    tag,
+    article
   }),
   {
-    getTagAll: Tags.instance.getTagAll
+    getTagAll: Tags.instance.getTagAll,
+    getArticleList: Article.instance.getArticleList
   }
 ) as any)
-export default class WebLayout extends Component<Props, State> {
+export default class WebLayout extends Component<
+  Props & Pick<IState, "tag"> & Pick<IState, "article">,
+  State
+> {
   state = {};
 
   render() {
     const contentHeight = document.body.clientHeight - 64 - 62;
-
+    let { tag_list_all } = this.props.tag;
+    let { article_list } = this.props.article;
     return (
       <div>
         <Layout className="wrapper">
@@ -51,7 +57,11 @@ export default class WebLayout extends Component<Props, State> {
                 md={{ span: 6, offset: 1 }}
                 xs={{ span: 0 }}
               >
-                <RSlider {...this.props} />
+                <RSlider
+                  {...this.props}
+                  tag_list_all={tag_list_all}
+                  article_list={article_list}
+                />
               </Col>
             </Layout.Content>
           </Layout>

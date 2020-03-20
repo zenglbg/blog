@@ -27,14 +27,14 @@ export const get_article_all = (action$: ActionsObservable<any>) =>
         map(res => {
           if (res.response.code === 1000) {
             const data = res.response.data.map((item: any) => {
-              console.log(item);
+              // console.log(item);
               return {
                 ...item,
                 createdAt: moment(item.createdAt).format("YYYY-MM-DD, h:mm:ss"),
                 updatedAt: moment(item.updatedAt).format("YYYY-MM-DD, h:mm:ss")
               };
             });
-            return Article.instance.getArticleSuccess(data);
+            return Article.instance.getArticleListAllSuccess(data);
           }
           return Article.instance.getArticleError(res.response.msg);
         })
@@ -137,7 +137,7 @@ export const get_articleItem = (action$: ActionsObservable<any>, state$) => {
     ofType(getType(Article.instance.getArticleItem)),
     // combineLatest(params$, (action, params) => params),
     switchMap(({ payload, ...aaa }) => {
-      console.log(payload, aaa, "payloadpayloadpayloadpayload");
+      // console.log(payload, aaa, "payloadpayloadpayloadpayload");
       return Api.instance
         .get("/api/article/item", payload)
         .pipe(map(res => res));

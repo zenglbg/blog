@@ -26,6 +26,12 @@ export default function articleReducer(
         article_list: action.payload,
         list_loading: false
       };
+    case getType(Article.instance.getArticleListAllSuccess):
+      return {
+        ...state,
+        article_list_all: action.payload,
+        list_loading: false
+      };
     case getType(Article.instance.getArticleError):
       return {
         ...state,

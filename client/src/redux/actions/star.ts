@@ -4,6 +4,7 @@ export type starType = ActionType<typeof Star.instance>;
 
 export class Star {
   public get_star: string = "GET_STAR";
+  public get_star_success: string = "GET_STAR_SUCCESS";
   public get_star_all: string = "GET_STAR_ALL";
   public get_star_all_success: string = "GET_STAR_ALL_SUCCESS";
   public get_star_all_error: string = "GET_STAR_ALL_ERROR";
@@ -27,6 +28,10 @@ export class Star {
   public getStar = createAction(
     this.get_star,
     (params: { name: string; pageNo: number; pageSize: number }) => params
+  )();
+  public getStarSuccess = createAction(
+    this.get_star_success,
+    star_list => star_list
   )();
   public getStarAll = createAction(this.get_star_all)();
   public getStarAllSuccess = createAction(

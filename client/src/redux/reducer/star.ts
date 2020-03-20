@@ -22,6 +22,9 @@ export default function star(
     case getType(Star.instance.getStarAllSuccess):
       const { star_list_all = null } = action.payload;
       return { ...state, star_list_all };
+    case getType(Star.instance.getStarSuccess):
+      const star_list = action.payload;
+      return { ...state, star_list };
     default:
       return state;
   }
