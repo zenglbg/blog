@@ -1,5 +1,6 @@
 import "./index.less";
 import React, { Component } from "react";
+import { Icon, Card } from "antd";
 import { connect } from "react-redux";
 import { Article } from "@actions";
 import { IState } from "@reducer";
@@ -25,14 +26,23 @@ export default class Detail extends Component<
     this.props.getArticle(this.props.match.params);
   }
 
+  private extra = data => (
+    <div className="extra-wrapper">
+      <Icon type="calendar" className="calender" />
+      {data.createdAt}
+      <Icon type="eye" className="eye" />
+      {data.readedCount} 次预览
+    </div>
+  );
+
   render() {
     const { article_item } = this.props.article;
     return (
       <div className="detail">
-        <div className="title">
-          <h1>{article_item.title}</h1>
-        </div>
-        <Preview markdown={article_item.content} />
+        <Card title={article_item.title} extra={this.extra(article_item)}>
+          <div className="info-wrapper"></div>
+          <Preview markdown={article_item.content} />
+        </Card>
       </div>
     );
   }

@@ -144,10 +144,13 @@ export const get_articleItem = (action$: ActionsObservable<any>, state$) => {
     }),
     mergeMap((res: any) => {
       if (res.response.code === 1000) {
+        const data = res.response.data;
+        data.createdAt = moment(data.createdAt).format("YYYY-MM-DD, h:mm:ss");
+        data.updatedAt = moment(data.createdAt).format("YYYY-MM-DD, h:mm:ss");
         return merge(
           of(
             Article.instance.getArticleItemSuccess({
-              article_item: res.response.data
+              article_item: data
             })
           ),
           of(push("/admin/article-add"))
@@ -165,8 +168,15 @@ export const get_article = (action$: ActionsObservable<any>, state$) => {
       return Api.instance.get("/api/article/item", payload).pipe(
         map(res => {
           if (res.response.code === 1000) {
+            const data = res.response.data;
+            data.createdAt = moment(data.createdAt).format(
+              "YYYY-MM-DD, h:mm:ss"
+            );
+            data.updatedAt = moment(data.createdAt).format(
+              "YYYY-MM-DD, h:mm:ss"
+            );
             return Article.instance.getArticleItemSuccess({
-              article_item: res.response.data
+              article_item: data
             });
           }
           Article.instance.getArticleItemError(res.response.msg);
