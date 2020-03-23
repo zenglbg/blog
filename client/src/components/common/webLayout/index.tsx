@@ -5,7 +5,10 @@ import { Layout, Col } from "antd";
 import { Tags, Article } from "@actions";
 import { IState } from "@reducer";
 
-interface Props {}
+interface Props {
+  getTagAll: Function;
+  getArticleList: Function;
+}
 interface State {}
 
 import RHeader from "./child/header/index";
@@ -25,11 +28,14 @@ export default class WebLayout extends Component<
   State
 > {
   state = {};
-
+  public componentDidMount() {
+    this.props.getTagAll();
+  }
   render() {
     const contentHeight = document.body.clientHeight - 64 - 62;
     let { tag_list_all } = this.props.tag;
     let { article_list } = this.props.article;
+
     return (
       <div>
         <Layout className="wrapper">
@@ -57,11 +63,13 @@ export default class WebLayout extends Component<
                 md={{ span: 6, offset: 1 }}
                 xs={{ span: 0 }}
               >
-                <RSlider
-                  {...this.props}
-                  tag_list_all={tag_list_all}
-                  article_list={article_list}
-                />
+                {article_list && tag_list_all ? (
+                  <RSlider
+                    {...this.props}
+                    tag_list_all={tag_list_all}
+                    article_list={article_list}
+                  />
+                ) : null}
               </Col>
             </Layout.Content>
           </Layout>

@@ -14,11 +14,13 @@ export default function slider({ tag_list_all, article_list, ...props }) {
     props.history.push(`/web/detail/${id}`);
   }
 
-  const list = article_list.map(v => (
-    <li key={v.id} onClick={() => handleDetail(v.id)}>
-      {v.title}
-    </li>
-  ));
+  const list = article_list
+    ? article_list.map(v => (
+        <li key={v.id} onClick={() => handleDetail(v.id)}>
+          {v.title}
+        </li>
+      ))
+    : null;
   return (
     <div className="sider-contianer">
       <div className="admin-info">
