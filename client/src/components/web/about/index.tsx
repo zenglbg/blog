@@ -29,7 +29,7 @@ class About extends Component {
           <Divider orientation="left">Me</Divider>
 
           <ul className="about-list">
-            <li>姓名：Gong Qiang</li>
+            <li>姓名：zet Zeng</li>
             <li>
               <Icon type="github" style={{ fontSize: "16px" }} />：
               <a

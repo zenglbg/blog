@@ -1,6 +1,5 @@
 import "reflect-metadata";
 // import * as koaBody from 'koa-body';
-import next from "next";
 import { createKoaServer, Action } from "routing-controllers";
 import { MysqlConfig } from "config";
 

@@ -157,3 +157,21 @@ export const get_articleItem = (action$: ActionsObservable<any>, state$) => {
     })
   );
 };
+
+export const get_article = (action$: ActionsObservable<any>, state$) => {
+  return action$.pipe(
+    ofType(getType(Article.instance.getArticle)),
+    switchMap(({ payload }) => {
+      return Api.instance.get("/api/article/item", payload).pipe(
+        map(res => {
+          if (res.response.code === 1000) {
+            return Article.instance.getArticleItemSuccess({
+              article_item: res.response.data
+            });
+          }
+          Article.instance.getArticleItemError(res.response.msg);
+        })
+      );
+    })
+  );
+};

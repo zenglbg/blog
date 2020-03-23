@@ -5,6 +5,7 @@ const web_archive = Loadable(() => import("../components/web/archive"));
 const web_detail = Loadable(() => import("../components/web/detail"));
 const web_star = Loadable(() => import("../components/web/star"));
 const web_about = Loadable(() => import("../components/web/about"));
+const web_markdown = Loadable(() => import("../components/web/markdown"));
 
 export const webs = [
   {
@@ -50,6 +51,15 @@ export const webs = [
     menu: false,
     icon: "edit",
     component: web_detail,
+    beforeEnter: (routeProps, extraProps) => {}
+  },
+  {
+    title: "markdown",
+    path: "/web/markdown",
+    exact: true,
+    menu: true,
+    icon: "edit",
+    component: web_markdown,
     beforeEnter: (routeProps, extraProps) => {}
   }
 ];

@@ -1,13 +1,15 @@
 FROM node:10
 
-COPY ./server/. /app
+EXPOSE 9998
 
-WORKDIR "/app"
+COPY ./server/package.json package.json
 
 RUN yarn
 
-EXPOSE 9998
+COPY ./server/. .
 
-CMD [ "npm" ,  'dev'  ]
+RUN yarn build
+
+CMD [ "node" ,  'build/'  ]
 
 

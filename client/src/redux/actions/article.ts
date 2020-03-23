@@ -19,6 +19,7 @@ export class Article {
   public create_article_success: string = "CREATE_ARTICLE_SUCCESS";
   public create_article_error: string = "CREATE_ARTICLE_ERROR";
 
+  public get_article = "GET_ARTICLE";
   public get_article_item = "GET_ARTICLE_ITEM";
   public get_article_item_success = "GET_ARTICLE_ITEM_SUCCESS";
   public get_article_item_error = "GET_ARTICLE_ITEM_ERROR";
@@ -84,10 +85,14 @@ export class Article {
   public getArticleItem = createAction(
     this.get_article_item,
     (id: { id: number }) => {
-      console.log(id, "idgetArticleItemgetArticleItemgetArticleItem");
       return id;
     }
   )();
+
+  public getArticle = createAction(this.get_article, (id: { id: number }) => {
+    return id;
+  })();
+
   public getArticleItemSuccess = createAction(
     this.get_article_item_success,
     articleItem => articleItem

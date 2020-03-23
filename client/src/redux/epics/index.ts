@@ -7,7 +7,8 @@ import {
   del_articleEpic,
   create_articleEpic,
   upadte_articleEpic,
-  get_articleItem
+  get_articleItem,
+  get_article
 } from "./article";
 import { get_tag_all, get_tag, createTag, del_tag } from "./tag";
 import { get_star_all, get_star, createStar, del_star } from "./star";
@@ -28,6 +29,7 @@ export const rootEpics = (action$, store$, dependencies) =>
     create_articleEpic,
     upadte_articleEpic,
     get_articleItem,
+    get_article,
 
     get_tag_all,
     get_tag,

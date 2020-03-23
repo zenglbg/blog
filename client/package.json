@@ -88,6 +88,7 @@
     "rxjs": "^6.5.4",
     "sass-loader": "^8.0.2",
     "semver": "6.3.0",
+    "showdown": "^1.9.1",
     "style-loader": "0.23.1",
     "terser-webpack-plugin": "2.3.4",
     "ts-pnp": "1.1.5",
@@ -131,6 +132,7 @@
     "@types/react-router-redux": "^5.0.18",
     "@types/redux-logger": "^3.0.7",
     "@types/rx": "^4.1.1",
+    "@types/showdown": "^1.9.3",
     "babel-plugin-import": "^1.13.0",
     "eslint-config-alloy": "^3.6.0",
     "redux-devtools-extension": "^2.13.8"
