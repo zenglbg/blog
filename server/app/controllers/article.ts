@@ -64,8 +64,12 @@ export default class {
   @Get("/article/item")
   async item(@Ctx() ctx: Context) {
     const { id } = ctx.query;
-
+    const where = { id };
+    let { readedCount } = await Article.findOne(where);
+    readedCount++;
+    await Article.update(where, { readedCount });
     const data = await Article.findOne({ id });
+
     if (data) {
       const _data = {
         ...data,

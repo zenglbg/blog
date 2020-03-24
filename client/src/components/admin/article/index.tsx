@@ -113,7 +113,9 @@ export class Article_doc extends Component<IProps> {
       }
     ]
   };
-
+  public componentDidMount() {
+    this.props.getArticleListAll();
+  }
   private handleEdit = (id: number) => {
     this.props.getArticleItem({ id });
   };
@@ -121,10 +123,6 @@ export class Article_doc extends Component<IProps> {
   private handleDelete = (id: number) => {
     this.props.delArticle({ id });
   };
-
-  public componentDidMount() {
-    this.props.getArticleListAll();
-  }
 
   private handleSubmit = e => {
     e.preventDefault();
@@ -149,7 +147,7 @@ export class Article_doc extends Component<IProps> {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { article_list, list_loading } = this.props.article;
+    const { article_list_all, list_loading } = this.props.article;
     const { columns } = this.state;
     return (
       <div id="article">
@@ -173,7 +171,7 @@ export class Article_doc extends Component<IProps> {
           className="mt10"
           loading={list_loading}
           columns={columns}
-          dataSource={article_list}
+          dataSource={article_list_all}
           rowKey={(record: any) => record.id}
         />
       </div>

@@ -6,13 +6,15 @@ export interface IArticleState {
   article_list_all: Array<any>;
   article_item: any;
   list_loading: boolean;
+  content: string;
 }
 
 const initState = {
   article_list: null,
   article_list_all: null,
   article_item: null,
-  list_loading: false
+  list_loading: false,
+  content: "// markdown"
 };
 
 export default function articleReducer(
@@ -47,6 +49,12 @@ export default function articleReducer(
       return {
         ...state,
         article_item
+      };
+    case getType(Article.instance.writeArticle):
+      const content = action.payload;
+      return {
+        ...state,
+        content
       };
     default:
       return state;

@@ -6,12 +6,9 @@ import { Form, Input, Button, Select, message } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { EditorState, convertToRaw, ContentState } from "draft-js";
-import draftToHtml from "draftjs-to-html";
-import htmlToDraft from "html-to-draftjs";
-import { Editor } from "react-draft-wysiwyg";
 
-import AdminLayout from "../../common/adminLayout";
+import Editor from "../../common/editor";
+import Preview from "../../common/preview";
 import { Category, Tags, Article } from "@actions";
 import { IState } from "@reducer";
 
@@ -34,10 +31,9 @@ interface Props {
   createArticle: Function;
   updateArticle: Function;
   getArticleItemSuccess: Function;
+  writeArticle: Function;
 }
-interface State {
-  editorState: any;
-}
+interface State {}
 
 type IProps = Props &
   FormComponentProps &
@@ -47,10 +43,6 @@ type IProps = Props &
   Pick<IState, "category">;
 export class ArticleAdd extends Component<IProps, State> {
   private formItemLayout = formItemLayout;
-
-  state = {
-    editorState: EditorState.createEmpty()
-  };
 
   public componentDidMount() {
     const { get_category_all, get_tag_all, getArticleItem } = this.props;
@@ -67,6 +59,7 @@ export class ArticleAdd extends Component<IProps, State> {
 
   private getUpdatePage = () => {
     const { article_item } = this.props.article;
+    const { writeArticle } = this.props;
     if (article_item) {
       const {
         title,
@@ -77,30 +70,16 @@ export class ArticleAdd extends Component<IProps, State> {
         content
       } = this.props.article.article_item;
       this.props.form.setFieldsValue({ title, author, summary, category, tag });
-      const contentBlock = htmlToDraft(content);
-      const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks
-      );
-      const editorState = EditorState.createWithContent(contentState);
-      this.setState({ editorState });
+      writeArticle(content);
     }
-  };
-
-  private onEditorStateChange = (editorState: any) => {
-    this.setState({
-      editorState
-    });
   };
 
   public handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     console.log(`提交文章`);
-    const { article_item } = this.props.article;
+    const { article_item, content } = this.props.article;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const content = draftToHtml(
-          convertToRaw(this.state.editorState.getCurrentContent())
-        );
         let params = {
           ...values,
           category: String(values.category),
@@ -117,28 +96,23 @@ export class ArticleAdd extends Component<IProps, State> {
     });
   };
 
+  private selectList = items =>
+    items &&
+    items.map((item: any, index) => (
+      <Select.Option value={item.name} key={index}>
+        {item.name}
+      </Select.Option>
+    ));
+
   public render() {
-    const { editorState } = this.state;
     const { getFieldDecorator } = this.props.form;
-    const { article_item } = this.props.article;
+    const { article_item, content } = this.props.article;
     const { category_list_all = [] } = this.props.category;
     const { tag_list_all = [] } = this.props.tag;
+    const { writeArticle } = this.props;
 
     const txt = article_item ? "update" : "create";
-    const categoryOption =
-      category_list_all &&
-      category_list_all.map((item: any, index) => (
-        <Select.Option value={item.name} key={index}>
-          {item.name}
-        </Select.Option>
-      ));
-    const tagOption =
-      tag_list_all &&
-      tag_list_all.map((item: any, index) => (
-        <Select.Option value={item.name} key={index}>
-          {item.name}
-        </Select.Option>
-      ));
+
     return (
       <div className="admin-article">
         <div className="admin-article">
@@ -162,22 +136,24 @@ export class ArticleAdd extends Component<IProps, State> {
             <Form.Item label="分类">
               {getFieldDecorator("category", {
                 rules: [{ required: true, message: "请输入分类" }]
-              })(<Select>{categoryOption}</Select>)}
+              })(<Select>{this.selectList(category_list_all)}</Select>)}
             </Form.Item>
             <Form.Item label="标签">
               {getFieldDecorator("tag", {
                 rules: [{ required: true, message: "请输入标签" }]
-              })(<Select>{tagOption}</Select>)}
+              })(<Select>{this.selectList(tag_list_all)}</Select>)}
             </Form.Item>
-            <Form.Item label="内容">
-              <Editor
-                editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onEditorStateChange={this.onEditorStateChange}
-              />
+            <Form.Item label="内容" wrapperCol={{ span: 24 }}>
+              <div className="content-box">
+                <div className="editor-wrapper">
+                  <Editor markdown={content} setMarkdown={writeArticle} />
+                </div>
+                <div className="preview">
+                  <Preview markdown={content} />
+                </div>
+              </div>
             </Form.Item>
+
             <Form.Item wrapperCol={{ span: 24 }}>
               <div className="article-button">
                 <Button type="primary" htmlType="submit">
@@ -204,7 +180,8 @@ const mapDispatchToProps = {
   createArticle: Article.instance.createArticle,
   updateArticle: Article.instance.updateArticle,
   getArticleItem: Article.instance.getArticleItem,
-  getArticleItemSuccess: Article.instance.getArticleItemSuccess
+  getArticleItemSuccess: Article.instance.getArticleItemSuccess,
+  writeArticle: Article.instance.writeArticle
 };
 
 export default Form.create({ name: "article_add" })(

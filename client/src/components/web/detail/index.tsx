@@ -7,6 +7,7 @@ import { IState } from "@reducer";
 import { RouteComponentProps } from "react-router-dom";
 interface Props {
   getArticle: Function;
+  getArticleItemSuccess: Function;
 }
 
 import Preview from "../../common/preview";
@@ -16,7 +17,8 @@ import Preview from "../../common/preview";
     article
   }),
   {
-    getArticle: Article.instance.getArticle
+    getArticle: Article.instance.getArticle,
+    getArticleItemSuccess: Article.instance.getArticleItemSuccess
   }
 ) as any)
 export default class Detail extends Component<
@@ -24,6 +26,11 @@ export default class Detail extends Component<
 > {
   public componentDidMount() {
     this.props.getArticle(this.props.match.params);
+  }
+  public componentWillUnmount() {
+    this.props.getArticleItemSuccess({
+      article_item: null
+    });
   }
 
   private extra = data => (
@@ -37,13 +44,13 @@ export default class Detail extends Component<
 
   render() {
     const { article_item } = this.props.article;
-    return (
+    return article_item ? (
       <div className="detail">
         <Card title={article_item.title} extra={this.extra(article_item)}>
           <div className="info-wrapper"></div>
           <Preview markdown={article_item.content} />
         </Card>
       </div>
-    );
+    ) : null;
   }
 }

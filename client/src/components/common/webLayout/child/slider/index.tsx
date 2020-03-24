@@ -1,12 +1,10 @@
 import "./index.less";
 import React, { useState } from "react";
-import { Layout, Row, Col, Menu, Icon, Card, Tag, Divider } from "antd";
+import { Card, Tag, Divider } from "antd";
 import avatar from "../../../../../assets/images/snorlax.png";
 import { color } from "@utils";
 
 export default function slider({ tag_list_all, article_list, ...props }) {
-  // console.log(tag_list_all, article_list);
-
   function handleDetail(id) {
     /**
      * 前往文章详情页
