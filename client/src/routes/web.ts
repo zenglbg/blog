@@ -52,14 +52,14 @@ export const webs = [
     icon: "edit",
     component: web_detail,
     beforeEnter: (routeProps, extraProps) => {}
-  },
-  {
-    title: "markdown",
-    path: "/web/markdown",
-    exact: true,
-    menu: true,
-    icon: "edit",
-    component: web_markdown,
-    beforeEnter: (routeProps, extraProps) => {}
   }
+  // {
+  //   title: "markdown",
+  //   path: "/web/markdown",
+  //   exact: true,
+  //   menu: true,
+  //   icon: "edit",
+  //   component: web_markdown,
+  //   beforeEnter: (routeProps, extraProps) => {}
+  // }
 ];

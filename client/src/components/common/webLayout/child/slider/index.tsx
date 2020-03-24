@@ -23,7 +23,7 @@ export default function slider({ tag_list_all, article_list, ...props }) {
     <div className="sider-contianer">
       <div className="admin-info">
         <header>
-          <img src={avatar} alt="avatar" title="我叫路飞，要成为海贼王的男人" />
+          <img src={avatar} alt="avatar" title="追梦者" />
         </header>
         <p className="admin-name">圈圈</p>
         <p className="admin-desc">
