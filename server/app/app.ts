@@ -1,9 +1,6 @@
 import "reflect-metadata";
 // import * as koaBody from 'koa-body';
 import { createKoaServer, Action } from "routing-controllers";
-import { MysqlConfig } from "config";
-
-import { distPath, configs } from "./config/config";
 
 const app = createKoaServer({
   cors: true,
@@ -19,7 +16,5 @@ const app = createKoaServer({
     return false;
   }
 });
-
-const mysqlConfig = configs.mysql as MysqlConfig;
 
 export { app as default };

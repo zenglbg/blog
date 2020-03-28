@@ -1,20 +1,18 @@
 import * as http from "http";
-import * as path from "path";
 import { createConnection } from "typeorm";
 import app from "./app";
-import { port, host } from "./config/config";
+import { port, host, configs } from "./config/config";
 
 interface I_server {
-  port: number;
+  port: number | string;
   host: string;
   init(): any;
 }
-
 class Server implements I_server {
-  public port: number;
+  public port: number | string;
   public host: string;
 
-  constructor(port: number, host: string) {
+  constructor(port: number | string, host: string) {
     this.port = port;
     this.host = host;
     this.init();
@@ -33,16 +31,7 @@ class Server implements I_server {
   }
 }
 
-createConnection({
-  type: "mysql",
-  host: "localhost",
-  port: 3306,
-  username: "blog",
-  password: "123",
-  database: "test",
-  synchronize: true,
-  entities: [`${__dirname}/model/**/*{.js,.ts}`]
-})
+createConnection(configs.mysql)
   .then(async connection => {
     console.log("Inserting a new user into the database...");
     new Server(port, host);

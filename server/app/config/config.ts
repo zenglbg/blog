@@ -9,7 +9,7 @@ const isDev = env === "development";
 const isPro = env === "production";
 const isLocal = env === "local" || env === "local_dev";
 
-const port: number = 9998;
+let port: string | number;
 const host: string = "0.0.0.0";
 
 const distPath = path.resolve(__dirname, "../../public");
@@ -19,13 +19,15 @@ let configs: ConfigMap;
 switch (true) {
   case isPro:
     configs = pro;
+    port = "9998";
     break;
   case isDev:
     configs = dev;
+    port = "9999";
     break;
   case isLocal:
   default:
     configs = local;
+    port = "9998";
 }
-
 export { port, host, isDev, isPro, isLocal, distPath, configs };

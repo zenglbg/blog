@@ -6,7 +6,7 @@
     "jsx": "react",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "outDir": "../build",
+    "outDir": "build",
     "baseUrl": ".",
     "paths": {
       "*": ["@types/*", "node_modules/*"]

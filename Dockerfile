@@ -1,15 +1,26 @@
 FROM node:10
 
 EXPOSE 9998
+ENV NODE_ENV='production'
 
-COPY ./server/package.json package.json
 
-RUN yarn
+
+
+RUN mkdir -p /server
+WORKDIR /server
+
 
 COPY ./server/. .
 
-RUN yarn build
+RUN rm -rf yarn*
 
-CMD [ "node" ,  'build/'  ]
+RUN yarn
+
+RUN yarn global add typescript
+
+RUN tsc
+# CMD yarn loc
+# CMD [ "yarn", "server" ]
+CMD  node build/index.js
 
 

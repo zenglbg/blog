@@ -3,14 +3,13 @@ import { ConfigMap } from "config";
 
 export const configs: ConfigMap = {
   mysql: {
-    host: ["127.0.0.1"],
-    user: "blog",
+    type: "mysql",
+    host: "192.168.43.144",
+    port: 3306,
+    username: "blog",
     password: "123",
-    database: "quanibm",
-    key: "mysql",
-    modelPath: [
-      path.join(__dirname, "../../models/user"),
-      path.join(__dirname, "../../models/articles")
-    ]
+    database: "test",
+    synchronize: true,
+    entities: [path.join(__dirname, "../../model/**/*{.js,.ts}")]
   }
 };

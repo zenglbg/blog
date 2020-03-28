@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { createEpicMiddleware } from "redux-observable";
 import { createLogger } from "redux-logger";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -26,6 +26,7 @@ const store = createStore(
   persistedReducer,
   // rootReducer(history),
   initialState,
+  // compose(applyMiddleware(...middlewares))
   composeWithDevTools(applyMiddleware(...middlewares))
 );
 let persistor = persistStore(store);

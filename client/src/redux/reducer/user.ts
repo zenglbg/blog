@@ -19,10 +19,11 @@ export default function userReducer(
 ): IUserState {
   switch (action.type) {
     case getType(User.instance.loginSuccess):
+      const { user, passwd } = action.payload;
       return {
         ...state,
-        user: "123",
-        passwd: "12222",
+        user,
+        passwd,
         isLogin: true
       };
     case getType(User.instance.loginError):

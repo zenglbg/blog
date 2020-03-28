@@ -1,12 +1,15 @@
-import { ConfigMap } from 'config';
+import * as path from "path";
+import { ConfigMap } from "config";
 
 export const configs: ConfigMap = {
   mysql: {
-    host: ['127.0.0.1'],
-    user: 'root',
-    password: 'jarvis',
-    database: 'ts_test',
-    key: 'mysql',
-    modelPath: ['user', 'articles']
+    type: "mysql",
+    host: "localhost",
+    port: 3306,
+    username: "blog",
+    password: "123",
+    database: "test",
+    synchronize: true,
+    entities: [path.join(__dirname, "../../model/**/*{.js,.ts}")]
   }
 };

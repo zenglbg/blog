@@ -6,7 +6,9 @@
   "scripts": {
     "first": "rm -rf node_modules && rm yarn.lock && yarn && yarn dev",
     "build": "./node_modules/.bin/tsc",
-    "dev": "./node_modules/.bin/nodemon ./app/index.ts"
+    "dev": "NODE_ENV='development' ./node_modules/.bin/nodemon ./app/index.ts",
+    "loc": "NODE_ENV='local'  node build/index.js",
+    "server": "NODE_ENV='production'  node build/index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +18,6 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.0",
     "consolidate": "^0.15.1",
-    "draft-js": "^0.11.4",
     "ejs": "^3.0.1",
     "kcors": "^2.2.2",
     "koa": "^2.11.0",
@@ -31,10 +32,7 @@
     "mysql2": "^2.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-draft-wysiwyg": "^1.14.4",
-    "react-particles-js": "^2.7.0",
     "react-redux": "^7.1.3",
-    "reactparticles.js": "^2.0.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-observable": "^1.2.0",
@@ -57,14 +55,9 @@
     "@types/react-redux": "^7.1.5",
     "@types/redux-logger": "^3.0.7",
     "@types/rx": "^4.1.1",
-    "@types/draft-js": "^0.10.38",
-    "@types/react-draft-wysiwyg": "^1.13.0",
     "nodemon": "^2.0.2",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "redux-logger": "^3.0.6",
-    "terser-webpack-plugin": "^2.3.2",
     "ts-node": "^8.6.1",
-    "typescript": "^3.7.4",
-    "webpack-bundle-analyzer": "^3.6.0"
+    "typescript": "^3.8.3"
   }
 }
