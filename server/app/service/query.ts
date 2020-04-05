@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import { BaseEntity, Repository } from "typeorm";
 
 @Service()
-export default class Query {
+export class Query {
   public async list(Entity, where, params, pageNo, pageSize) {
     try {
       const data = await Entity.createQueryBuilder("entity")
@@ -19,14 +19,14 @@ export default class Query {
           code: 1000,
           data,
           total: data.length,
-          msg: "success"
+          msg: "success",
         };
       }
     } catch (err) {
       console.log(err);
       return {
         code: 1003,
-        msg: "服务器繁忙"
+        msg: "服务器繁忙",
       };
     }
   }
@@ -40,14 +40,14 @@ export default class Query {
       if (data) {
         return {
           code: 1000,
-          data
+          data,
         };
       }
     } catch (err) {
       console.log(err);
       return {
         code: 1003,
-        msg: "服务器繁忙"
+        msg: "服务器繁忙",
       };
     }
   }
@@ -58,19 +58,19 @@ export default class Query {
       if (category) {
         return {
           code: 300,
-          msg: "数据已存在"
+          msg: "数据已存在",
         };
       }
       const data = await Entity.create(save).save();
       return {
         code: 1000,
-        data
+        data,
       };
     } catch (err) {
       console.log(err);
       return {
         code: 1003,
-        msg: "服务器繁忙"
+        msg: "服务器繁忙",
       };
     }
   }
@@ -82,23 +82,23 @@ export default class Query {
         if (res.affected === 1) {
           return {
             code: 1000,
-            msg: "删除成功"
+            msg: "删除成功",
           };
         } else {
           return {
             code: 1003,
-            msg: "此数据不存在"
+            msg: "此数据不存在",
           };
         }
       }
       return {
         code: 1002,
-        msg: "参数错误"
+        msg: "参数错误",
       };
     } catch (err) {
       return {
         code: 1003,
-        msg: "服务器繁忙"
+        msg: "服务器繁忙",
       };
     }
   }

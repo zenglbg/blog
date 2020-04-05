@@ -5,13 +5,13 @@ import {
   Get,
   Post,
   JsonController,
-  Body
+  Body,
 } from "routing-controllers";
 // import crypto from "crypto";
 import { Context } from "koa";
 import { getRepository } from "typeorm";
 import { Service, Inject } from "typedi";
-import Query from "../service/query";
+import { Query } from "../service";
 @Service()
 @JsonController("/api")
 export default class {
@@ -28,14 +28,14 @@ export default class {
       .createQueryBuilder("article")
       .where("article.title like :param")
       .setParameters({
-        param: `%${title}%`
+        param: `%${title}%`,
       })
       .offset((+pageNo - 1) * +pageSize)
       .limit(pageSize)
       .orderBy("createdAt", "DESC")
       .getMany();
 
-    data.forEach(function(v: any) {
+    data.forEach(function (v: any) {
       v.tag = v.tag.split(",");
       v.category = v.category.split(",");
     });
@@ -44,7 +44,7 @@ export default class {
       code: 1000,
       data,
       tatol: data.length,
-      msg: "success"
+      msg: "success",
     };
   }
 
@@ -53,7 +53,7 @@ export default class {
     const data: any = await this.query.listAll(Article);
 
     if (data.code === 1000) {
-      data.data.forEach(function(v: any) {
+      data.data.forEach(function (v: any) {
         v.tag = v.tag.split(",");
         v.category = v.category.split(",");
       });
@@ -74,16 +74,16 @@ export default class {
       const _data = {
         ...data,
         tag: data.tag.split(","),
-        category: data.category.split(",")
+        category: data.category.split(","),
       };
       return {
         code: 1000,
-        data: _data
+        data: _data,
       };
     }
     return {
       code: 1003,
-      msg: "分类不存在"
+      msg: "分类不存在",
     };
   }
 
@@ -98,8 +98,8 @@ export default class {
       data: {
         ...article,
         tag: article.tag.split(","),
-        category: article.category.split(",")
-      }
+        category: article.category.split(","),
+      },
     };
   }
 
@@ -110,7 +110,7 @@ export default class {
     if (!title) {
       return {
         code: 1003,
-        msg: "分类不能为空"
+        msg: "分类不能为空",
       };
     }
     // this.query.create(Tag, { name: tag }, { name: tag });
@@ -126,13 +126,13 @@ export default class {
       await Article.update({ id }, body);
       return {
         code: 1000,
-        msg: "修改成功"
+        msg: "修改成功",
       };
     } catch (error) {
       console.log(error);
       return {
         code: 1003,
-        msg: "服务器繁忙"
+        msg: "服务器繁忙",
       };
     }
   }

@@ -19,9 +19,9 @@ class Server implements I_server {
   }
 
   public init() {
-    const currentApp = app.callback();
+    // const currentApp = app.callback();
 
-    const server = http.createServer(currentApp);
+    const server = http.createServer(app);
 
     server.listen(this.port, () => {
       console.log(`

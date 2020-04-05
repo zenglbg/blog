@@ -6,11 +6,12 @@ import {
   Post,
   JsonController,
   Body,
-  QueryParams
+  QueryParams,
 } from "routing-controllers";
 import { Context } from "koa";
 import { Container, Service } from "typedi";
-import Query from "../service/query";
+import { Query } from "../service";
+
 const query = Container.get(Query);
 @Service()
 @JsonController("/api")
@@ -39,7 +40,7 @@ export default class {
     if (!title) {
       return {
         code: 1003,
-        msg: "标题不能为空"
+        msg: "标题不能为空",
       };
     }
     return this.query.create(Star, { title }, body);

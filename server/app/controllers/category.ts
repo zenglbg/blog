@@ -5,12 +5,13 @@ import {
   Get,
   Post,
   JsonController,
-  Body
+  Body,
 } from "routing-controllers";
 import { Context } from "koa";
 // import crypto from "crypto";
 import { Container, Inject, Service } from "typedi";
-import Query from "../service/query";
+import { Query } from "../service";
+
 const query = Container.get(Query);
 
 @JsonController("/api")
@@ -34,7 +35,7 @@ export default class {
     if (!name) {
       return {
         code: 1003,
-        msg: "分类不能为空"
+        msg: "分类不能为空",
       };
     }
     return query.create(Category, { name }, { name });
