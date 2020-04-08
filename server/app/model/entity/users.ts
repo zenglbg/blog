@@ -74,6 +74,7 @@ export class User extends Base {
     type: "varchar",
     length: 20,
     comment: "用户等级",
+    default: "1",
   })
   user_level: string;
 
@@ -81,18 +82,21 @@ export class User extends Base {
     type: "varchar",
     length: 20,
     comment: "用户权限",
+    default: "1",
   })
   user_rights: string;
 
   @Column({
     type: "date",
     comment: "用户生日",
+    nullable: true,
   })
   user_birthday: Date;
 
   @Column({
     type: "tinyint",
     comment: "用户年龄",
+    nullable: true,
   })
   user_age: string;
 
@@ -103,6 +107,7 @@ export class User extends Base {
     type: "varchar",
     length: 11,
     comment: "用户手机号",
+    nullable: true,
   })
   user_telephone_number: string;
 
@@ -110,6 +115,7 @@ export class User extends Base {
     type: "varchar",
     length: 20,
     comment: "用户昵称",
+    default: "一星斗者",
   })
   user_nickname: string;
 }

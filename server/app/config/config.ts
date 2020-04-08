@@ -13,7 +13,14 @@ let port: string | number;
 const host: string = "0.0.0.0";
 
 const distPath = path.resolve(__dirname, "../../public");
-
+const mailConfig = {
+  host: "smtp.163.com",
+  port: 465,
+  auth: {
+    user: "zzzibm@163.com",
+    pass: "JYADGGRRWOMPYGBW",
+  },
+};
 let configs: ConfigMap;
 
 switch (true) {
@@ -30,4 +37,4 @@ switch (true) {
     configs = local;
     port = "9998";
 }
-export { port, host, isDev, isPro, isLocal, distPath, configs };
+export { port, host, isDev, isPro, isLocal, distPath, configs, mailConfig };

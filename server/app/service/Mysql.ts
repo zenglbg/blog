@@ -23,4 +23,11 @@ export class Mysql {
     let entityToRomove = await this.findOne(Entity, key);
     return await Entity.remove(entityToRomove);
   }
+  public async update(Entity: any, where: any, update: any) {
+    return await Entity.createQueryBuilder("emailUser")
+      .update(Entity)
+      .set(update)
+      .where(where)
+      .execute();
+  }
 }
