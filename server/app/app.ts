@@ -87,7 +87,7 @@ async function confirmUser(token: any) {
       if (error) {
         fail({ user: null, currentuser: false });
       } else {
-        ok({ user: success.data.username, currentuser: true });
+        ok({ user_name: success.data.user_name, currentuser: true });
       }
     });
   });

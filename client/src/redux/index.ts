@@ -15,11 +15,16 @@ const logger = createLogger({ collapsed: true }); // log every action to see wha
 const history = createBrowserHistory();
 const persistConfig = {
   key: "root",
-  storage
+  storage,
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer(history));
 
-const middlewares = [logger, epicMiddleware, routerMiddleware(history)];
+const middlewares = [
+  logger,
+  // epicMiddleware,
+  epicMiddleware,
+  routerMiddleware(history),
+];
 const initialState = {};
 
 const store = createStore(

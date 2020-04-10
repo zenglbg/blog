@@ -5,7 +5,7 @@ export class Auth {
   public token(key: string, user_name: string) {
     return jwt.sign(
       {
-        exp: Math.floor(Date.now() / 1000 + 60 * 60),
+        exp: Math.floor(Date.now() / 1000 + 60 * 10),
         data: {
           user_name,
         },

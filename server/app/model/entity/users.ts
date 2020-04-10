@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  OneToOne,
+} from "typeorm";
 import {
   IsEmail,
   IsNotEmpty,
@@ -11,13 +17,12 @@ import {
   IsPhoneNumber,
 } from "class-validator";
 import Base from "../base";
-import { isIP } from "net";
-import { isDate } from "util";
+import { Profiles } from "./profiles";
 
 @Entity()
 export class User extends Base {
   @PrimaryGeneratedColumn({
-    type: "bigint",
+    type: "int",
     comment: "用户id",
   })
   user_id: number;
@@ -55,67 +60,9 @@ export class User extends Base {
   })
   user_password: string;
 
-  @IsEmail()
-  @Column({
-    type: "varchar",
-    length: 30,
-    comment: "用户邮箱",
+  @OneToOne((type) => Profiles, {
+    cascade: ["insert", "update", "remove"],
   })
-  user_email: string;
-
-  @Column({
-    type: "varchar",
-    length: 255,
-    comment: "用户头像",
-  })
-  user_avatar: string;
-
-  @Column({
-    type: "varchar",
-    length: 20,
-    comment: "用户等级",
-    default: "1",
-  })
-  user_level: string;
-
-  @Column({
-    type: "varchar",
-    length: 20,
-    comment: "用户权限",
-    default: "1",
-  })
-  user_rights: string;
-
-  @Column({
-    type: "date",
-    comment: "用户生日",
-    nullable: true,
-  })
-  user_birthday: Date;
-
-  @Column({
-    type: "tinyint",
-    comment: "用户年龄",
-    nullable: true,
-  })
-  user_age: string;
-
-  @IsPhoneNumber("CN", {
-    message: "手机号码格式错误",
-  })
-  @Column({
-    type: "varchar",
-    length: 11,
-    comment: "用户手机号",
-    nullable: true,
-  })
-  user_telephone_number: string;
-
-  @Column({
-    type: "varchar",
-    length: 20,
-    comment: "用户昵称",
-    default: "一星斗者",
-  })
-  user_nickname: string;
+  @JoinColumn({ name: "profile" })
+  profile: Profiles;
 }

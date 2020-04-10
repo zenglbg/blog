@@ -11,7 +11,7 @@ import {
   delay,
   startWith,
   mergeMap,
-  concatAll
+  concatAll,
 } from "rxjs/operators";
 import { getType } from "typesafe-actions";
 import { push } from "connected-react-router";
@@ -23,28 +23,31 @@ export const userEpic1 = (action$: ActionsObservable<any>, state$) =>
     switchMap(({ payload }) => {
       return Api.instance
         .post("/api/login", {
-          user: payload.userName,
-          passwd: payload.password
+          user_name: payload.userName,
+          user_password: payload.password,
         })
         .pipe(
-          map(res => {
-            if (res.response.code === 1000) {
+          map((res) => {
+            if (res.response.code === 200) {
               const data = {
                 user: res.response.user,
-                passwd: res.response.passwd
+                passwd: res.response.passwd,
               };
-              return push("/admin/home");
-              return User.instance.loginSuccess(data);
+              return concat(
+                of(push("/admin/home")),
+                of(User.instance.loginSuccess(data))
+              );
             } else {
-              return User.instance.loginError(res.response.msg);
+              return of(User.instance.loginError(res.response.msg));
             }
           }),
-          catchError(err => {
+          catchError((err) => {
             User.instance.loginError("发生了错误");
             return throwError(err);
           })
         );
-    })
+    }),
+    concatAll()
   );
 
 export const userEpic = (action$: ActionsObservable<any>, state$) =>
@@ -52,26 +55,24 @@ export const userEpic = (action$: ActionsObservable<any>, state$) =>
     ofType(getType(User.instance.doLogin)),
     switchMap(({ payload }) => {
       return Api.instance.post("/api/login", {
-        user: payload.userName,
-        passwd: payload.password
+        user_name: payload.userName,
+        user_password: payload.password,
       });
     }),
-    mergeMap(res => {
+    mergeMap((res) => {
       console.log(res, "res");
-      if (res.response.code === 1000) {
-        const data = {
-          user: res.response.user,
-          passwd: res.response.passwd
-        };
+      if (res.response.code === 200) {
+        const { token, user_name } = res.response;
+
         return concat(
-          of(User.instance.loginSuccess(data)),
+          of(User.instance.loginSuccess({ token, user_name })),
           of(push("/admin/home"))
         );
       } else {
         return of(User.instance.loginError(res.response.msg));
       }
     }),
-    catchError(err => {
+    catchError((err) => {
       User.instance.loginError("发生了错误");
       return throwError(err);
     })

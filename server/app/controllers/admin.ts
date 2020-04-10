@@ -6,7 +6,7 @@ import { Context } from "koa";
 
 @JsonController("/api")
 export default class {
-  @Post("/login")
+  @Post("/login1")
   async login(@Ctx() ctx: Context) {
     // const admin = new Admin();
     // admin.name = "tom";
@@ -21,7 +21,7 @@ export default class {
         code: isRight ? 1000 : 1003,
         user,
         passwd,
-        msg: isRight ? "登录成功" : "帐号或密码错误"
+        msg: isRight ? "登录成功" : "帐号或密码错误",
       };
     } catch (e) {
       console.log(e);

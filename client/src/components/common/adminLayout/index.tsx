@@ -31,7 +31,7 @@ export class AdminLayout extends Component<Props, State> {
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
   handleClickMenuItem = (item: any) => {
@@ -72,7 +72,7 @@ export class AdminLayout extends Component<Props, State> {
               theme="dark"
               mode="inline"
               defaultSelectedKeys={[
-                sessionStorage.getItem("menuItmeKey") || "0"
+                sessionStorage.getItem("menuItmeKey") || "0",
               ]}
             >
               {this.menuItem()}
@@ -87,7 +87,7 @@ export class AdminLayout extends Component<Props, State> {
               ></Icon>
               <span className="user">
                 <Avatar style={{ backgroundColor: "#f56a00" }}>
-                  {this.props.user.user}
+                  {this.props.user.user_name}
                 </Avatar>
                 <Dropdown overlay={menu} className="ml10">
                   <Icon type="down" />
@@ -108,8 +108,8 @@ export class AdminLayout extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user
+const mapStateToProps = (state) => ({
+  user: state.user,
 });
 
 const mapDispatchToProps = {};

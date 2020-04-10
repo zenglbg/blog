@@ -1,4 +1,4 @@
-import { User, EmailUser } from "../../model/entity";
+import { User, EmailUser, Profiles } from "../../model/entity";
 import { Request } from "express";
 
 import {
@@ -12,6 +12,7 @@ import {
   Session,
   Authorized,
   Req,
+  CurrentUser,
 } from "routing-controllers";
 import { Service, Inject } from "typedi";
 
@@ -29,7 +30,7 @@ export default class {
   private saltRounds = 10;
   private jwtKey = process.env.JWTKEY || "complexKey";
 
-  @Post("/login1")
+  @Post("/login")
   public async login(
     @Body() { user_name, user_password }: any,
     @Session() session: any
@@ -53,6 +54,7 @@ export default class {
         return {
           code: 200,
           msg: "登录成功",
+          user_name,
           token,
         };
       }
@@ -108,34 +110,41 @@ export default class {
   @Post("/register")
   public async register(
     @Req() req: Request,
-    @Body({ validate: true }) user: User & { validate_code: string }
+    @Body({ validate: true })
+    user: User & { user_email: string; validate_code: string }
   ) {
-    /**
-     * 1. 检查用户名是否存在
-     */
-    const { user_name, user_password, validate_code } = user;
-    const user_ip = this.utils.getIp(req);
-    const user_avatar = "images/men.png";
-
-    /**
-     * 添加用户。
-     * 加密密码
-     * 验证是否添加成功
-     */
+    const { user_name, user_email, user_password, validate_code } = user;
+    // 验证用户是否存在
+    const is_exist = await this.mysql.findOne(User, { user_name });
+    if (is_exist) {
+      return {
+        code: 206,
+        msg: "用户已存在",
+      };
+    }
+    // 验证码是否正确
     const email: EmailUser = await this.mysql.findOne(EmailUser, {
       user_name,
       validate_code,
     });
-    if (email && email.dead_line > new Date().getTime()) {
+    if (email && email.usable === 2 && email.dead_line > new Date().getTime()) {
       const hash_password = await this.auth.crypto(
         this.saltRounds,
         user_password
       );
+      const user_ip = this.utils.getIp(req);
+      const user_avatar = "images/men.png";
+
+      const profile = {
+        user_avatar,
+        user_email,
+      };
       const create = await this.mysql.save(User, {
         ...user,
         user_ip,
         user_avatar,
         user_password: hash_password,
+        profile,
       });
       if (create) {
         await this.mysql.update(EmailUser, { validate_code }, { usable: 1 });
@@ -150,6 +159,8 @@ export default class {
         msg: "用户创建失败",
       };
     } else {
+      await this.mysql.update(EmailUser, { validate_code }, { usable: 1 });
+
       return {
         code: 403,
         msg: "无效的验证码！",
@@ -169,5 +180,14 @@ export default class {
   }
 
   @Post("/getUserInfo")
-  public async getUserInfo() {}
+  public async getUserInfo(@CurrentUser({ required: true }) check: any) {
+    console.log(3333, "user_name", check.user_name);
+    const profiles = await User.createQueryBuilder("user")
+      .leftJoinAndSelect("user.profile", "profile")
+      .getOne();
+    return {
+      code: 200,
+      data: profiles,
+    };
+  }
 }

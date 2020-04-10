@@ -21,17 +21,18 @@ export class Routes {
 const AdminLayout = Loadable(() => import("../components/common/adminLayout"));
 const WebLayout = Loadable(() => import("../components/common/webLayout"));
 const admin_login = Loadable(() => import("../components/admin/login"));
+const admin_register = Loadable(() => import("../components/admin/register"));
 
 export const routes = [
   {
     path: "/admin",
     component: AdminLayout,
-    routes: admins
+    routes: admins,
   },
   {
     path: "/web",
     component: WebLayout,
-    routes: webs
+    routes: webs,
   },
   {
     title: "登录",
@@ -39,8 +40,16 @@ export const routes = [
     exact: true,
     menu: false,
     component: admin_login,
-    beforeEnter: (routeProps, extraProps) => {}
-  }
+    beforeEnter: (routeProps, extraProps) => {},
+  },
+  {
+    title: "注册",
+    path: "/register",
+    exact: true,
+    menu: false,
+    component: admin_register,
+    beforeEnter: (routeProps, extraProps) => {},
+  },
 ];
 
 interface Props {}

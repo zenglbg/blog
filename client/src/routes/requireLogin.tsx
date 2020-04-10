@@ -2,22 +2,24 @@ import React, { ReactElement, useState } from "react";
 
 interface Props {}
 
-export default function(Component) {
+export default function (Component) {
   if (Component.requireLogin) {
     return Component.requireLogin;
   }
 
   function requireLogin(props) {
     // 判断登陆
-    const user = sessionStorage.getItem("user");
+    const token = sessionStorage.getItem("token");
     // 未登陆重定向到登陆页面
-    const pathname = props.location.pathname !== "/login";
+    const pathname =
+      props.location.pathname !== "/login" ||
+      props.location.pathname !== "/register";
 
-    if (!user && pathname) {
+    if (!token && pathname) {
       props.history.push("/login");
     }
 
-    return user ? <Component {...props}>{props.children}</Component> : null;
+    return token ? <Component {...props}>{props.children}</Component> : null;
   }
 
   Component.requireLogin = requireLogin;

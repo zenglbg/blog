@@ -30,4 +30,26 @@ export class Mysql {
       .where(where)
       .execute();
   }
+  public async list(
+    Entity,
+    key: string,
+    val: string,
+    pageNo: number,
+    pageSize: number
+  ) {
+    return await Entity.createQueryBuilder("entity")
+      .where(`entity.${key} like :${key}`)
+      .offset((pageNo - 1) * pageSize)
+      .limit(pageSize)
+      .setParameters({
+        [key]: `%${val}%`,
+      })
+      .orderBy("createdAt", "DESC")
+      .getMany();
+  }
+  public async listAll(Entity) {
+    return await Entity.createQueryBuilder("entity")
+      .orderBy("createdAt", "DESC")
+      .getMany();
+  }
 }

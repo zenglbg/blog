@@ -13,13 +13,13 @@ import { getRepository } from "typeorm";
 import { Service, Inject } from "typedi";
 import { Query } from "../service";
 @Service()
-@JsonController("/api")
+@JsonController("/api/article1")
 export default class {
   constructor(private query: Query) {
     this.query = new Query();
   }
 
-  @Get("/article/list")
+  @Get("/list")
   async list(@Ctx() ctx: Context) {
     console.log(` 被请求了文章列表`);
 
@@ -48,7 +48,7 @@ export default class {
     };
   }
 
-  @Get("/article/list/all")
+  @Get("/list/all")
   public async listAll() {
     const data: any = await this.query.listAll(Article);
 
@@ -61,7 +61,7 @@ export default class {
     return data;
   }
 
-  @Get("/article/item")
+  @Get("/item")
   async item(@Ctx() ctx: Context) {
     const { id } = ctx.query;
     const where = { id };
@@ -87,7 +87,7 @@ export default class {
     };
   }
 
-  @Get("/article/detail")
+  @Get("/detail")
   async detail(@Ctx() ctx: Context) {
     const { id } = ctx.query;
     let article = await Article.findOne({ id });
@@ -103,7 +103,7 @@ export default class {
     };
   }
 
-  @Post("/article/create")
+  @Post("/create")
   async create(@Ctx() ctx: Context) {
     const params = (ctx.request as any).body;
     const { title, category, tag } = params;
@@ -118,7 +118,7 @@ export default class {
     return this.query.create(Article, { title }, params);
   }
 
-  @Post("/article/update")
+  @Post("/update")
   public async update(@Body() body: any) {
     const { id } = body;
     delete body.id;
@@ -137,7 +137,7 @@ export default class {
     }
   }
 
-  @Post("/article/destroy")
+  @Post("/destroy")
   public async destroy(@Body() id: { id: number }) {
     return this.query.destroy(id, Article);
   }
