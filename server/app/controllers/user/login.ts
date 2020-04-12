@@ -107,6 +107,35 @@ export default class {
     };
   }
 
+  @Post("/auth")
+  public async authCode(
+    @Req() req: Request,
+    @Body({ validate: true })
+    user: User & EmailUser
+  ) {
+    const { user_name, user_email, validate_code } = user;
+
+    // 验证码是否正确
+    const email: EmailUser = await this.mysql.findOne(EmailUser, {
+      user_name,
+      user_email,
+      validate_code,
+    });
+    if (email && email.usable === 2 && email.dead_line > new Date().getTime()) {
+      return {
+        code: 200,
+        msg: "验证通过",
+      };
+    } else {
+      await this.mysql.update(EmailUser, { validate_code }, { usable: 1 });
+
+      return {
+        code: 403,
+        msg: "无效的验证码！",
+      };
+    }
+  }
+
   @Post("/register")
   public async register(
     @Req() req: Request,

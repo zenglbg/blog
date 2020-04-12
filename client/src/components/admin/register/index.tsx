@@ -1,26 +1,29 @@
 import "./index.less";
-import React, { Component } from "react";
+import React, { Component, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 import { Card, Input, Button, Icon, Form, Modal } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 
 import { IState } from "@reducer";
-import { User } from "../../../redux/actions";
-import { ValidatorUtils } from "@utils";
+import { User } from "@actions";
+import { SrUser } from "@service";
+
+import FormList from "./formList";
+import Rmodal from "./modal";
 
 type PageDispatchProps = {
-  doLogin: (obj: any) => void;
+  doLogin: Function;
+  get_validate_code: Function;
+  register: Function;
 };
 
-interface Props {
-  form: any;
-  doLogin(): any;
-}
+interface Props {}
 interface State {}
 
 @(Form.create({ name: "register" }) as any)
 @(connect(({ user }: IState) => ({ user }), {
   doLogin: User.instance.doLogin,
+  register: User.instance.register,
 }) as any)
 export default class Register extends Component<
   FormComponentProps & PageDispatchProps & Props,
@@ -28,183 +31,76 @@ export default class Register extends Component<
 > {
   state = {
     isLoading: false,
-    isPassword: false,
+    visible: false,
   };
   public handleChange(key: string, val: any) {
     this.setState({
       [key]: val,
     });
   }
-  public handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields(async (err: Error, values) => {
-      if (!err) {
-        this.props.doLogin(values);
-      }
-    });
-  };
-
-  public handleOk = () => {
-    this.handleChange("isPassword", true);
-  };
   public handleCannel = () => {
-    this.handleChange("isPassword", false);
+    this.handleChange("visible", false);
+  };
+  public handleAuth = (e: SyntheticEvent) => {
+    e.preventDefault();
+    this.props.form.validateFields(
+      ["user_name", "user_email", "validate_code"],
+      (err: Error, { user_name, user_email, validate_code }) => {
+        if (!err) {
+          SrUser.authCode(user_name, user_email, validate_code).subscribe(
+            (isAuth) => isAuth && this.handleChange("visible", true)
+          );
+        }
+      }
+    );
+  };
+  public get_validate_code = () => {
+    this.props.form.validateFields(
+      ["user_name", "user_email"],
+      (err: Error, { user_name, user_email }) => {
+        if (!err) {
+          SrUser.getCode(user_name, user_email).subscribe();
+        }
+      }
+    );
   };
 
-  render() {
-    const { isPassword } = this.state;
+  public handleOk = (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    this.props.form.validateFields(
+      ["user_name", "user_email", "validate_code", "user_password"],
+      async (err: Error, values) => {
+        if (!err) {
+          // SrUser.register(values).subscribe();
+          this.props.register(values);
+        }
+      }
+    );
+  };
+
+  public render() {
+    const { visible } = this.state;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
     return (
       <div className="register">
-        <Card className="register-form" style={{ width: 300, borderRadius: 4 }}>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Item>
-              {getFieldDecorator("user_name", {
-                rules: [
-                  {
-                    required: true,
-                    message: "请输入用户名",
-                  },
-                ],
-              })(
-                <Input
-                  prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="请输入用户名"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("user_email", {
-                rules: [
-                  {
-                    validator(rule: any, value: any, callback: any) {
-                      ValidatorUtils.isNotEmpty(value)
-                        ? callback()
-                        : callback(new Error("邮箱账户不能为空！"));
-                    },
-                  },
-                  {
-                    validator(rule: any, value: any, callback: any) {
-                      ValidatorUtils.isEmail(value)
-                        ? callback()
-                        : callback(new Error("邮箱账户格式不正确！"));
-                    },
-                  },
-                ],
-              })(<Input placeholder="请输入邮箱账户" />)}
-            </Form.Item>
-
-            <Form.Item>
-              {getFieldDecorator("validate_code", {
-                rules: [
-                  {
-                    validator(rule: any, value: any, callback: any) {
-                      ValidatorUtils.isNotEmpty(value)
-                        ? callback()
-                        : callback(new Error("验证码不能为空"));
-                    },
-                  },
-                  {
-                    validator(rule: any, value: any = "", callback: any) {
-                      ValidatorUtils.isBetween(value.length, 5, 7)
-                        ? callback()
-                        : callback(new Error("验证码长度不正确！"));
-                    },
-                  },
-                ],
-              })(<Input type="text" placeholder="请输入验证码" />)}
-            </Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-              block
-            >
-              注册
-            </Button>
-          </Form>
+        <Card className="register-form" style={{ width: 400, borderRadius: 4 }}>
+          <FormList
+            getFieldDecorator={getFieldDecorator}
+            get_validate_code={this.get_validate_code}
+            handleAuth={this.handleAuth}
+          />
         </Card>
 
         {/* 输入密码 */}
-
-        <Modal
-          title="密码输入"
-          visible={isPassword}
-          onOk={this.handleOk}
-          onCancel={this.handleCannel}
-        >
-          <Form>
-            <Form.Item>
-              {getFieldDecorator("password", {
-                rules: [
-                  {
-                    validator(rule: any, value: any, callback: any) {
-                      ValidatorUtils.isNotEmpty(value)
-                        ? callback()
-                        : callback(new Error("密码不能为空！"));
-                    },
-                  },
-                  {
-                    validator(rule: any, value: any = "", callback: any) {
-                      ValidatorUtils.isBetween(value.length, 5, 21)
-                        ? callback()
-                        : callback(new Error("密码长度不正确！"));
-                    },
-                  },
-                ],
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="请输入密码"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("user_password", {
-                rules: [
-                  {
-                    validator(rule: any, value: any, callback: any) {
-                      ValidatorUtils.isNotEmpty(value)
-                        ? callback()
-                        : callback(new Error("密码不能为空！"));
-                    },
-                  },
-                  {
-                    validator(rule: any, value: any = "", callback: any) {
-                      ValidatorUtils.isBetween(value.length, 5, 21)
-                        ? callback()
-                        : callback(new Error("密码长度不正确！"));
-                    },
-                  },
-                  {
-                    validator(rule: any, value: any = "", callback: any) {
-                      const password = getFieldValue("password");
-
-                      value && value !== password
-                        ? callback(new Error("两次密码不一致！"))
-                        : callback();
-                    },
-                  },
-                ],
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="请输入密码"
-                />
-              )}
-            </Form.Item>
-          </Form>
-        </Modal>
-
+        <Rmodal
+          visible={visible}
+          getFieldDecorator={getFieldDecorator}
+          getFieldValue={getFieldValue}
+          handleOk={this.handleOk}
+          handleCannel={this.handleCannel}
+        />
         {/* 输入密码 */}
       </div>
     );

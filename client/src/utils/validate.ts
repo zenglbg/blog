@@ -16,7 +16,6 @@ export class Validator {
       let { validator, errorMsg = "", params = [] } = rule;
       this._validators.push(() => {
         params.unshift(val);
-        console.log(val);
         return validator.apply(null, params);
       });
       this._errorMsg.push(errorMsg);
@@ -48,7 +47,6 @@ export class ValidatorUtils {
     return val > min && val < max;
   };
   public static isEmail = (val: string) => {
-    console.log(val);
     return /^\w+([+-.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(val);
   };
 }
