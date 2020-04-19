@@ -5,17 +5,7 @@ import {
   JoinColumn,
   OneToOne,
 } from "typeorm";
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsString,
-  MinLength,
-  MaxLength,
-  Length,
-  IsIP,
-  IsDate,
-  IsPhoneNumber,
-} from "class-validator";
+import { IsNotEmpty, Length, IsIP } from "class-validator";
 import Base from "../base";
 import { Profiles } from "./profiles";
 

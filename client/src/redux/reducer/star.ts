@@ -1,4 +1,4 @@
-import { getType } from "typesafe-actions";
+import { getType, PayloadAction } from "typesafe-actions";
 import { Star } from "@actions";
 
 interface TagState {
@@ -8,7 +8,7 @@ interface TagState {
 
 const initState = {
   star_list: null,
-  star_list_all: null
+  star_list_all: null,
 };
 
 export default function star(

@@ -1,10 +1,10 @@
+import "./index.less";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { Card, Input, Button, Icon, Form } from "antd";
-import "./index.less";
 
-import { User } from "../../../redux/actions";
+import { User } from "@actions";
+import { IState } from "@reducer";
 
 type PageDispatchProps = {
   doLogin: (obj: any) => void;
@@ -17,12 +17,20 @@ interface Props {
 interface State {}
 
 type IProps = PageDispatchProps & Props;
-
-export class Login extends Component<IProps, State> {
+@(Form.create({ name: "normal_login" }) as any)
+@(connect(
+  ({ user }: IState) => ({
+    user,
+  }),
+  {
+    doLogin: User.instance.doLogin,
+  }
+) as any)
+export default class Login extends Component<IProps, State> {
   state = {
-    isLoading: false
+    isLoading: false,
   };
-  public handleSubmit = e => {
+  public handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
@@ -39,8 +47,8 @@ export class Login extends Component<IProps, State> {
         <Card className="login-form" style={{ width: 300, borderRadius: 4 }}>
           <Form onSubmit={this.handleSubmit}>
             <Form.Item>
-              {getFieldDecorator("userName", {
-                rules: [{ required: true, message: "请输入用户名" }]
+              {getFieldDecorator("user_name", {
+                rules: [{ required: true, message: "请输入用户名" }],
               })(
                 <Input
                   prefix={
@@ -51,8 +59,8 @@ export class Login extends Component<IProps, State> {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator("password", {
-                rules: [{ required: true, message: "请输入密码" }]
+              {getFieldDecorator("user_password", {
+                rules: [{ required: true, message: "请输入密码" }],
               })(
                 <Input
                   prefix={
@@ -77,13 +85,3 @@ export class Login extends Component<IProps, State> {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-const mapDispatchToProps = {
-  doLogin: User.instance.doLogin
-};
-const MyLogin = Form.create({ name: "normal_login" })(Login);
-export default connect(mapStateToProps, mapDispatchToProps)(MyLogin);

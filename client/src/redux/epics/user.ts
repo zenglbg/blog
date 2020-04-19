@@ -19,39 +19,6 @@ import { getType } from "typesafe-actions";
 import { push } from "connected-react-router";
 import { Api, SrUser } from "@service";
 
-// export const userEpic1 = (action$: ActionsObservable<any>, state$) =>
-//   action$.pipe(
-//     ofType(getType(User.instance.doLogin)),
-//     switchMap(({ payload }) => {
-//       return Api.instance
-//         .post("/api/login", {
-//           user_name: payload.userName,
-//           user_password: payload.password,
-//         })
-//         .pipe(
-//           map((res) => {
-//             if (res.response.code === 200) {
-//               const data = {
-//                 user: res.response.user,
-//                 passwd: res.response.passwd,
-//               };
-//               return concat(
-//                 of(push("/admin/home")),
-//                 of(User.instance.loginSuccess(data))
-//               );
-//             } else {
-//               return of(User.instance.loginError(res.response.msg));
-//             }
-//           }),
-//           catchError((err) => {
-//             User.instance.loginError("发生了错误");
-//             return throwError(err);
-//           })
-//         );
-//     }),
-//     concatAll()
-//   );
-
 export const userEpic = (action$: ActionsObservable<any>, state$) =>
   action$.pipe(
     ofType(getType(User.instance.doLogin)),
@@ -88,6 +55,18 @@ export const register = (action$: ActionsObservable<any>, state$) =>
           } else {
             return { type: "err", msg: "注册失败！" };
           }
+        })
+      );
+    })
+  );
+
+export const profiles = (action$: ActionsObservable<any>) =>
+  action$.pipe(
+    ofType(getType(User.instance.profiles)),
+    switchMap(({ payload }) => {
+      return SrUser.profiles().pipe(
+        map(({ response }) => {
+          return User.instance.profiles0(response);
         })
       );
     })

@@ -211,9 +211,12 @@ export default class {
   @Post("/getUserInfo")
   public async getUserInfo(@CurrentUser({ required: true }) check: any) {
     console.log(3333, "user_name", check.user_name);
+
     const profiles = await User.createQueryBuilder("user")
-      .leftJoinAndSelect("user.profile", "profile")
+      .innerJoin("user.profile", "profile")
+      .where({ user_name: check.user_name })
       .getOne();
+    console.log(profiles);
     return {
       code: 200,
       data: profiles,

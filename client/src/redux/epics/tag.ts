@@ -3,7 +3,7 @@ import { of, throwError } from "rxjs";
 import { map, switchMap, catchError } from "rxjs/operators";
 import { ofType, ActionsObservable } from "redux-observable";
 import { message } from "antd";
-import { Api } from "../../utils";
+import { Api } from "@service";
 import { Tags } from "@actions";
 import moment from "moment";
 
@@ -14,16 +14,16 @@ export const get_tag_all = (action$: ActionsObservable<any>) => {
       return Api.instance.get("/api/tag/list/all").pipe(
         map((res: any) => {
           if (res.response.code === 1000) {
-            const data = res.response.data.map(item => ({
+            const data = res.response.data.map((item) => ({
               ...item,
-              createdAt: moment(item.createAt).format("YYYY-MM-DD, h:mm:ss a")
+              createdAt: moment(item.createAt).format("YYYY-MM-DD, h:mm:ss a"),
             }));
             return Tags.instance.getTagAllSuccess({
-              tag_list_all: data
+              tag_list_all: data,
             });
           }
         }),
-        catchError(err => throwError(err))
+        catchError((err) => throwError(err))
       );
     })
   );
@@ -36,16 +36,16 @@ export const get_tag = (action$: ActionsObservable<any>) => {
       return Api.instance.get("/api/tag/list", payload).pipe(
         map((res: any) => {
           if (res.response.code === 1000) {
-            const data = res.response.data.map(item => ({
+            const data = res.response.data.map((item) => ({
               ...item,
-              createdAt: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss")
+              createdAt: moment(item.createdAt).format("YYYY-MM-DD HH:mm:ss"),
             }));
             return Tags.instance.getTagAllSuccess({
-              tag_list_all: data
+              tag_list_all: data,
             });
           }
         }),
-        catchError(err => throwError(err))
+        catchError((err) => throwError(err))
       );
     })
   );
@@ -61,7 +61,7 @@ export const createTag = (action$: ActionsObservable<any>) => {
        */
       console.log(payload, "payloadpayloadpayloadpayloadpayload");
       return Api.instance.post("/api/tag/create", payload).pipe(
-        map(res => {
+        map((res) => {
           if (res.response.code === 1000) {
             message.success("分类创建成功");
             return Tags.instance.getTagAll();
@@ -82,7 +82,7 @@ export const del_tag = (action$: ActionsObservable<any>) =>
        */
       console.log(payload);
       return Api.instance.post("/api/tag/destroy", payload).pipe(
-        map(res => {
+        map((res) => {
           if (res.response.code === 1000) {
             return Tags.instance.getTagAll();
           }

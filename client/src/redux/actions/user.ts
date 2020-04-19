@@ -5,6 +5,9 @@ export class User {
   public LOGIN: string = "LOGIN";
   public LOGIN_SUCCESS: string = "LOGIN_SUCCESS";
   public LOGIN_ERROR: string = "LOGIN_ERROR";
+  public PROFILES = "PROFILES";
+  public PROFILES0 = "PROFILES0"; // 0表示成功
+  public PROFILES1 = "PROFILES1"; // 1表示失败
 
   public static user: User;
   public static get instance() {
@@ -13,6 +16,13 @@ export class User {
     }
     return this.user;
   }
+
+  public profiles = createAction(this.PROFILES)();
+  public profiles0 = createAction(
+    this.PROFILES0,
+    /**profiles 为用户信息对象 **/ (profiles) => profiles
+  )();
+  public profiles1 = createAction(this.PROFILES1, (err) => err)();
 
   public register = createAction(
     this.REGISTER,

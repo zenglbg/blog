@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { Loadable } from "@utils";
-import { Route, Redirect, RouteComponentProps } from "react-router-dom";
 import { admins } from "./admin";
+import { Route, Redirect, RouteComponentProps, Switch } from "react-router-dom";
 import { webs } from "./web";
 export * from "./admin";
 export * from "./web";
@@ -80,7 +80,7 @@ export default class RouteView extends React.PureComponent<Props> {
     return (
       <div className="route">
         <Route exact path="/" render={() => <Redirect to="/web/home" push />} />
-        {this.routesRenderMsp(this.routes)}
+        <Switch>{this.routesRenderMsp(this.routes)}</Switch>
       </div>
     );
   }

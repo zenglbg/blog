@@ -6,7 +6,7 @@ interface IParams {
 
 export class Api {
   private static api: Api;
-  private defautlHaders = {
+  private defautlHaders: Object = {
     "Content-Type": "application/json; charset=utf-8",
   };
   constructor(header?: Object) {
@@ -34,7 +34,7 @@ export class Api {
     });
   }
 
-  public post(url: string, body?: IParams) {
+  public post(url: string, body: IParams) {
     this.checkToken();
     return ajax({
       url: url,

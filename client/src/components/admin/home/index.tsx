@@ -1,25 +1,35 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-
+import { IState } from "@reducer";
+import { User } from "@actions";
 import AdminLayout from "../../common/adminLayout";
 
 interface Props {
   user: any;
+  profiles: Function;
 }
 interface State {
   collapsed: string;
 }
 
-export class index extends Component<Props & RouteComponentProps, State> {
+@(connect(
+  ({ user }: IState) => ({
+    user,
+  }),
+  {
+    profiles: User.instance.profiles,
+  }
+) as any)
+export default class index extends Component<
+  Props & RouteComponentProps,
+  State
+> {
   state = {
-    collapsed: ""
+    collapsed: "",
   };
   componentDidMount() {
-    console.log(1, this.props);
-  }
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    this.props.profiles();
   }
 
   handleClick = () => {
@@ -33,11 +43,3 @@ export class index extends Component<Props & RouteComponentProps, State> {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(index);

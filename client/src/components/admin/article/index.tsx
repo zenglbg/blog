@@ -7,8 +7,6 @@ import { color } from "../../../utils";
 import { IState } from "@reducer";
 import { Article } from "@actions";
 
-import AdminLayout from "../../common/adminLayout";
-import { throwInvalidAsyncActionArgument } from "typesafe-actions/dist/create-async-action";
 interface Props {
   getArticleListAll: Function;
   getArticleList: (obj: any) => void;
@@ -21,8 +19,20 @@ export type IProps = Props &
   ArticleState &
   FormComponentProps &
   RouteComponentProps;
-
-export class Article_doc extends Component<IProps> {
+@(Form.create({ name: "article" }) as any)
+@(connect(
+  ({ article }: IState) => ({
+    article,
+  }),
+  {
+    getArticleListAll: Article.instance.getArticleListAll,
+    getArticleList: Article.instance.getArticleList,
+    getArticleItem: Article.instance.getArticleItem,
+    delArticle: Article.instance.delArticle,
+    getArticleStatus: Article.instance.getArticleStatus,
+  }
+) as any)
+export default class Article_doc extends Component<IProps> {
   state: {
     loading: boolean;
     title: string;
@@ -40,24 +50,24 @@ export class Article_doc extends Component<IProps> {
         dataIndex: "id",
         key: "index",
         width: 80,
-        align: "center"
+        align: "center",
       },
       {
         title: "标题",
         dataIndex: "title",
-        key: "title"
+        key: "title",
       },
       {
         title: "摘要",
         dataIndex: "summary",
         key: "summary",
-        width: 300
+        width: 300,
       },
       {
         title: "分类",
         dataIndex: "category",
         key: "category",
-        render: category =>
+        render: (category) =>
           category.map((v, index) => (
             <Tag
               key={index}
@@ -65,29 +75,29 @@ export class Article_doc extends Component<IProps> {
             >
               {v}
             </Tag>
-          ))
+          )),
       },
       {
         title: "访问次数",
         dataIndex: "readedCount",
         key: "readedCount",
-        width: 50
+        width: 50,
       },
       {
         title: "创建时间",
         dataIndex: "createdAt",
-        key: "createdAt"
+        key: "createdAt",
       },
       {
         title: "更新时间",
         dataIndex: "updatedAt",
-        key: "updatedAt"
+        key: "updatedAt",
       },
       {
         title: "操作",
         align: "center",
         width: 180,
-        render: record => (
+        render: (record) => (
           <span>
             <Button
               ghost
@@ -109,9 +119,9 @@ export class Article_doc extends Component<IProps> {
               delete
             </Button>
           </span>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   };
   public componentDidMount() {
     this.props.getArticleListAll();
@@ -124,7 +134,7 @@ export class Article_doc extends Component<IProps> {
     this.props.delArticle({ id });
   };
 
-  private handleSubmit = e => {
+  private handleSubmit = (e) => {
     e.preventDefault();
     const { pageNo, pageSize } = this.state;
     const { getArticleList, getArticleStatus } = this.props;
@@ -133,13 +143,13 @@ export class Article_doc extends Component<IProps> {
         const { title = "" } = values;
         await this.setState({
           pageNo: 1,
-          title
+          title,
         });
         getArticleStatus(true);
         getArticleList({
           title,
           pageNo,
-          pageSize
+          pageSize,
         });
       }
     });
@@ -178,17 +188,3 @@ export class Article_doc extends Component<IProps> {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  article: state.article
-});
-
-const mapDispatchToProps = {
-  getArticleListAll: Article.instance.getArticleListAll,
-  getArticleList: Article.instance.getArticleList,
-  getArticleItem: Article.instance.getArticleItem,
-  delArticle: Article.instance.delArticle,
-  getArticleStatus: Article.instance.getArticleStatus
-};
-const M_article = connect(mapStateToProps, mapDispatchToProps)(Article_doc);
-export default Form.create({ name: "horizontal_login" })(M_article);

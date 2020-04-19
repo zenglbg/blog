@@ -14,7 +14,6 @@ export default function (Component) {
     const pathname =
       props.location.pathname !== "/login" ||
       props.location.pathname !== "/register";
-
     if (!token && pathname) {
       props.history.push("/login");
     }

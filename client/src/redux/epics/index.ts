@@ -6,6 +6,7 @@ import * as article from "./article";
 import * as category from "./category";
 import * as star from "./star";
 import * as tag from "./tag";
+import * as option from "./option";
 
 export const rootEpics = (action$, store$, dependencies) =>
   combineEpics
@@ -15,6 +16,7 @@ export const rootEpics = (action$, store$, dependencies) =>
       ...Object.values(category),
       ...Object.values(star),
       ...Object.values(tag),
+      ...Object.values(option),
     ])(action$, store$, dependencies)
     .pipe(
       catchError((err, source) => {

@@ -3,9 +3,11 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Menu, Layout, Icon, Avatar, Dropdown } from "antd";
 const { Header, Sider, Content, Footer } = Layout;
-import { UserState } from "../../../redux/reducer";
-import { menuConfig } from "../../../utils";
+import { UserState, IState } from "@reducer";
+import { admins } from "../../../routes/admin";
 import "./index.less";
+import SubMenu from "antd/lib/menu/SubMenu";
+import { spawn } from "child_process";
 
 /**
  * @todo 引入less 报错
@@ -17,7 +19,10 @@ interface State {
   collapsed: boolean;
 }
 
-export class AdminLayout extends Component<Props, State> {
+@(connect(({ user }: IState) => ({
+  user,
+})) as any)
+export default class AdminLayout extends Component<Props, State> {
   state = { collapsed: false };
 
   componentDidMount() {
@@ -35,25 +40,37 @@ export class AdminLayout extends Component<Props, State> {
     });
   };
   handleClickMenuItem = (item: any) => {
-    console.log(this.props);
-    // (this.props as any).history.push(item.path);
     sessionStorage.setItem("menuItmeKey", item.key);
   };
 
-  menuItem = () =>
-    menuConfig.map((item, index) => (
-      <Menu.Item
-        key={index}
-        onClick={() => {
-          this.handleClickMenuItem(item);
-        }}
-      >
-        <Link to={item.path}>
-          <Icon type={item.icon} />
-          <span>{item.title}</span>
-        </Link>
-      </Menu.Item>
-    ));
+  menuItem = (routes) =>
+    routes.map((item, index) => {
+      return !item.menu ? null : item.routes ? (
+        <SubMenu
+          title={
+            <span>
+              <Icon type={item.icon} />
+              <span>{item.title}</span>
+            </span>
+          }
+          key={`${item.title}admin`}
+        >
+          {this.menuItem(item.routes)}
+        </SubMenu>
+      ) : (
+        <Menu.Item
+          key={`${item.title}admin`}
+          onClick={() => {
+            this.handleClickMenuItem(item);
+          }}
+        >
+          <Link to={item.path}>
+            <Icon type={item.icon} />
+            <span>{item.title}</span>
+          </Link>
+        </Menu.Item>
+      );
+    });
 
   render() {
     const { isLogin } = this.props.user;
@@ -75,7 +92,7 @@ export class AdminLayout extends Component<Props, State> {
                 sessionStorage.getItem("menuItmeKey") || "0",
               ]}
             >
-              {this.menuItem()}
+              {this.menuItem(admins)}
             </Menu>
           </Sider>
           <Layout>
@@ -107,11 +124,3 @@ export class AdminLayout extends Component<Props, State> {
     ) : null;
   }
 }
-
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminLayout);

@@ -1,6 +1,6 @@
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { Api } from "@utils";
+import { Api } from "@service";
 import { message } from "antd";
 
 export class SrUser extends Api {
@@ -59,5 +59,9 @@ export class SrUser extends Api {
 
   public static login<T>(body: T): Observable<any> {
     return this.instance.post("/api/login", body);
+  }
+
+  public static profiles(): Observable<any> {
+    return this.instance.post("/api/getUserInfo");
   }
 }
