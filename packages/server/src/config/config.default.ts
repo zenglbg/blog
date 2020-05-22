@@ -1,5 +1,13 @@
+import {
+  uploadAudioWhiteList,
+  uploadFileWhiteList,
+  uploadImageWhiteList,
+  uploadVideoWhiteList,
+} from './upload.config';
+import { ConnectionOptions } from 'typeorm';
+import { SequelizeOptions } from 'sequelize-typescript';
 // 后台路由前缀
-export const adminPrefix = 'system';
+export const adminPrefix = 'api';
 
 // 应用的 url 前缀
 export const appUrl = 'https://xxx.com';
@@ -20,48 +28,106 @@ const mail = {
 };
 
 const redisBaseConfig = {
-  host: process.env.redisHost || '127.0.0.1',
-  port: process.env.redisPort || 6379,
+  host: process.env.redisHost || '192.168.43.144',
+  port: process.env.redisPort || 6378,
   password: '',
   db: 1,
 };
 
+// sequelize 配置
+const sequelize: SequelizeOptions = {
+  dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
+  database: 'blog', // 数据库名称
+  host: process.env.mysqlHost || '127.0.0.1', // 数据库地址
+  port: Number(process.env.mysqlPort) || 3303, // 数据库端口
+  username: process.env.mysqlUser || 'root', // 用户名
+  password: process.env.mysqlPasswd || 'qwe123qqq', // 密码
+  // 禁/使用日志; 默认值: console.log
+  logging: console.log,
+  // 链接数据库时的可选参数
+  dialectOptions: {
+    charset: 'utf8mb4', // 字符集
+    collate: 'utf8mb4_unicode_ci', // 校对集
+    // 当在数据库中处理一个大数(BIGINT和DECIMAL)数据类型的时候，你需要启用这个选项(默认: false)
+    supportBigNumbers: true,
+    // 这个选项需要 bigNumberStrings 与 supportBigNumbers 同时启用
+    // 强制把数据库中大数(BIGINT和DECIMAL)数据类型的值转换为 javascript 字符对象串对象返回。(默认:false)
+    bigNumberStrings: true,
+  },
+  // 指定在调用 sequelize.define 时使用的选项
+  define: {
+    underscored: true, // 字段以下划线（_）来分割（默认是驼峰命名风格）
+    charset: 'utf8mb4', // 字符集
+  },
+  timezone: '+08:00', // 东八时区
+};
+
+const ormconfig: ConnectionOptions = {
+  type: 'mysql', // support: mysql, mariadb, postgres, mssql
+  database: 'blog', // 数据库名称
+  charset: 'utf8mb4', // 字符集
+  host: process.env.mysqlHost || '127.0.0.1', // 数据库地址
+  port: Number(process.env.mysqlPort) || 3303, // 数据库端口
+  username: process.env.mysqlUser || 'root', // 用户名
+  password: process.env.mysqlPasswd || 'qwe123qqq', // 密码
+  connectTimeout: 12000,
+  // 当在数据库中处理一个大数(BIGINT和DECIMAL)数据类型的时候，你需要启用这个选项(默认: false)
+  supportBigNumbers: true,
+  // 这个选项需要 bigNumberStrings 与 supportBigNumbers 同时启用
+  // 强制把数据库中大数(BIGINT和DECIMAL)数据类型的值转换为 javascript 字符对象串对象返回。(默认:false)
+  bigNumberStrings: true,
+  timezone: '+08:00', // 东八时区
+};
+
+// 自定义配置/未提供 .d.ts 文件的拓展配置
 export const customizeConfig = {
+  // 中间件配置
+  middleware: [],
+
+  // redis 配置 [ 后面如果需要对某一业务进行缓存的时候，可以开启多实例来进行特定储存 ]
   redis: {
     client: {
       ...redisBaseConfig,
-      db: 5,
+      db: '5',
     },
     agent: true,
   },
 
-  mysql: {
-    dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
-    database: 'your', // 数据库名称
-    host: '127.0.0.1', // 数据库地址
-    port: '3306', // 数据库端口
-    username: 'root', // 用户名
-    password: 'your', // 密码
-    // 禁/使用日志; 默认值: console.log
-    logging: console.log,
-    // 链接数据库时的可选参数
-    dialectOptions: {
-      charset: 'utf8mb4', // 字符集
-      collate: 'utf8mb4_unicode_ci', // 校对集
-      // 当在数据库中处理一个大数(BIGINT和DECIMAL)数据类型的时候，你需要启用这个选项(默认: false)
-      supportBigNumbers: true,
-      // 这个选项需要 bigNumberStrings 与 supportBigNumbers 同时启用
-      // 强制把数据库中大数(BIGINT和DECIMAL)数据类型的值转换为 javascript 字符对象串对象返回。(默认:false)
-      bigNumberStrings: true,
-    },
-    // 指定在调用 sequelize.define 时使用的选项
-    define: {
-      underscored: true, // 字段以下划线（_）来分割（默认是驼峰命名风格）
-      charset: 'utf8mb4', // 字符集
-    },
-    timezone: '+08:00', // 东八时区
+  // log 配置
+  logrotator: {
+    maxFileSize: 2 * 1024 * 1024, // 当文件超过 2G 时进行切割
+    maxDays: 31, // 日志保留最大天数
   },
 
+  // ormconfig 配置
+  ormconfig,
+
+  // sequelize 配置
+  sequelize,
+
+  // socket.io 配置
+  io: {
+    iinit: {
+      wsEngine: 'uws', // 使用 uws 来代替默认的 us
+    },
+    namespace: {
+      '/': {
+        connectionMiddleware: [],
+        packetMiddleware: [],
+      },
+      '/loginQrCode': {
+        connectionMiddleware: [],
+        packetMiddleware: [],
+      },
+    },
+    redis: {
+      ...redisBaseConfig,
+      auth_pass: redisBaseConfig.password,
+      db: 6,
+    },
+  },
+
+  //   配置
   jwt: {
     secret: 'your', // 密钥
     adminSecret: 'your', // 后台用户的密钥
@@ -81,9 +147,10 @@ export const customizeConfig = {
     },
   },
 
+  // app 应用设置
   myApp: {
     appName: 'lbg', // 应用名称
-    debug: false, //是否本地开发环境
+    debug: false, // 是否本地开发环境
     staticUrls, // 静态状态跟域名
     appUrl, // 应用的 url
     adminPrefix, // 后台路由前缀
@@ -104,7 +171,6 @@ export const customizeConfig = {
       },
     },
 
-    //异常通知配置
     exceptionNotify: {
       enable: false, // 是否打开异常通知
       type: 'dingtalk' as 'dingtalk', // 异常通知类型，wechat 微信； mail 邮件；dingtalk 钉钉：更多...
@@ -118,14 +184,94 @@ export const customizeConfig = {
       },
     },
 
-    // 代理
-    proxy: true,
+    uploadImageWhiteList,
+    uploadFileWhiteList,
+    uploadVideoWhiteList,
+    uploadAudioWhiteList,
+    uploadsMaxSizes: {
+      image: 1,
+      file: 1,
+      video: 1,
+      audio: 1,
+    },
+    // 文件上传白名单
+    uploadExtWhiteList: [
+      ...uploadImageWhiteList,
+      ...uploadVideoWhiteList,
+      ...uploadFileWhiteList,
+      ...uploadAudioWhiteList,
+    ],
+  },
+
+  // 微信相关配置
+  wechat: {
+    base_uri: 'https://api.weixin.qq.com/', // 基础 url
+    open_platform_base_uri: 'https://api.weixin.qq.com/', // 微信开放平台
+    payment_base_uri: 'https://api.mch.weixin.qq.com/', // 微信支付
+    open_work_base_uri: 'https://qyapi.weixin.qq.com/', // 企业微信服务商
+    work_base_uri: 'https://qyapi.weixin.qq.com/', // 企业微信
+
+    /**
+     * 公众号
+     */
+    official_account: {
+      app_id: '',
+      secret: '',
+      token: '',
+      encoding_aes_key: '',
+      oauth: {
+        scopes: 'snsapi_userinfo',
+        callback: '',
+      },
+    },
+
+    /**
+     * 小程序
+     */
+    mini_program: {
+      app_id: 'your',
+      secret: 'your',
+      token: '',
+      encoding_aes_key: '',
+    },
+
+    payment: {
+      sandbox: false, // 沙箱模式
+      app_id: 'your',
+      mch_id: 'your',
+      key: 'your', // API 密钥
+      pfx: '/public/cert/apiclient_cert.p12', // 相对路径
+      notify_url: `${appUrl}/orders/notify`, // 默认的订单回调地址
+      spbill_create_ip: '127.0.0.1', // IP 地址
+      sub_mch_id: '',
+      sub_appid: '',
+    },
+  },
+
+  // 代理
+  proxy: true,
+
+  // 上传设置
+  multipart: {
+    fileSize: '500mb',
+    // 添加到 whilelist 中
+    fileExtensions: ['.apk'],
+    /**
+     * @description 因为 egg 的 multipart 配置是在应用启动的时候就加载到 egg-multipart 插件的，并且判断格式的方法也是在这时加载到进程中。
+     *              所以如果想要在业务代码里面动态限制上传的文件的话，那么只有两种方式可以做到:
+     *              1、利用 fileExtensions ,把所有业务需要上传的文件格式都添加上去，然后在业务代码里面获取文件流的时候，再自行进行判断
+     *                 但是这样会有一点浪费，毕竟需要验证两次，并且还需要把所有需要上传的文件格式都硬编码到配置中
+     *              2、直接把 whitelist 设置为 true, 即允许所有文件通行，然后再自行在业务代码里面做判断
+     */
+    // 白名单
+    whitelist: () => true,
   },
 };
 
 export interface appConfig {}
-export default (appConfig: appConfig) => {
-  const config: appConfig = {};
+export interface DefaultConfig {}
+export default (appInfo?: appConfig) => {
+  const config: DefaultConfig = {};
 
   return {
     ...config,

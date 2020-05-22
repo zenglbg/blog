@@ -1,5 +1,14 @@
-import { Module } from '@nestjs/common';
-import { AppService } from './modules/example/app.service';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as path from 'path';
+
+import config from './config/config.default';
+import { LoggerMiddleware } from './common/middleware/LoggerMiddleware';
+import { HttpExceptionFilter } from './common/filters/http-exception.filters';
+import { LoggingInterceptor } from './common/interceptors/Logging.interceptor';
+
+import { OrmModule } from './foundations/ORM/orm.module';
 
 // 示例
 import { ExampleModule } from './modules/example/example.module';
@@ -10,8 +19,31 @@ import { UserModule } from './modules/user/user.module';
 // 用户
 
 @Module({
-  imports: [UserModule],
+  imports: [
+    // TypeOrmModule.forRoot({
+    //   ...config().ormconfig,
+    //   entities: [path.join(__dirname, './modules/**/**.entity{.ts,.js}')],
+    //   migrations: [path.join(__dirname, '../migrations')],
+    //   synchronize: true,
+    // }),
+    OrmModule,
+    UserModule,
+    ExampleModule,
+  ],
   controllers: [],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('user');
+  }
+}

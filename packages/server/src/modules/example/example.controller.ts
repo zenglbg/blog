@@ -10,30 +10,29 @@ export class ExampleController {
   @Get()
   @HttpCode(201)
   @Header('Cache-Control', 'none33')
-  @Redirect('/index')
+  @Redirect('/api/index')
   getHello(): {} {
     return this.appService.getHello();
     return {
       url: 'https://qq.com',
     };
   }
-  @Get('/index')
+  @Get('index')
   @HttpCode(201)
   @Header('Cache-Control', 'none33')
-  getrxjs(): Observable<any> {
-    interval()
-      .pipe(
-        map(
-          item =>
-            item +
-            300 +
-            `
-        你好，世界
+  getrxjs(): any {
+    return this.appService.getHello();
+    return interval().pipe(
+      map(
+        item =>
+          item +
+          `
+        <h1>你好，世界</h1>
       `,
-        ),
-        take(5),
-      )
-      .subscribe(console.log);
+      ),
+      take(5),
+    );
+    // .subscribe(console.log);
     return of([1, 2, 3, 4, 5]).pipe(map(item => item.map(i => i + 2000)));
   }
 }
