@@ -5,7 +5,6 @@ import {
   uploadVideoWhiteList,
 } from './upload.config';
 import { ConnectionOptions } from 'typeorm';
-import { SequelizeOptions } from 'sequelize-typescript';
 // 后台路由前缀
 export const adminPrefix = 'api';
 
@@ -35,32 +34,32 @@ const redisBaseConfig = {
 };
 
 // sequelize 配置
-const sequelize: SequelizeOptions = {
-  dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
-  database: 'blog', // 数据库名称
-  host: process.env.mysqlHost || '127.0.0.1', // 数据库地址
-  port: Number(process.env.mysqlPort) || 3303, // 数据库端口
-  username: process.env.mysqlUser || 'root', // 用户名
-  password: process.env.mysqlPasswd || 'qwe123qqq', // 密码
-  // 禁/使用日志; 默认值: console.log
-  logging: console.log,
-  // 链接数据库时的可选参数
-  dialectOptions: {
-    charset: 'utf8mb4', // 字符集
-    collate: 'utf8mb4_unicode_ci', // 校对集
-    // 当在数据库中处理一个大数(BIGINT和DECIMAL)数据类型的时候，你需要启用这个选项(默认: false)
-    supportBigNumbers: true,
-    // 这个选项需要 bigNumberStrings 与 supportBigNumbers 同时启用
-    // 强制把数据库中大数(BIGINT和DECIMAL)数据类型的值转换为 javascript 字符对象串对象返回。(默认:false)
-    bigNumberStrings: true,
-  },
-  // 指定在调用 sequelize.define 时使用的选项
-  define: {
-    underscored: true, // 字段以下划线（_）来分割（默认是驼峰命名风格）
-    charset: 'utf8mb4', // 字符集
-  },
-  timezone: '+08:00', // 东八时区
-};
+// const sequelize: SequelizeOptions = {
+//   dialect: 'mysql', // support: mysql, mariadb, postgres, mssql
+//   database: 'blog', // 数据库名称
+//   host: process.env.mysqlHost || '127.0.0.1', // 数据库地址
+//   port: Number(process.env.mysqlPort) || 3303, // 数据库端口
+//   username: process.env.mysqlUser || 'root', // 用户名
+//   password: process.env.mysqlPasswd || 'qwe123qqq', // 密码
+//   // 禁/使用日志; 默认值: console.log
+//   logging: console.log,
+//   // 链接数据库时的可选参数
+//   dialectOptions: {
+//     charset: 'utf8mb4', // 字符集
+//     collate: 'utf8mb4_unicode_ci', // 校对集
+//     // 当在数据库中处理一个大数(BIGINT和DECIMAL)数据类型的时候，你需要启用这个选项(默认: false)
+//     supportBigNumbers: true,
+//     // 这个选项需要 bigNumberStrings 与 supportBigNumbers 同时启用
+//     // 强制把数据库中大数(BIGINT和DECIMAL)数据类型的值转换为 javascript 字符对象串对象返回。(默认:false)
+//     bigNumberStrings: true,
+//   },
+//   // 指定在调用 sequelize.define 时使用的选项
+//   define: {
+//     underscored: true, // 字段以下划线（_）来分割（默认是驼峰命名风格）
+//     charset: 'utf8mb4', // 字符集
+//   },
+//   timezone: '+08:00', // 东八时区
+// };
 
 const ormconfig: ConnectionOptions = {
   type: 'mysql', // support: mysql, mariadb, postgres, mssql
@@ -81,6 +80,11 @@ const ormconfig: ConnectionOptions = {
 
 // 自定义配置/未提供 .d.ts 文件的拓展配置
 export const customizeConfig = {
+  admin: {
+    name: 'admin',
+    password: 'admin',
+  },
+
   // 中间件配置
   middleware: [],
 
@@ -103,7 +107,7 @@ export const customizeConfig = {
   ormconfig,
 
   // sequelize 配置
-  sequelize,
+  // sequelize,
 
   // socket.io 配置
   io: {

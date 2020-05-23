@@ -7,9 +7,11 @@ import {
   BeforeInsert,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import * as bcrypt from 'bcryptjs';
+import { createBcrypt, verifyBcrypt } from '../../../common/utils';
 
-@Entity()
+@Entity({
+  name: 'users',
+})
 export class User {
   /**
    * 检测密码是否一致
@@ -17,27 +19,27 @@ export class User {
    * @param password1 加密后密码
    */
   static async comparePassword(password0, password1) {
-    return bcrypt.compareSync(password0, password1);
+    return verifyBcrypt(password0, password1);
   }
 
   static encryptPassword(password) {
-    return bcrypt.hashSync(password, 10);
+    return createBcrypt(password, 10);
   }
 
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column({ length: 500 })
+  @Column({ length: 30 })
   name: string;
 
   @Exclude()
-  @Column({ length: 500 })
+  @Column({ length: 80 })
   password: string;
 
   @Column({ length: 500, default: null })
   avatar: string; // 头像
 
-  @Column({ length: 500, default: null })
+  @Column({ length: 80, default: null })
   email: string; // 邮箱
 
   @Column('simple-enum', { enum: ['admin', 'visitor'], default: 'visitor' })
@@ -46,6 +48,7 @@ export class User {
   @Column('simple-enum', { enum: ['locked', 'active'], default: 'active' })
   status: string; // 用户状态
 
+  @Exclude()
   @CreateDateColumn({
     type: 'datetime',
     comment: '创建时间',
@@ -53,6 +56,7 @@ export class User {
   })
   createAt: Date;
 
+  @Exclude()
   @UpdateDateColumn({
     type: 'datetime',
     comment: '更新时间',
@@ -65,6 +69,6 @@ export class User {
    */
   @BeforeInsert()
   encrypt() {
-    this.password = bcrypt.hashSync(this.password, 10);
+    this.password = createBcrypt(this.password, 10);
   }
 }
