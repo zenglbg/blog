@@ -2,7 +2,13 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { from, throwError, Observable, of } from 'rxjs';
-import { switchMap, mergeMap, map, concatAll } from 'rxjs/operators';
+import {
+  switchMap,
+  mergeMap,
+  map,
+  concatAll,
+  catchError,
+} from 'rxjs/operators';
 import { User } from '../Models/user.entity';
 import config from '../../../config/config.default';
 
@@ -73,13 +79,13 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { name } })).pipe(
       switchMap(existUser => {
         if (existUser) {
-          return throwError(
-            new HttpException('用户已存在', HttpStatus.BAD_REQUEST),
-          );
+          throw new HttpException('用户已存在', HttpStatus.BAD_REQUEST);
         }
-
         const newUser = this.userRepository.create(user);
         return from(this.userRepository.save(newUser));
+      }),
+      catchError(err => {
+        return throwError(err);
       }),
     );
   }
@@ -93,20 +99,15 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { name } })).pipe(
       switchMap(existUser => {
         if (!existUser) {
-          return throwError(
-            new HttpException(`用户名与密码错误1`, HttpStatus.BAD_REQUEST),
-          );
+          throw new HttpException(`用户不存在`, HttpStatus.BAD_REQUEST);
         } else {
           return from(User.comparePassword(password, existUser.password)).pipe(
             map(isSame => {
               if (!isSame) {
-                return new HttpException(
-                  `用户名与密码错误2`,
-                  HttpStatus.BAD_REQUEST,
-                );
+                throw new HttpException(`密码错误`, HttpStatus.BAD_REQUEST);
               }
               if (existUser.status == 'locked') {
-                return new HttpException(
+                throw new HttpException(
                   `用户已锁定，无法登录`,
                   HttpStatus.BAD_REQUEST,
                 );
@@ -117,5 +118,12 @@ export class UserService {
         }
       }),
     );
+  }
+
+  /**
+   * findByid
+   */
+  public findByid(id) {
+    return from(this.userRepository.findOne(id));
   }
 }
