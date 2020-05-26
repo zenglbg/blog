@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import * as rateLimit from 'express-rate-limit';
 import * as compression from 'compression';
@@ -12,6 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   app.setGlobalPrefix(myApp.adminPrefix);
+  app.useGlobalPipes(new ValidationPipe());
   /**
    * 全局中间件
    */

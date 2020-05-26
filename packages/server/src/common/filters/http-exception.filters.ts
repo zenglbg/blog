@@ -14,9 +14,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus(); // 获取异常的状态码
     const err_response = exception.getResponse(); // 获取异常的状态码
 
+    const err_message =
+      /Object/.test(Object.prototype.toString.call(err_response)) &&
+      err_response['message']
+        ? err_response['message']
+        : err_response;
+
     response.status(status).json({
       statusCode: status,
-      message: err_response,
+      message: err_message,
       timestamp: new Date().toISOString(),
       path: request.url,
     });

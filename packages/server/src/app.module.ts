@@ -8,17 +8,12 @@ import { LoggerMiddleware } from './common/middleware/LoggerMiddleware';
 import { HttpExceptionFilter } from './common/filters/http-exception.filters';
 import { LoggingInterceptor } from './common/interceptors/Logging.interceptor';
 
-// 示例
-import { ExampleModule } from './modules/example/example.module';
-// 示例
-
 // 用户
 import { UserModule } from './modules/user/user.module';
 // 用户
 // 验证模块
 import { AuthModule } from './modules/auth/auth.module';
 // 验证模块
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -29,7 +24,6 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     AuthModule,
     UserModule,
-    ExampleModule,
   ],
   controllers: [],
   providers: [

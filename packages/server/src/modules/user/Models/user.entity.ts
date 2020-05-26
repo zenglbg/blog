@@ -29,7 +29,7 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column({ length: 30 })
+  @Column({ length: 10 })
   name: string;
 
   @Exclude()
@@ -39,7 +39,7 @@ export class User {
   @Column({ length: 500, default: null })
   avatar: string; // 头像
 
-  @Column({ length: 80, default: null })
+  @Column({ length: 50, default: null })
   email: string; // 邮箱
 
   @Column('simple-enum', { enum: ['admin', 'visitor'], default: 'visitor' })

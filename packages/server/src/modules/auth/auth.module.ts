@@ -11,8 +11,7 @@ const passModule = PassportModule.register({
   defaultStrategy: 'jwt',
 });
 const jwtModule = JwtModule.register({
-  // secret: 'lbg',
-  secretOrPrivateKey: 'lbg',
+  secret: 'lbg',
   signOptions: {
     expiresIn: '4h',
   },

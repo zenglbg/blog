@@ -17,8 +17,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   validate(payload: User) {
     return this.authService.validateUser(payload).pipe(
       map(user => {
-        console.log(`objectobjectobjectobjectobjectobjectobject`);
-        console.log(333);
         if (!user) {
           throw new UnauthorizedException('身份验证失败');
         }
