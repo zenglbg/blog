@@ -7,24 +7,24 @@ import {
 } from 'class-validator';
 
 export class UpdatePasswordUserDto {
-  @IsUUID()
+  @IsUUID('all', { message: 'id不能为空' })
   readonly id: number;
 
-  @IsString({ message: '密码必须为字符串' })
+  @IsString({ message: '请输入旧密码' })
   @MinLength(6, {
-    message: '密码长度不能小于6',
+    message: '旧密码密码长度不能小于6',
   })
   @MaxLength(30, {
-    message: '密码长度不能超过30',
+    message: '旧密码密码长度不能超过30',
   })
   readonly oldPassword: string;
 
-  @IsString({ message: '密码必须为字符串' })
+  @IsString({ message: '请输入新密码' })
   @MinLength(6, {
-    message: '密码长度不能小于6',
+    message: '新密码长度不能小于6',
   })
   @MaxLength(30, {
-    message: '密码长度不能超过30',
+    message: '新密码长度不能超过30',
   })
   readonly newPassword: string;
 }

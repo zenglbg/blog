@@ -7,6 +7,6 @@ import {
 } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsUUID()
+  @IsUUID('all', { message: 'id不能为空' })
   readonly id: number;
 }
