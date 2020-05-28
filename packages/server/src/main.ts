@@ -10,7 +10,12 @@ const { myApp } = configDefault();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    allowedHeaders:
+      'Content-Type,Content-Length, Authorization, Accept,X-Requested-With',
+    methods: 'PUT,POST,GET,DELETE,OPTIONS',
+  });
   app.setGlobalPrefix(myApp.adminPrefix);
   app.useGlobalPipes(new ValidationPipe());
   /**

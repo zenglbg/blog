@@ -14,6 +14,9 @@ import { UserModule } from './modules/user/user.module';
 // 验证模块
 import { AuthModule } from './modules/auth/auth.module';
 // 验证模块
+// 设置模块
+import { SettingModule } from './modules/setting/setting.module';
+// 设置模块
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -24,6 +27,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     AuthModule,
     UserModule,
+    SettingModule,
   ],
   controllers: [],
   providers: [
