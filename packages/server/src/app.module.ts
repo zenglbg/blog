@@ -1,12 +1,14 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 
 import config from './config/config.default';
+import { ApiParamsValidationPipe } from './common/pipes/api-params-validation.pipe';
 import { LoggerMiddleware } from './common/middleware/LoggerMiddleware';
-import { HttpExceptionFilter } from './common/filters/http-exception.filters';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/Logging.interceptor';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 // 用户
 import { UserModule } from './modules/user/user.module';
@@ -17,6 +19,10 @@ import { AuthModule } from './modules/auth/auth.module';
 // 设置模块
 import { SettingModule } from './modules/setting/setting.module';
 // 设置模块
+// config 模块
+import { ConfigModule } from './modules/config/config.module';
+// config 模块
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -27,6 +33,7 @@ import { SettingModule } from './modules/setting/setting.module';
     }),
     AuthModule,
     UserModule,
+    ConfigModule,
     SettingModule,
   ],
   controllers: [],
@@ -36,8 +43,16 @@ import { SettingModule } from './modules/setting/setting.module';
       useClass: HttpExceptionFilter,
     },
     {
+      provide: APP_PIPE,
+      useClass: ApiParamsValidationPipe,
+    },
+    {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor,
     },
   ],
 })
