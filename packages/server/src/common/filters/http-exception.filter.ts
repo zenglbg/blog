@@ -3,6 +3,7 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiException } from '../exceptions/api.exception';
 
@@ -16,7 +17,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     if (exception instanceof ApiException) {
       response.status(status).json({
-        statusCode: status,
+        statusCode: HttpStatus.BAD_REQUEST,
         errorMessage: exception.getErrorMessage(),
         date: new Date().toLocaleDateString(),
         path: request.url,

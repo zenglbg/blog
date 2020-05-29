@@ -50,7 +50,6 @@ export const register = (action$: ActionsObservable<any>, state$) =>
     switchMap(({ payload }) => {
       return Usersr.register(payload).pipe(
         map((res) => {
-          console.log(res);
           const { user_name, user_password } = payload;
           if (res) {
             return User.doLogin({ user_name, user_password });

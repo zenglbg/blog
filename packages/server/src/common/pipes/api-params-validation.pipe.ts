@@ -30,7 +30,7 @@ export class ApiParamsValidationPipe implements PipeTransform {
         throw new ApiException(
           constraints[key],
           contexts[key].errorCode,
-          HttpStatus.BAD_REQUEST,
+          HttpStatus.OK,
         );
       }
     }
