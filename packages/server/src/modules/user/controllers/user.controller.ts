@@ -13,10 +13,13 @@ import {
   Request,
   UseGuards,
   UnauthorizedException,
+  UsePipes,
+  Res,
+  Param,
+  HttpException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-
-import { User } from '../Models/user.entity';
 import { UserService } from '../services/user.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard, Roles } from '../../auth/guards/roles.guard';
@@ -24,8 +27,9 @@ import {
   CreateUserDto,
   UpdateUserDto,
   UpdatePasswordUserDto,
-} from '../Models/index.user.dto';
+} from '../dtos/index.user.dto';
 import { Request as Req } from 'express';
+
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
 @UseGuards(RolesGuard)
@@ -34,6 +38,13 @@ export class UserController {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
+
+  @Post('a')
+  @Roles('visitor')
+  @HttpCode(HttpStatus.CREATED)
+  findOne(@Body() user: CreateUserDto) {
+    return user;
+  }
 
   @Get()
   @Roles('admin')
@@ -49,8 +60,8 @@ export class UserController {
   }
 
   @Post('update')
-  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
   /**
    * update
    *
@@ -60,8 +71,8 @@ export class UserController {
   }
 
   @Post('xg_password')
-  @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
   /**
    * password
    */

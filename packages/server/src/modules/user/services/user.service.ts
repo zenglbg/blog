@@ -14,7 +14,7 @@ import {
 } from 'rxjs/operators';
 
 import { User } from '../Models/user.entity';
-import { UpdatePasswordUserDto } from '../Models/index.user.dto';
+import { UpdatePasswordUserDto } from '../dtos/index.user.dto';
 import config from '../../../config/config.default';
 
 @Injectable()

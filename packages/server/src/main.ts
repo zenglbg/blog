@@ -1,10 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
+import { NestFactory, Reflector } from '@nestjs/core';
 import * as rateLimit from 'express-rate-limit';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 
+import { AppModule } from './app.module';
 import configDefault from './config/config.default';
 const { myApp } = configDefault();
 
@@ -13,11 +12,10 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
     allowedHeaders:
-      'Content-Type,Content-Length, Authorization, Accept,X-Requested-With',
+      'Content-Type,Content-Length, Authorization, token, Accept,X-Requested-With',
     methods: 'PUT,POST,GET,DELETE,OPTIONS',
   });
   app.setGlobalPrefix(myApp.adminPrefix);
-  app.useGlobalPipes(new ValidationPipe());
   /**
    * 全局中间件
    */
@@ -32,6 +30,7 @@ async function bootstrap() {
   /**
    * 全局中间件
    */
+
   await app.listen(8888).then(() => {
     console.log(`
       http://0.0.0.0:8888

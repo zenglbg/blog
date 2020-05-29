@@ -1,0 +1,41 @@
+@img: "../../assets/images/";
+
+#adminLayout {
+  .trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .trigger:hover {
+    color: #1890ff;
+  }
+
+  .logoMax {
+    height: 32px;
+    margin: 16px;
+    border-radius: 4px;
+    background: url("@{img}max.png") no-repeat center / 100% 100%;
+  }
+  .logoMin {
+    height: 32px;
+    margin: 16px;
+    border-radius: 4px;
+    background: url("@{img}min.png") no-repeat center / 100% 100%;
+  }
+  .wrap-content {
+    height: calc(100vh - 64px);
+    overflow: auto;
+  }
+  .content {
+    background: #fff;
+    padding: 20px;
+    margin: 16px;
+  }
+  .user {
+    padding: 0 24px;
+    float: right;
+  }
+}
