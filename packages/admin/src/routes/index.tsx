@@ -12,6 +12,8 @@ export class Routes {
   public menu?: boolean;
   public exact?: boolean;
   public render?: Function;
+  public label?: string;
+  public ignore?: boolean;
   public beforeEnter?: (routeProps: any, extraProps: any) => any;
   public routes?: Array<Routes>;
 }
@@ -72,7 +74,6 @@ export default class RouteView extends React.PureComponent<Props> {
   public render() {
     return (
       <div className="route">
-        <Route exact path="/" render={() => <Redirect to="/web/home" push />} />
         <Switch>{this.routesRenderMsp(this.routes)}</Switch>
       </div>
     );
