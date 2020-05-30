@@ -1,0 +1,22 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-named-asset-import",
+      {
+        "loaderMap": {
+          "svg": {
+            "ReactComponent": "@svgr/webpack?-svgo,+titleProp,+ref![path]"
+          }
+        }
+      }
+    ],
+    [
+      "babel-plugin-import",
+      {
+        "libraryName": "antd",
+        // libraryDirectory: "es", // default: lib
+        "style": "css" // or 'css'
+      }
+    ]
+  ]
+}

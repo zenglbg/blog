@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { IState } from "@reducer/index";
@@ -8,37 +8,32 @@ interface Props {
   user: any;
   profiles: Function;
 }
-interface State {
-  collapsed: string;
-}
 
-@(connect(
+const Home: React.FunctionComponent<Props & RouteComponentProps> = ({
+  history,
+  profiles,
+}) => {
+  const [collapsed, setCollapsed] = useState("");
+
+  useEffect(() => {
+    profiles();
+  });
+
+  const handleClick = () => {
+    history.push("/login");
+  };
+  return (
+    <div>
+      <h3 onClick={handleClick}>i'm content</h3>
+    </div>
+  );
+};
+
+export default connect(
   ({ user }: IState) => ({
     user,
   }),
   {
     profiles: User.profiles,
   }
-) as any)
-export default class index extends Component<
-  Props & RouteComponentProps,
-  State
-> {
-  state = {
-    collapsed: "",
-  };
-  componentDidMount() {
-    this.props.profiles();
-  }
-
-  handleClick = () => {
-    this.props.history.push("/admin/login");
-  };
-  render() {
-    return (
-      <div>
-        <h3 onClick={this.handleClick}>i'm content</h3>
-      </div>
-    );
-  }
-}
+)(Home);

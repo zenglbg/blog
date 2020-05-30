@@ -10,7 +10,7 @@ export default function FomrList({
   return (
     <Form onSubmit={handleAuth}>
       <Form.Item>
-        {getFieldDecorator("user_name", {
+        {getFieldDecorator("name", {
           rules: [
             {
               required: true,
@@ -25,7 +25,7 @@ export default function FomrList({
         )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator("user_email", {
+        {getFieldDecorator("email", {
           rules: [
             {
               validator(rule: any, value: any, callback: any) {

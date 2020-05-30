@@ -20,29 +20,21 @@ import { push } from "connected-react-router";
 import { Usersr } from "@service/index";
 import { User } from "@actions/index";
 
-// export const userEpic = (action$: ActionsObservable<any>, state$) =>
-//   action$.pipe(
-//     ofType(getType(User.instance.doLogin)),
-//     switchMap(({ payload }) => {
-//       return SrUser.login(payload).pipe(
-//         concatMap(({ response }) => {
-//           const { code, token, user_name, msg } = response;
-//           if (code == 200) {
-//             return concat(
-//               of(User.instance.loginSuccess({ token, user_name })),
-//               of(push("/admin/home"))
-//             );
-//           } else {
-//             return of(User.instance.loginError(msg));
-//           }
-//         })
-//       );
-//     }),
-//     catchError((err) => {
-//       User.instance.loginError("发生了错误");
-//       return throwError(err);
-//     })
-//   );
+export const userEpic = (action$: ActionsObservable<any>, state$) =>
+  action$.pipe(
+    ofType(getType(User.doLogin)),
+    switchMap(({ payload }) => {
+      return Usersr.login(payload).pipe(
+        switchMap(({ success, data }) => {
+          if (success) {
+            return concat(of(User.loginS(data)), of(push("/admin/home")));
+          } else {
+            throw new Error("登陆失败");
+          }
+        })
+      );
+    })
+  );
 
 export const register = (action$: ActionsObservable<any>, state$) =>
   action$.pipe(
@@ -50,9 +42,9 @@ export const register = (action$: ActionsObservable<any>, state$) =>
     switchMap(({ payload }) => {
       return Usersr.register(payload).pipe(
         map((res) => {
-          const { user_name, user_password } = payload;
-          if (res) {
-            return User.doLogin({ user_name, user_password });
+          if (res.success) {
+            return push("/login");
+            // return User.doLogin({ user_name, user_password });
           } else {
             return { type: "err", msg: "注册失败！" };
           }

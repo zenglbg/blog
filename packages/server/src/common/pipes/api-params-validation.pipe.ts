@@ -24,7 +24,7 @@ export class ApiParamsValidationPipe implements PipeTransform {
       let error = errors.shift();
       let constraints = error.constraints;
       let contexts = error.contexts;
-      // console.log(error);
+      console.log(error, constraints);
       // 将未通过验证的字段的错误信息和状态码，以ApiException的形式抛给我们的全局异常过滤器
       for (let key in constraints) {
         throw new ApiException(

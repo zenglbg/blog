@@ -2,15 +2,25 @@ import { getType } from "typesafe-actions";
 import { User } from "../actions";
 
 export interface IUserState {
-  user_name: string;
+  name: string;
   token: string;
   isLogin: boolean;
+  avatar: string;
+  email: string;
+  id: string;
+  role: string;
+  status: string;
 }
 
 const initState = {
-  user_name: "",
+  name: "",
   token: "",
   isLogin: false,
+  avatar: null,
+  email: null,
+  id: null,
+  role: null,
+  status: null,
 };
 
 export default function userReducer(
@@ -18,18 +28,23 @@ export default function userReducer(
   action: any
 ): IUserState {
   switch (action.type) {
-    case getType(User.loginSuccess):
-      const { user_name, token } = action.payload;
+    case getType(User.loginS):
+      const { avatar, email, id, name, role, status, token } = action.payload;
       return {
         ...state,
-        user_name,
+        avatar,
+        email,
+        id,
+        name,
+        role,
+        status,
         token,
         isLogin: true,
       };
-    case getType(User.loginError):
+    case getType(User.loginE):
       return {
         ...state,
-        user_name: "",
+        name: "",
         token: "",
         isLogin: false,
       };

@@ -19,18 +19,17 @@ export const api: AxiosInstance = axios.create({
 });
 
 // POST传参序列化
-axios.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     if (config.method === "post" || config.method === "get") {
-      console.log(config);
-      // config.data = qs_string.stringify(config.data);
+      config.data = qs_string.stringify(config.data);
     }
     return config;
   },
   (err) => Promise.reject(err)
 );
 
-axios.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     const token = "";
     if (token && /[\u4e00-\u9fa5]/g.test(token)) {
@@ -52,7 +51,7 @@ axios.interceptors.request.use(
 );
 
 // 添加响应拦截器
-axios.interceptors.response.use(
+api.interceptors.response.use(
   function (response) {
     return response;
   },

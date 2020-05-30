@@ -36,7 +36,7 @@ const Register: React.FunctionComponent<
      */
     e.preventDefault();
     validateFields(
-      ["user_name", "user_email", "validate_code"],
+      ["name", "email", "validate_code"],
       (err: Error, { user_name, user_email, validate_code }) => {
         if (!err) {
           setVisible(true);
@@ -50,14 +50,11 @@ const Register: React.FunctionComponent<
      * 注册按钮，请求注册
      */
     e.preventDefault();
-    validateFields(
-      ["user_name", "user_email", "validate_code", "user_password"],
-      (err: Error, values) => {
-        if (!err) {
-          register(values);
-        }
+    validateFields(["name", "email", "password"], (err: Error, values) => {
+      if (!err) {
+        register(values);
       }
-    );
+    });
   };
 
   const handleCannel = () => setVisible(false);

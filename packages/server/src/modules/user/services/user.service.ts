@@ -1,7 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
+import { ApiException } from '../../../common/exceptions/api.exception';
+import { ApiErrorCode } from '../../../common/enums/api-error-code.enum';
 import { from, throwError, Observable, of, concat, combineLatest } from 'rxjs';
 import {
   switchMap,
@@ -84,7 +85,11 @@ export class UserService {
     return from(this.userRepository.findOne({ where: { name } })).pipe(
       switchMap(existUser => {
         if (existUser) {
-          throw new HttpException('用户已存在', HttpStatus.BAD_REQUEST);
+          throw new ApiException(
+            '用户已存在',
+            ApiErrorCode.USER_NAME_INVALID,
+            HttpStatus.OK,
+          );
         }
         const newUser = this.userRepository.create(user);
         return from(this.userRepository.save(newUser));

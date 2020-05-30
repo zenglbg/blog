@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from "axios";
 import { api } from "./api";
 import { from, Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { message } from "antd";
 
 export class Http {
   static post(
@@ -15,11 +16,13 @@ export class Http {
           res &&
           res.status === 200 &&
           res["data"] &&
-          res["data"]["statusCode"] === 400 &&
-          res["data"]["errorMessage"]
+          /^100\d{2}/.test(res["data"]["statusCode"])
         ) {
           // 后台验证失败主动抛出错误，有全局错误处理提示错误文字弹出
-          throw new Error(`validation,${res.data.errorMessage}`);
+          // throw new Error(res.data["errorMessage"]);
+          res.data["errorMessage"] && message.error(res.data["errorMessage"]);
+        } else if (res && /^20\d$/.test(`${res.status}`)) {
+          return res["data"];
         }
         return res;
       })

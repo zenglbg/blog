@@ -24,11 +24,11 @@ export class User {
 
   public static doLogin = createAction(
     User.LOGIN,
-    (login: { user_name: string; user_password: string }) => login
+    (login: { name: string; password: string }) => login
   )();
-  public static loginSuccess = createAction(User.LOGIN_SUCCESS, (user) => {
+  public static loginS = createAction(User.LOGIN_SUCCESS, (user) => {
     sessionStorage.setItem("token", user.token);
     return user;
   })();
-  public static loginError = createAction(User.LOGIN_ERROR, (user) => user)();
+  public static loginE = createAction(User.LOGIN_ERROR, (user) => user)();
 }
