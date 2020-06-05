@@ -1,6 +1,27 @@
 import loadable from "@loadable/component";
+export interface IRoutes {
+  title?: string;
+  component?: any;
+  path?: string;
+  menu?: boolean;
+  exact?: boolean;
+  render?: Function;
+  label?: string;
+  ignore?: boolean;
+  beforeEnter?: (routeProps: any, extraProps: any) => any;
+  routes?: Array<IRoutes>;
+  layout?: boolean;
+}
+const AdminLayout = loadable(() => import("../common/adminLayout"));
+const admin_login = loadable(() => import("../components/login"));
+const admin_register = loadable(() => import("../components/register"));
 
 const admin_home = loadable(() => import("../components/home"));
+const admin_article = loadable(() => import("../components/article"));
+const admin_editor = loadable(() => import("../components/editor"));
+const admin_category = loadable(() => import("../components/category"));
+const admin_tags = loadable(() => import("../components/tags"));
+const admin_user = loadable(() => import("../components/user"));
 
 export const menus = [
   {
@@ -23,31 +44,10 @@ export const menus = [
     path: "/admin/article",
     exact: true,
     menu: true,
-    component: admin_home,
+    component: admin_article,
     beforeEnter: (routeProps, extraProps) => {},
   },
-  {
-    label: "新建文章",
-    path: "/admin/article/editor",
-    ignore: true,
-    icon: "form",
-    title: "所有文章",
-    exact: true,
-    menu: true,
-    component: admin_home,
-    beforeEnter: (routeProps, extraProps) => {},
-  },
-  {
-    label: "编辑文章",
-    path: "/admin/article/editor/[id]",
-    ignore: true,
-    icon: "form",
-    title: "所有文章",
-    exact: true,
-    menu: true,
-    component: admin_home,
-    beforeEnter: (routeProps, extraProps) => {},
-  },
+
   {
     icon: "copy",
     label: "分类管理",
@@ -55,7 +55,7 @@ export const menus = [
     path: "/admin/article/category",
     exact: true,
     menu: true,
-    component: admin_home,
+    component: admin_category,
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
@@ -65,7 +65,7 @@ export const menus = [
     path: "/admin/article/tags",
     exact: true,
     menu: true,
-    component: admin_home,
+    component: admin_tags,
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
@@ -179,7 +179,7 @@ export const menus = [
     path: "/admin/user",
     exact: true,
     menu: true,
-    component: admin_home,
+    component: admin_user,
     beforeEnter: (routeProps, extraProps) => {},
   },
 
@@ -194,5 +194,60 @@ export const menus = [
     beforeEnter: (routeProps, extraProps) => {},
   },
 ];
-
 export const admins = menus.filter((item) => item.path);
+export const routes = [
+  {
+    path: "/admin",
+    component: AdminLayout,
+    routes: admins,
+  },
+  {
+    label: "新建页面",
+    path: "/editor/page",
+    ignore: true,
+    icon: "form",
+    exact: true,
+    menu: true,
+    layout: true,
+    component: admin_editor,
+    beforeEnter: (routeProps, extraProps) => {},
+  },
+  {
+    label: "新建文章",
+    path: "/editor/article",
+    ignore: true,
+    icon: "form",
+    exact: true,
+    menu: true,
+    layout: true,
+    component: admin_editor,
+    beforeEnter: (routeProps, extraProps) => {},
+  },
+  {
+    label: "编辑文章",
+    path: "/editor/article/[id]",
+    ignore: true,
+    icon: "form",
+    title: "所有文章",
+    exact: true,
+    menu: true,
+    component: admin_editor,
+    beforeEnter: (routeProps, extraProps) => {},
+  },
+  {
+    title: "登录",
+    path: "/login",
+    exact: true,
+    menu: false,
+    component: admin_login,
+    beforeEnter: (routeProps, extraProps) => {},
+  },
+  {
+    title: "注册",
+    path: "/register",
+    exact: true,
+    menu: false,
+    component: admin_register,
+    beforeEnter: (routeProps, extraProps) => {},
+  },
+];

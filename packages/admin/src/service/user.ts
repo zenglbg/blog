@@ -14,4 +14,12 @@ export class Usersr {
   public static login<T>(body: T) {
     return Http.post("/auth/login", body);
   }
+
+  /**
+   * getUsers
+   * @param parmas
+   */
+  public static getUsers(query?: any) {
+    return Http.get("/user", query);
+  }
 }

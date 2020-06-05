@@ -12,28 +12,31 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 
 // 用户
 import { UserModule } from './modules/user/user.module';
-// 用户
+
 // 验证模块
 import { AuthModule } from './modules/auth/auth.module';
-// 验证模块
+
 // 设置模块
 import { SettingModule } from './modules/setting/setting.module';
-// 设置模块
+
 // config 模块
 import { ConfigModule } from './modules/config/config.module';
-// config 模块
+
+// 数据库
+import { orm } from './modules/database/database.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      ...config().ormconfig,
-      entities: [path.join(__dirname, './modules/**/**.entity{.ts,.js}')],
-      migrations: [path.join(__dirname, '../migrations')],
-      synchronize: true,
-    }),
+    // TypeOrmModule.forRoot({
+    //   ...config().ormconfig,
+    //   entities: [path.join(__dirname, './modules/**/**.entity{.ts,.js}')],
+    //   migrations: [path.join(__dirname, '../migrations')],
+    //   synchronize: true,
+    // }),
+    ConfigModule,
+    orm(),
     AuthModule,
     UserModule,
-    ConfigModule,
     SettingModule,
   ],
   controllers: [],

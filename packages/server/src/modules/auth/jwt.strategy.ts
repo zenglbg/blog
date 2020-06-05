@@ -9,7 +9,7 @@ import { map, catchError } from 'rxjs/operators';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromHeader('token'),
       secretOrKey: 'lbg',
     });
   }
@@ -22,7 +22,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         }
         return user;
       }),
-      catchError(err => err),
     );
   }
 }

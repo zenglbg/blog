@@ -31,9 +31,9 @@ async function bootstrap() {
    * 全局中间件
    */
 
-  await app.listen(8888).then(() => {
+  await app.listen(9999).then(() => {
     console.log(`
-      http://0.0.0.0:8888
+      http://0.0.0.0:9999
     `);
   });
 }

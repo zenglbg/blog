@@ -37,8 +37,4 @@ export class AuthService {
   public validateUser(payload: User) {
     return this.userService.findByid(payload.id);
   }
-
-  findOneByToken(token) {
-    // 假定token为geekjc
-  }
 }

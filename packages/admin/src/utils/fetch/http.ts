@@ -28,7 +28,14 @@ export class Http {
       })
     );
   }
-  static get(url: string, config?: AxiosRequestConfig): Observable<any> {
+  static get(url: string, data, config?: AxiosRequestConfig): Observable<any> {
+    if (`${data}`.includes("Object")) {
+      const params = Object.keys(data).reduce((acc, item) => {
+        return acc ? `${acc}&${item}=${data[item]}` : `${item}=${data[item]}`;
+      }, "");
+      url = url.slice(-1) === "?" ? `${url}${params}` : `${url}?${params}`;
+    }
+
     return from(api.get(url, config));
   }
 }

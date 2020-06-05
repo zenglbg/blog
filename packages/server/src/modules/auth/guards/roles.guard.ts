@@ -34,13 +34,10 @@ export class RolesGuard implements CanActivate {
        */
       token = token.split(' ').pop();
     }
+
     const user = this.jwtService.decode(token) as any;
     const hasRole = user && roles.some(role => role === user.role);
-    // console.log(user, `user`, roles);
-    if (user && user.role && hasRole) {
-      return user;
-    } else {
-      return false;
-    }
+    // console.log(user, `user`, roles, user && user.role && hasRole);
+    return user && user.role && hasRole;
   }
 }

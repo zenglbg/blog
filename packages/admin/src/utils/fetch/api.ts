@@ -8,7 +8,7 @@ const apiWithoutToken = [
   "/index/home",
 ];
 
-const baseURL = "http://localhost:3000/api";
+const baseURL = "http://localhost:3333/api";
 
 export const api: AxiosInstance = axios.create({
   baseURL,
@@ -31,7 +31,7 @@ api.interceptors.request.use(
 
 api.interceptors.request.use(
   (config) => {
-    const token = "";
+    const token = sessionStorage.getItem("token");
     if (token && /[\u4e00-\u9fa5]/g.test(token)) {
       return config;
     }
@@ -56,6 +56,10 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
+    try {
+      error.status = (error.response && error.response.status) || error.status;
+      console.log(error.status, ` error.status error.status error.status`);
+    } catch (e) {}
     let err = new CatchError(error);
     return Promise.reject(err);
   }

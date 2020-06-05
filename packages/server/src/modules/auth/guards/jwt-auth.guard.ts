@@ -18,7 +18,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
    */
   public handleRequest(err: any, user: any, info: any) {
     if (err || !user) {
-      throw new UnauthorizedException('身份验证失败11');
+      throw new UnauthorizedException('身份验证失败');
     }
     return user;
   }

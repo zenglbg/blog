@@ -11,6 +11,7 @@
     "connected-react-router": "^6.7.0",
     "css-loader": "3.4.2",
     "customize-cra": "^0.9.1",
+    "dayjs": "^1.8.28",
     "draft-js": "^0.11.4",
     "draft.js": "^0.2.0",
     "draftjs-to-html": "^0.9.1",
@@ -191,5 +192,5 @@
       "jest-watch-typeahead/testname"
     ]
   },
-  "proxy": "http://localhost:8888"
+  "proxy": "http://localhost:9999"
 }

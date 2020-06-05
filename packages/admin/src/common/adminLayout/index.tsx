@@ -16,12 +16,12 @@ const ResourceCreate = () => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <Link to={"/article/editor"} target="_blank">
+        <Link to={"/editor/article"} target="_blank">
           <span>新建文章</span>
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link to={"/page/editor"} target="_blank">
+        <Link to={"/editor/page"} target="_blank">
           <span>新建页面</span>
         </Link>
       </Menu.Item>
