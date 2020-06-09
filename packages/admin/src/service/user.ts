@@ -19,7 +19,23 @@ export class Usersr {
    * getUsers
    * @param parmas
    */
-  public static getUsers(query?: any) {
-    return Http.get("/user", query);
+  public static getUsers(params?: any) {
+    return Http.get("/user", params);
+  }
+
+  /**
+   * update
+   * update 用户
+   */
+  public static update(data) {
+    return Http.post("/user/update", data);
+  }
+
+  /**
+   *
+   * @param data 升级密码
+   */
+  public static updatePassword(data) {
+    return Http.post("/user/password", data);
   }
 }

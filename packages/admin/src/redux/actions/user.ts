@@ -26,9 +26,6 @@ export class User {
     User.LOGIN,
     (login: { name: string; password: string }) => login
   )();
-  public static loginS = createAction(User.LOGIN_SUCCESS, (user) => {
-    sessionStorage.setItem("token", user.token);
-    return user;
-  })();
+  public static loginS = createAction(User.LOGIN_SUCCESS, (user) => user)();
   public static loginE = createAction(User.LOGIN_ERROR, (user) => user)();
 }

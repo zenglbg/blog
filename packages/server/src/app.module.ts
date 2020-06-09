@@ -1,9 +1,7 @@
+import * as path from 'path';
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import * as path from 'path';
 
-import config from './config/config.default';
 import { ApiParamsValidationPipe } from './common/pipes/api-params-validation.pipe';
 import { LoggerMiddleware } from './common/middleware/LoggerMiddleware';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -26,19 +24,7 @@ import { ConfigModule } from './modules/config/config.module';
 import { orm } from './modules/database/database.module';
 
 @Module({
-  imports: [
-    // TypeOrmModule.forRoot({
-    //   ...config().ormconfig,
-    //   entities: [path.join(__dirname, './modules/**/**.entity{.ts,.js}')],
-    //   migrations: [path.join(__dirname, '../migrations')],
-    //   synchronize: true,
-    // }),
-    ConfigModule,
-    orm(),
-    AuthModule,
-    UserModule,
-    SettingModule,
-  ],
+  imports: [ConfigModule, orm(), AuthModule, UserModule, SettingModule],
   controllers: [],
   providers: [
     {

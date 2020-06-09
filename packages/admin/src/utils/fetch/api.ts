@@ -1,6 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from "axios";
 import qs_string from "qs";
+import { push } from "connected-react-router";
+import { User } from "@actions/index";
+import store from "../../redux";
 import { errCode } from "../config";
+
 const apiWithoutToken = [
   /**
    * 不加token的接口
@@ -31,7 +35,7 @@ api.interceptors.request.use(
 
 api.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem("token");
+    const token = store.getState().user.token;
     if (token && /[\u4e00-\u9fa5]/g.test(token)) {
       return config;
     }
@@ -56,10 +60,6 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    try {
-      error.status = (error.response && error.response.status) || error.status;
-      console.log(error.status, ` error.status error.status error.status`);
-    } catch (e) {}
     let err = new CatchError(error);
     return Promise.reject(err);
   }
@@ -75,7 +75,7 @@ export const getLogUrl = function () {
 
 class CatchError {
   message: string = errCode.DEFAULT;
-  status: string = "接口异常，无法获取状态码！";
+  status: string | number = "接口异常，无法获取状态码！";
   errUrl: string = "无法获取报错接口url！";
   logUrl: string;
   params: any;
@@ -90,14 +90,37 @@ class CatchError {
       data: null,
       msg: null,
     };
-    // this.error = null;
     this.init(error);
     return this.error;
   }
 
   init(error) {
     this.error = this.dealResData(error);
+    this.handle401();
     this.sendErrorToBackend();
+  }
+
+  handle401() {
+    /**
+     * 验证token错误。
+     * 清除用户信息。
+     * 清除token
+     */
+    if (this.status === 401 || this.status === 403) {
+      store.dispatch(
+        User.loginE({
+          name: "",
+          token: "",
+          isLogin: false,
+          avatar: null,
+          email: null,
+          id: null,
+          role: null,
+          status: null,
+        })
+      );
+      store.dispatch(push("/login"));
+    }
   }
 
   dealResData(error) {

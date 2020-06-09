@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-
+import store from "../redux";
 interface Props {}
 
 export default function (Component) {
@@ -9,7 +9,7 @@ export default function (Component) {
 
   function requireLogin(props) {
     // 判断登陆
-    const token = sessionStorage.getItem("token");
+    const token = store.getState().user.token;
     // 未登陆重定向到登陆页面
     const pathname =
       props.location.pathname !== "/login" ||
