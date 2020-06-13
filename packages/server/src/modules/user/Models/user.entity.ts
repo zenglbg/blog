@@ -48,7 +48,6 @@ export class User {
   @Column('simple-enum', { enum: ['locked', 'active'], default: 'active' })
   status: string; // 用户状态
 
-  @Exclude()
   @CreateDateColumn({
     type: 'datetime',
     comment: '创建时间',

@@ -1,3 +1,5 @@
+import "./index.less";
+
 import React, { useContext, SyntheticEvent } from "react";
 import { Form, Row, Input, Button, Col } from "antd";
 import { FormComponentProps } from "antd/es/form";
@@ -26,7 +28,7 @@ const Search: React.FunctionComponent<ISearchProps> = ({
   const getFields = () => {
     return fields.reduce((acc, field: IFieldItem, index) => {
       acc.push(
-        <Form.Item label={field.field}>
+        <Form.Item label={field.label} key={`${field.label}`}>
           {getFieldDecorator(field.field, {
             rules: field.rules,
           })(
@@ -59,8 +61,8 @@ const Search: React.FunctionComponent<ISearchProps> = ({
   const handleReset = () => resetFields();
 
   return (
-    <Form className="Search-wrapper" layout="inline" onSubmit={handleSearch}>
-      <Row className="Search-wrapper-content">
+    <Form className="search-wrapper" layout="inline" onSubmit={handleSearch}>
+      <Row className="search-wrapper-content">
         {getFields()}
         <Form.Item>
           <Button type="primary" htmlType="submit">

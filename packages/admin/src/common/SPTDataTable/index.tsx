@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Table } from "antd";
-import Search from "../Search";
 import { Observable } from "rxjs";
+
+import Search from "../Search";
+import Pagination from "../Pagination";
 interface ISPTDataTableProps {
   data: Array<any>;
   columns: Array<any>;
@@ -50,6 +52,16 @@ const SPTDataTable: React.FunctionComponent<ISPTDataTableProps> = ({
           rowKey="id"
         />
       )}
+
+      <Pagination
+        total={total}
+        page={page}
+        pageSize={pageSize}
+        onChange={(page, pageSize = 12) => {
+          setPage(page);
+          setPageSize(pageSize);
+        }}
+      />
     </div>
   );
 };
