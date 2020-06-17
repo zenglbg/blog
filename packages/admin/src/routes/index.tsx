@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, RouteComponentProps, Switch } from "react-router-dom";
+import { Route, RouteComponentProps, Switch, Redirect } from "react-router-dom";
 import requireLogin from "./requireLogin";
 import { routes, IRoutes } from "./config";
 export * from "./config";
@@ -32,6 +32,7 @@ export default class RouteView extends React.PureComponent<Props> {
     return (
       <div className="route">
         <Switch>{this.routesRenderMsp(this.routes)}</Switch>
+        <Redirect to="/admin/home" />
       </div>
     );
   }

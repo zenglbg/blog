@@ -4,7 +4,7 @@ import { push } from "connected-react-router";
 import { User } from "@actions/index";
 import store from "../../redux";
 import { errCode } from "../config";
-
+import { message } from "antd";
 const apiWithoutToken = [
   /**
    * 不加token的接口
@@ -97,6 +97,7 @@ class CatchError {
   init(error) {
     this.error = this.dealResData(error);
     this.handle401();
+    this.handle500();
     this.sendErrorToBackend();
   }
 
@@ -120,6 +121,12 @@ class CatchError {
         })
       );
       store.dispatch(push("/login"));
+    }
+  }
+
+  handle500() {
+    if (this.status === 500) {
+      message.error(errCode.__500__);
     }
   }
 
