@@ -1,18 +1,12 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BeforeInsert,
-} from 'typeorm';
+import { Column, Entity, BeforeInsert } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { createBcrypt, verifyBcrypt } from '../../../common/utils';
-
+import { createBcrypt, verifyBcrypt } from '@utils/index';
+import { Base } from '@entity/base.entity';
+import { Profile } from '@entity/profile.entity'
 @Entity({
   name: 'users',
 })
-export class User {
+export class User extends Base {
   /**
    * 检测密码是否一致
    * @param password0 加密前密码
@@ -26,8 +20,6 @@ export class User {
     return createBcrypt(password, 10);
   }
 
-  @PrimaryGeneratedColumn('uuid')
-  id: number;
 
   @Column({ length: 10 })
   name: string;
@@ -47,21 +39,6 @@ export class User {
 
   @Column('simple-enum', { enum: ['locked', 'active'], default: 'active' })
   status: string; // 用户状态
-
-  @CreateDateColumn({
-    type: 'datetime',
-    comment: '创建时间',
-    name: 'create_at',
-  })
-  createAt: Date;
-
-  @Exclude()
-  @UpdateDateColumn({
-    type: 'datetime',
-    comment: '更新时间',
-    name: 'update_at',
-  })
-  updateAt: Date;
 
   /**
    * 插入数据前，对密码进行加密

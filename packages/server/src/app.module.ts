@@ -11,6 +11,15 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 // 用户
 import { UserModule } from './modules/user/user.module';
 
+// 文章
+import { ArticleModule } from './modules/article/article.module';
+
+// 分类
+import { CategoryModule } from './modules/Category/category.module';
+
+// 标签
+import { TagsModule } from './modules/tags/tags.module';
+
 // 验证模块
 import { AuthModule } from './modules/auth/auth.module';
 
@@ -24,7 +33,16 @@ import { ConfigModule } from './modules/config/config.module';
 import { orm } from './modules/database/database.module';
 
 @Module({
-  imports: [ConfigModule, orm(), AuthModule, UserModule, SettingModule],
+  imports: [
+    ConfigModule,
+    orm(),
+    AuthModule,
+    UserModule,
+    CategoryModule,
+    TagsModule,
+    ArticleModule,
+    SettingModule,
+  ],
   controllers: [],
   providers: [
     {
