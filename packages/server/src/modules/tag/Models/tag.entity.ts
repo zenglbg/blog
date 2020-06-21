@@ -1,11 +1,11 @@
 import { Entity, Column, ManyToMany } from 'typeorm';
 import { Base } from '@common/entity/base.entity';
-import { Article } from '@modules/article/Models/article.entity';
+import { Article } from '@modules/article/Models/article_info.entity';
 
 @Entity({
-  name: 'tags',
+  name: 'tag',
 })
-export class Tags extends Base {
+export class Tag extends Base {
   @Column()
   label: string;
 

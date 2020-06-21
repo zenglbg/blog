@@ -18,7 +18,7 @@ import { ArticleModule } from './modules/article/article.module';
 import { CategoryModule } from './modules/Category/category.module';
 
 // 标签
-import { TagsModule } from './modules/tags/tags.module';
+import { TagsModule } from './modules/tag/tag.module';
 
 // 验证模块
 import { AuthModule } from './modules/auth/auth.module';

@@ -7,6 +7,11 @@ export enum ApiErrorCode {
   USER_PASSWORD_INVALID = 10002, // 用户 姓名 无效
   USER_EMAIL_INVALID = 10002, // 用户 姓名 无效
   USER_AGE_INVALID = 10003, // 用户 年龄 无效
+
+  ARTICLE_TITLE_INVALID = 10004, // 用户id无效
+  ARTICLE_CONTEXT_INVALID = 10005, // 用户 姓名 无效
+  ARTICLE_STATUS_INVALID = 10006, // 用户 姓名 无效
+
   // USER_ID_INVALID = 40001, //获取 access_token 时 AppSecret 错误，或者 access_token 无效。请开发者认真比对 AppSecret 的正确性，或查看是否正在为恰当的公众号调用接口
   //   USER_ID_INVALID =  40002,	//不合法的凭证类型
   //   USER_ID_INVALID =  40003,	//不合法的 OpenID ，请开发者确认 OpenID （该用户）是否已关注公众号，或是否是其他公众号的 OpenID

@@ -1,15 +1,21 @@
-import { Entity, Column, ManyToOne, JoinTable, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  JoinTable,
+  ManyToMany,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Category } from '@modules/Category/Models/category.entity';
-import { Tags } from '@modules/tags/Models/tags.entity';
+import { Tag } from '@modules/tag/Models/tag.entity';
 import { Base } from '@entity/base.entity';
-import { Name } from '@entity/name.entity'
-
+import { ArticleContext } from './article_context.entity';
 
 @Entity({
-  name: 'articles',
+  name: 'article',
 })
 export class Article extends Base {
- 
   @Column()
   title: string;
 
@@ -19,20 +25,35 @@ export class Article extends Base {
   @Column({ type: 'text', default: null, comment: '摘要，自动生成' })
   summary: string;
 
-  @Column({ type: 'mediumtext', default: null, comment: '原始内容' })
-  context: string;
+  @OneToOne(
+    type => ArticleContext,
+    articleContext => articleContext.info,
+    {
+      cascade: true,
+    },
+  )
+  @JoinColumn()
+  context: ArticleContext;
 
-  @ManyToOne(() => Category, category => category.articles, {
-    cascade: true
-  })
+  @ManyToOne(
+    () => Category,
+    category => category.articles,
+    {
+      cascade: true,
+    },
+  )
   @JoinTable()
   category: Category;
 
-  @ManyToMany(() => Tags, tag=>tag.articles, {
-    cascade: true
-  })
+  @ManyToMany(
+    () => Tag,
+    tag => tag.articles,
+    {
+      cascade: true,
+    },
+  )
   @JoinTable()
-  tags: Array<Tags>;
+  tags: Array<Tag>;
 
   @Column('simple-enum', { enum: ['draft', 'publish'] })
   status: string;

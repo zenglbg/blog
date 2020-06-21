@@ -1,5 +1,5 @@
 import { IsString, MinLength, MaxLength } from 'class-validator';
-import { ApiErrorCode } from '../../../common/enums/api-error-code.enum';
+import { ApiErrorCode } from '@common/enums/api-error-code.enum';
 
 export class CreateUserDto {
   @IsString({
