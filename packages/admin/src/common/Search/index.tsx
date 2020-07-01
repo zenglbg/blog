@@ -2,7 +2,6 @@ import "./index.less";
 
 import React, { useContext, SyntheticEvent } from "react";
 import { Form, Row, Input, Button, Col } from "antd";
-import { FormComponentProps } from "antd/es/form";
 import { searchFields } from "../../components/user";
 
 export interface IFieldItem {
@@ -12,56 +11,60 @@ export interface IFieldItem {
   msg?: string;
   children?: React.ReactNode;
 }
-interface ISearchProps extends FormComponentProps {
+interface ISearchProps {
   onSearchBtn?: (arg: any) => void;
   onReset?: Function;
 }
 
 const Search: React.FunctionComponent<ISearchProps> = ({
-  form,
   onSearchBtn,
   onReset,
 }) => {
   const fields: IFieldItem[] = useContext(searchFields);
-  const { getFieldDecorator, validateFields, resetFields } = form;
+  const [form] = Form.useForm();
 
   const getFields = () => {
     return fields.reduce((acc, field: IFieldItem, index) => {
       acc.push(
-        <Form.Item label={field.label} key={`${field.label}`}>
-          {getFieldDecorator(field.field, {
-            rules: field.rules,
-          })(
-            field.children ? (
-              field.children
-            ) : (
-              <Input
-                style={{ width: 180 }}
-                placeholder={field.msg || "placeholder"}
-              />
-            )
-          )}
+        <Form.Item
+          label={field.label}
+          key={`${field.label}`}
+          name={field.field}
+          rules={field.rules}
+        >
+          field.children ? ( field.children ) : (
+          <Input
+            style={{ width: 180 }}
+            placeholder={field.msg || "placeholder"}
+          />
+          )
         </Form.Item>
       );
       return acc;
     }, []);
   };
-  const handleSearch = (e: SyntheticEvent) => {
-    e.preventDefault();
-    validateFields((err, values) => {
-      onSearchBtn(
-        Object.keys(values).reduce((acc, item) => {
-          values[item] ? (acc[item] = values[item]) : null;
-          return acc;
-        }, {})
-      );
-    });
+
+  const handleReset = () => form.resetFields();
+
+  const onFinish = (values) => {
+    onSearchBtn(
+      Object.keys(values).reduce((acc, item) => {
+        values[item] ? (acc[item] = values[item]) : null;
+        return acc;
+      }, {})
+    );
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
   };
 
-  const handleReset = () => resetFields();
-
   return (
-    <Form className="search-wrapper" layout="inline" onSubmit={handleSearch}>
+    <Form
+      className="search-wrapper"
+      layout="inline"
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
       <Row className="search-wrapper-content">
         {getFields()}
         <Form.Item>
@@ -77,4 +80,4 @@ const Search: React.FunctionComponent<ISearchProps> = ({
   );
 };
 
-export default Form.create<ISearchProps>({ name: "advanced_search" })(Search);
+export default Search;

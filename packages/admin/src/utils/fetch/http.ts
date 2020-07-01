@@ -5,7 +5,7 @@ import { map } from "rxjs/operators";
 import { message } from "antd";
 
 export class Http {
-  static post(
+  public static post(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
@@ -28,7 +28,7 @@ export class Http {
       })
     );
   }
-  static get(url: string, data, config?: AxiosRequestConfig): Observable<any> {
+  public static get(url: string, data, config?: AxiosRequestConfig): Observable<any> {
     if (`${data}`.includes("Object")) {
       const params = Object.keys(data).reduce((acc, item) => {
         return acc ? `${acc}&${item}=${data[item]}` : `${item}=${data[item]}`;

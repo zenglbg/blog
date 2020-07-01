@@ -19,7 +19,7 @@ export const api: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
   },
-  withCredentials: true, //存主cookie
+  withCredentials: true, // 存主cookie
 });
 
 // POST传参序列化
@@ -74,14 +74,14 @@ export const getLogUrl = function () {
 };
 
 class CatchError {
-  message: string = errCode.DEFAULT;
-  status: string | number = "接口异常，无法获取状态码！";
-  errUrl: string = "无法获取报错接口url！";
-  logUrl: string;
-  params: any;
-  error: any;
+  public message: string = errCode.DEFAULT;
+  public status: string | number = "接口异常，无法获取状态码！";
+  public errUrl = "无法获取报错接口url！";
+  public logUrl: string;
+  public params: any;
+  public error: any;
 
-  constructor(error) {
+  public constructor(error) {
     this.message = errCode.DEFAULT;
     this.logUrl = getLogUrl();
     this.params = {
@@ -94,14 +94,14 @@ class CatchError {
     return this.error;
   }
 
-  init(error) {
+  public  init(error) {
     this.error = this.dealResData(error);
     this.handle401();
     this.handle500();
     this.sendErrorToBackend();
   }
 
-  handle401() {
+  public handle401() {
     /**
      * 验证token错误。
      * 清除用户信息。
@@ -124,13 +124,13 @@ class CatchError {
     }
   }
 
-  handle500() {
+  public handle500() {
     if (this.status === 500) {
       message.error(errCode.__500__);
     }
   }
 
-  dealResData(error) {
+  public dealResData(error) {
     try {
       if (error) {
         // http状态码
@@ -180,7 +180,7 @@ class CatchError {
     return error;
   }
 
-  sendErrorToBackend() {
+  public sendErrorToBackend() {
     let id = this.params.data;
     let uniqueEle = document.getElementById(id);
     let paramsStr = "?";

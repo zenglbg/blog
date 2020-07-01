@@ -1,63 +1,64 @@
 import "./index.less";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Card, Input, Button, Icon, Form } from "antd";
+import { Card, Input, Button, Form } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
 import { RouteComponentProps } from "react-router-dom";
 import { User } from "@actions/index";
 import { IState } from "@reducer/index";
 
-type PageDispatchProps = {
+interface PageDispatchProps {
   doLogin: (obj: any) => void;
-};
+}
 
 interface Props {
-  form: any;
-  doLogin(): any;
+  doLogin: () => any;
 }
 
 const Login: React.FunctionComponent<
   PageDispatchProps & RouteComponentProps & Props
-> = ({ form, doLogin, history }) => {
-  const { getFieldDecorator, validateFields } = form;
+> = ({ doLogin, history }) => {
+  const onFinish = (values) => {
+    doLogin(values);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    validateFields((err, values) => {
-      if (!err) {
-        doLogin(values);
-      }
-    });
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
   };
 
   return (
     <div className="login">
       <Card className="login-form" style={{ width: 300, borderRadius: 4 }}>
-        <Form onSubmit={handleSubmit}>
-          <Form.Item>
-            {getFieldDecorator("name", {
-              rules: [{ required: true, message: "请输入用户名" }],
-            })(
-              <Input
-                prefix={
-                  <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                }
-                placeholder="请输入用户名"
-              />
-            )}
+        <Form onFinish={onFinish} onFinishFailed={onFinishFailed}>
+          <Form.Item
+            name="name"
+            rules={[{ required: true, message: "请输入用户名" }]}
+          >
+            <Input
+              prefix={
+                <SmileOutlined
+                  type="user"
+                  style={{ color: "rgba(0,0,0,.25)" }}
+                />
+              }
+              placeholder="请输入用户名"
+            />
           </Form.Item>
-          <Form.Item>
-            {getFieldDecorator("password", {
-              rules: [{ required: true, message: "请输入密码" }],
-            })(
-              <Input
-                prefix={
-                  <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                }
-                type="password"
-                placeholder="请输入密码"
-              />
-            )}
-          </Form.Item>{" "}
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "请输入密码" }]}
+          >
+            <Input
+              prefix={
+                <SmileOutlined
+                  type="lock"
+                  style={{ color: "rgba(0,0,0,.25)" }}
+                />
+              }
+              type="password"
+              placeholder="请输入密码"
+            />
+          </Form.Item>
           <Button
             type="primary"
             htmlType="submit"
@@ -89,4 +90,4 @@ export default connect(
   {
     doLogin: User.doLogin,
   }
-)(Form.create({ name: "normal_login" })(Login));
+)(Login);

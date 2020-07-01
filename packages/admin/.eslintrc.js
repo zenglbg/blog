@@ -7,8 +7,8 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
       modules: true,
-      experimentalObjectRestSpread: true
-    }
+      experimentalObjectRestSpread: true,
+    },
   },
   env: {
     // Your environments (which contains several predefined global variables)
@@ -22,12 +22,13 @@ module.exports = {
   globals: {
     // Your global variables (setting to false means it's not allowed to be reassigned)
     //
-    myGlobal: false
+    myGlobal: false,
   },
   rules: {
     // Customize your rules
     eqeqeq: "off",
     curly: "error",
-    quotes: ["error", "double"]
-  }
+    quotes: ["error", "double"],
+    "@typescript-eslint/no-invalid-this": 0,
+  },
 };

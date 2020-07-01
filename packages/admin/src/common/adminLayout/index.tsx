@@ -3,7 +3,8 @@ import "./index.less";
 import React from "react";
 import { connect } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { Menu, Layout, Icon, Dropdown, Button, Row, Col } from "antd";
+import { Menu, Layout, Dropdown, Button, Row, Col } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
 import { IState } from "@reducer/index";
 import { menus } from "../../routes/config";
 import { UserInfo } from "../UserInfo";
@@ -30,7 +31,12 @@ const ResourceCreate = () => {
 
   return (
     <Dropdown overlay={menu} placement="bottomLeft">
-      <Button style={{ width: "100%" }} type="primary" size="large" icon="plus">
+      <Button
+        style={{ width: "100%" }}
+        type="primary"
+        size="large"
+        icon={<SmileOutlined />}
+      >
         新建
       </Button>
     </Dropdown>
@@ -61,7 +67,7 @@ const AdminLayout: React.FunctionComponent<
                   ) : (
                     <li key={`${index}adminlayout`}>
                       <Link to={menu.path} className="active">
-                        <Icon type={menu.icon} />
+                        <SmileOutlined type={menu.icon} />
                         <span>{menu.label}</span>
                       </Link>
                     </li>
@@ -84,7 +90,7 @@ const AdminLayout: React.FunctionComponent<
                     href="https://github.com/zhxuc/wipi"
                     target="_blank"
                   >
-                    <Icon type="github" />
+                    <SmileOutlined type="github" />
                     <span></span>
                   </a>
                   <UserInfo

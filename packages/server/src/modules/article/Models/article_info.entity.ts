@@ -36,7 +36,7 @@ export class Article extends Base {
   context: ArticleContext;
 
   @ManyToOne(
-    () => Category,
+    type => Category,
     category => category.articles,
     {
       cascade: true,
@@ -46,7 +46,7 @@ export class Article extends Base {
   category: Category;
 
   @ManyToMany(
-    () => Tag,
+    type => Tag,
     tag => tag.articles,
     {
       cascade: true,
