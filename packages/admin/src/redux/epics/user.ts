@@ -1,6 +1,6 @@
-import { ofType, Epic, ActionsObservable } from "redux-observable";
-import { interval, concat } from "rxjs";
-import { throwError, of, merge, combineLatest } from "rxjs";
+import { ofType, Epic, ActionsObservable } from 'redux-observable'
+import { interval, concat } from 'rxjs'
+import { throwError, of, merge, combineLatest } from 'rxjs'
 import {
   map,
   switchMap,
@@ -12,13 +12,13 @@ import {
   mergeMap,
   concatAll,
   concatMap,
-} from "rxjs/operators";
-import { message } from "antd";
-import { getType } from "typesafe-actions";
-import { push } from "connected-react-router";
+} from 'rxjs/operators'
+import { message } from 'antd'
+import { getType } from 'typesafe-actions'
+import { push } from 'connected-react-router'
 
-import { Usersr } from "@service/index";
-import { User } from "@actions/index";
+import { Usersr } from '@providers/index'
+import { User } from '@actions/index'
 
 export const userEpic = (action$: ActionsObservable<any>, state$) =>
   action$.pipe(
@@ -27,14 +27,14 @@ export const userEpic = (action$: ActionsObservable<any>, state$) =>
       return Usersr.login(payload).pipe(
         switchMap(({ success, data }) => {
           if (success) {
-            return concat(of(User.loginS(data)), of(push("/admin/home")));
+            return concat(of(User.loginS(data)), of(push('/admin/home')))
           } else {
-            throw new Error("登陆失败");
+            throw new Error('登陆失败')
           }
         })
-      );
+      )
     })
-  );
+  )
 
 export const register = (action$: ActionsObservable<any>, state$) =>
   action$.pipe(
@@ -43,15 +43,15 @@ export const register = (action$: ActionsObservable<any>, state$) =>
       return Usersr.register(payload).pipe(
         map((res) => {
           if (res.success) {
-            return push("/login");
+            return push('/login')
             // return User.doLogin({ user_name, user_password });
           } else {
-            return { type: "err", msg: "注册失败！" };
+            return { type: 'err', msg: '注册失败！' }
           }
         })
-      );
+      )
     })
-  );
+  )
 
 // export const profiles = (action$: ActionsObservable<any>) =>
 //   action$.pipe(

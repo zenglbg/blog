@@ -30,5 +30,7 @@ module.exports = {
     curly: "error",
     quotes: ["error", "double"],
     "@typescript-eslint/no-invalid-this": 0,
+    "@typescript-eslint/member-ordering": 0,
+    '@typescript-eslint/no-empty-interface': 1,
   },
-};
+}; 

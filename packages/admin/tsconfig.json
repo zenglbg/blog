@@ -21,7 +21,7 @@
       "@epics/*": ["./src/redux/epics/*"],
       "@utils/*": ["./src/utils/*"],
       "@routes/*": ["src/routes/*"],
-      "@service/*": ["src/service/*"]
+      "@providers/*": ["src/providers/*"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
