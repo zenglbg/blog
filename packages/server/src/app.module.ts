@@ -7,6 +7,7 @@ import { LoggerMiddleware } from './common/middleware/LoggerMiddleware';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/Logging.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+import configuration from './modules/config/configuration';
 
 // 用户
 import { UserModule } from './modules/user/user.module';
@@ -27,14 +28,14 @@ import { AuthModule } from './modules/auth/auth.module';
 import { SettingModule } from './modules/setting/setting.module';
 
 // config 模块
-import { ConfigModule } from './modules/config/config.module';
+import { configModule } from './modules/config/config.module';
 
 // 数据库
 import { orm } from './modules/database/database.module';
 
 @Module({
   imports: [
-    ConfigModule,
+    configModule(),
     orm(),
     AuthModule,
     UserModule,

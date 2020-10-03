@@ -9,13 +9,17 @@ import {
   Query,
   Param,
 } from '@nestjs/common';
-import { TagService } from '../service/tag.service';
+import { TagService } from '../services/tag.service';
+import { ConfigService } from '@nestjs/config';
 import { Roles } from '@modules/auth/guards/roles.guard';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 @Controller('tag')
 export class TagController {
-  constructor(private readonly tagService: TagService) {}
+  constructor(
+    private readonly tagService: TagService,
+    private readonly configS: ConfigService,
+  ) {}
 
   @Post()
   @Roles('admin')

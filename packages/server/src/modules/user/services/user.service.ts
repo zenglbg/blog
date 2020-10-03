@@ -16,7 +16,7 @@ import {
 
 import { User } from '../Models/user.entity';
 import { UpdatePasswordUserDto } from '../dtos/index.user.dto';
-import config from '../../../config/config.default';
+import config from '../../config/config.default';
 
 @Injectable()
 export class UserService {

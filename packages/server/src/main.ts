@@ -4,8 +4,9 @@ import * as compression from 'compression';
 import * as helmet from 'helmet';
 
 import { AppModule } from './app.module';
-import configDefault from './config/config.default';
+import configDefault from './modules/config/config.default';
 const { myApp } = configDefault();
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,10 +31,11 @@ async function bootstrap() {
   /**
    * 全局中间件
    */
+  
+  await app.listen(process.env.PORT).then(() => {
 
-  await app.listen(9999).then(() => {
     console.log(`
-      http://0.0.0.0:9999
+      http://0.0.0.0:${process.env.PORT}
     `);
   });
 }

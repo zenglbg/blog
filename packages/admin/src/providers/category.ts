@@ -1,5 +1,7 @@
+import { Http } from '@utils/index'
+
 export class Categorysr {
   public static getCategorys() {
-    console.log(`请求分类`)
+    return Http.get('/category', {})
   }
 }

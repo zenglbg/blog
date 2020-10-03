@@ -1,20 +1,24 @@
-import { Module, Global } from '@nestjs/common';
 import * as path from 'path';
-import { ConfigService } from './services/config.service';
+import * as Joi from '@hapi/joi';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './configuration'
 
-@Global()
-@Module({
-  providers: [
-    {
-      provide: ConfigService,
-      useValue: new ConfigService(
-        path.resolve(
-          __dirname,
-          `../../../env/${process.env.NODE_ENV_FILE}.env`,
-        ),
-      ),
-    },
-  ],
-  exports: [ConfigService],
-})
-export class ConfigModule {}
+
+export const configModule = () =>
+  ConfigModule.forRoot({
+    envFilePath: [path.resolve(__dirname, '../../../env/dev.env')],
+    load: [configuration],
+    isGlobal: true,
+    validationSchema: Joi.object({
+      NODE_ENV: Joi.string()
+        .valid('development', 'production', 'test', 'provision')
+        .default('development'),
+      PORT: Joi.number().default(3000),
+      DATABASE_HOST: Joi.string(),
+      DATABASE_PORT: Joi.number().default(3306)
+    }),
+    // validationOptions: {
+    //   allowUnknown: false,
+    //   abortEarly: true,
+    // },
+  });

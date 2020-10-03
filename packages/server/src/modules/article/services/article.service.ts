@@ -1,4 +1,4 @@
-import { Injectable, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { Article } from '../Models/article_info.entity';
 import { from, of, combineLatest } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,7 +7,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { ApiException } from '@common/exceptions/api.exception';
 import { ApiErrorCode } from '@common/enums/api-error-code.enum';
 import * as dayjs from 'dayjs';
-import { TagService } from '@modules/tag/service/tag.service';
+import { TagService } from '@modules/tag/services/tag.service';
 import { CategoryService } from '@modules/Category/service/category.service';
 import { ArticleContext } from '../Models/article_context.entity';
 import { CreateArticleDto } from '../dtos/create.article.dto';
@@ -238,5 +238,17 @@ export class ArticleService {
     }
 
     return from(query.getOne());
+  }
+
+  public deleteById(id) {
+    return from(this.articleRepository.findOne(id)).pipe(
+      switchMap(existArticle => {
+        if (existArticle) {
+          return from(this.articleRepository.remove(existArticle));
+        } else {
+          throw new HttpException('文章删除失败', HttpStatus.BAD_REQUEST);
+        }
+      }),
+    );
   }
 }

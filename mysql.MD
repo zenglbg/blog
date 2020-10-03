@@ -2,6 +2,7 @@
 
 [mysql 用户管理 1](https://www.hi-linux.com/posts/61905.html)
 [mysql 用户管理 2](https://www.yiibai.com/mysql/create-user.html)
+[mysql 用户管理 3](https://github.com/Laradock/laradock.git)
 
 ## 允许 root 远程连接
 

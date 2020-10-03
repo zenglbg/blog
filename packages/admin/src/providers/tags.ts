@@ -1,5 +1,7 @@
+import { Http } from '@utils/index'
+
 export class Tagssr {
   public static getTags() {
-    console.log(`请求标签`)
+    return Http.get('/tag', {})
   }
 }

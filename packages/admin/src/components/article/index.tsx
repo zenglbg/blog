@@ -1,7 +1,7 @@
 import React, { useState, useCallback, memo, useEffect } from 'react'
 import * as dayjs from 'dayjs'
 import SPTDataTable from '../../common/SPTDataTable'
-import { Badge } from 'antd'
+import { Popconfirm, Badge, message, Divider } from 'antd'
 import { map } from 'rxjs/operators'
 import { Articlesr } from '@providers/article'
 import { Categorysr } from '@providers/category'
@@ -71,6 +71,10 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
     }
   }, [])
 
+  // const getViews = useCallback(() => {
+  //   setLoading(true)
+  // }, [])
+
   const getArticles = useCallback((params = {}) => {
     return Articlesr.getArticles(params).pipe(
       map(({ data }) => {
@@ -85,6 +89,16 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
     )
   }, [])
 
+  const deleteArticle = useCallback(
+    (id) => {
+      return Articlesr.deleteArticle(id).subscribe((_) => {
+        message.success('文章删除成功')
+        getArticles(params)
+      })
+    },
+    [params]
+  )
+
   const titleColumn = {
     title: '标题',
     dataIndex: 'title',
@@ -97,7 +111,21 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
     key: 'action',
     render: (_, record) => (
       <span>
-        <a href="">编辑</a>
+        <a>编辑</a>
+        <Divider type="vertical" />
+        <span></span>
+        <a onClick={() => {}}>
+          <span>查看访问</span>
+        </a>
+        <Divider type="vertical" />
+        <Popconfirm
+          title="确认删除这个文章"
+          onConfirm={() => deleteArticle(record.id)}
+          okText="确认"
+          cancelText="取消"
+        >
+          <a>删除</a>
+        </Popconfirm>
       </span>
     ),
   }

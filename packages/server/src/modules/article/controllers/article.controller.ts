@@ -10,6 +10,7 @@ import {
   Param,
   UseInterceptors,
   ClassSerializerInterceptor,
+  Delete,
 } from '@nestjs/common';
 import { RolesGuard, Roles } from '@modules/auth/guards/roles.guard';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
@@ -82,5 +83,12 @@ export class ArticleController {
   @HttpCode(HttpStatus.OK)
   public recommend(@Query('articleId') articleId) {
     return this.articleService.recommend(articleId);
+  }
+
+  @Delete(':id')
+  @Roles('admin')
+  @UseGuards(JwtAuthGuard)
+  public deleteById(@Param('id') id) {
+    return this.articleService.deleteById(id);
   }
 }
