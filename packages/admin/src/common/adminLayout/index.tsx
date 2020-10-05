@@ -1,4 +1,4 @@
-import "./index.less";
+import "./index.scss";
 
 import React from "react";
 import { connect } from "react-redux";
@@ -7,12 +7,16 @@ import { Menu, Layout, Dropdown, Button, Row, Col } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { IState } from "@reducer/index";
 import { menus } from "../../routes/config";
-import { UserInfo } from "../UserInfo";
+
+import { UserInfo } from "./index-user";
 
 interface IAdminLayoutProps {}
+
 const findActiveMenu = (pathname) => {
   return menus.find((menu) => menu.path === pathname);
 };
+
+
 const ResourceCreate = () => {
   const menu = (
     <Menu>

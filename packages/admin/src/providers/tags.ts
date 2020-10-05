@@ -1,4 +1,4 @@
-import { Http } from '@utils/index'
+import { Http } from '@utils/fetch/http'
 
 export class Tagssr {
   public static getTags() {

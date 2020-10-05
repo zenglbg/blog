@@ -1,10 +1,10 @@
-import "./index.less";
+import "./index.scss";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Card, Input, Button, Form } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { RouteComponentProps } from "react-router-dom";
-import { User } from "@actions/index";
+import { User } from "@actions/user";
 import { IState } from "@reducer/index";
 
 interface PageDispatchProps {
@@ -17,7 +17,9 @@ interface Props {
 
 const Login: React.FunctionComponent<
   PageDispatchProps & RouteComponentProps & Props
-> = ({ doLogin, history }) => {
+> = ({ doLogin, history , ...props}) => {
+  console.log(props)
+
   const onFinish = (values) => {
     doLogin(values);
   };

@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { IState } from "@reducer/index";
-import { User } from "@actions/index";
+import { User } from "@actions/user";
 
 interface Props {
   user: any;

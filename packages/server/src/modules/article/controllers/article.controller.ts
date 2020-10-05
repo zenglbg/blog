@@ -17,7 +17,6 @@ import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { ArticleService } from '../services/article.service';
 import { CreateArticleDto } from '../dtos/create.article.dto';
-import { get } from 'http';
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('article')
 @UseGuards(RolesGuard)

@@ -1,16 +1,16 @@
-import "./index.less";
-import "./assets/style/root.less";
-
+import "./index.scss";
+import "antd/dist/antd.min.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import { PersistGate } from "redux-persist/integration/react";
-import RouteView from "./routes/index";
+import {RouteView} from "./routes/index";
 import store, { history, persistor } from "./redux";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
 import enGB from "antd/es/locale/en_GB";
+// import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <Provider store={store}>
@@ -28,3 +28,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
+// serviceWorker.unregister();

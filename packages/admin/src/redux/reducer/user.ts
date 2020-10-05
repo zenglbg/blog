@@ -1,5 +1,5 @@
 import { getType } from "typesafe-actions";
-import { User } from "../actions";
+import { User } from "@actions/user";
 
 export interface IUserState {
   name: string;

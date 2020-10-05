@@ -33,7 +33,7 @@ export class CreateArticleDto {
     message: '内容不能为空',
     context: { errorCode: ApiErrorCode.ARTICLE_CONTEXT_INVALID },
   })
-  context: string;
+  content: string;
 
   cover: string;
 

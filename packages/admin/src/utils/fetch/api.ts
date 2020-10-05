@@ -1,10 +1,12 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from "axios";
 import qs_string from "qs";
 import { push } from "connected-react-router";
-import { User } from "@actions/index";
+import { User } from "@actions/user";
 import store from "../../redux";
 import { errCode } from "../config";
 import { message } from "antd";
+
+
 const apiWithoutToken = [
   /**
    * 不加token的接口
@@ -12,14 +14,19 @@ const apiWithoutToken = [
   "/index/home",
 ];
 
-const baseURL = "http://localhost:3333/api";
 
 export const api: AxiosInstance = axios.create({
-  baseURL,
+  timeout: Number(process.env.REACT_APP_TIMEOUT), // 设置超时时间5s
+  baseURL:
+    process.env.REACT_APP_ENV === "production"
+      ? "/api"
+      : "/api", // 测试环境
+  withCredentials: true,
   headers: {
-    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    post: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
   },
-  withCredentials: true, // 存主cookie
 });
 
 // POST传参序列化

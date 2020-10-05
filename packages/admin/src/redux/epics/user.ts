@@ -17,8 +17,8 @@ import { message } from 'antd'
 import { getType } from 'typesafe-actions'
 import { push } from 'connected-react-router'
 
-import { Usersr } from '@providers/index'
-import { User } from '@actions/index'
+import { Usersr } from '@providers/user'
+import { User } from '@actions/user'
 
 export const userEpic = (action$: ActionsObservable<any>, state$) =>
   action$.pipe(

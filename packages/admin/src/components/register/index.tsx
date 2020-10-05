@@ -5,8 +5,8 @@ import { Card, Input, Button, Form, Modal } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 
 import { IState } from '@reducer/index'
-import { User } from '@actions/index'
-import { Usersr } from '@providers/index'
+import { User } from '@actions/user'
+import { Usersr } from '@providers/user'
 
 import FormList from './child/formList'
 import Rmodal from './child/modal'

@@ -10,7 +10,7 @@ import {
 import { Category } from '@modules/Category/Models/category.entity';
 import { Tag } from '@modules/tag/Models/tag.entity';
 import { Base } from '@entity/base.entity';
-import { ArticleContext } from './article_context.entity';
+import { ArticleContent } from './article_context.entity';
 
 @Entity({
   name: 'article',
@@ -26,14 +26,14 @@ export class Article extends Base {
   summary: string;
 
   @OneToOne(
-    type => ArticleContext,
-    articleContext => articleContext.info,
+    type => ArticleContent,
+    articleContent => articleContent.info,
     {
       cascade: true,
     },
   )
   @JoinColumn()
-  context: ArticleContext;
+  content: ArticleContent;
 
   @ManyToOne(
     type => Category,

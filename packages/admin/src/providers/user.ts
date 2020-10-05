@@ -1,5 +1,5 @@
 import { map } from "rxjs/operators";
-import { Http } from "../utils";
+import { Http } from "@utils/fetch/http";
 import { message } from "antd";
 
 export class Usersr {

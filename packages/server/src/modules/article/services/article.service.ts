@@ -9,15 +9,15 @@ import { ApiErrorCode } from '@common/enums/api-error-code.enum';
 import * as dayjs from 'dayjs';
 import { TagService } from '@modules/tag/services/tag.service';
 import { CategoryService } from '@modules/Category/service/category.service';
-import { ArticleContext } from '../Models/article_context.entity';
+import { ArticleContent } from '../Models/article_context.entity';
 import { CreateArticleDto } from '../dtos/create.article.dto';
 @Injectable()
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
     private readonly articleRepository: Repository<Article>,
-    @InjectRepository(ArticleContext)
-    private readonly articleContextRepository: Repository<ArticleContext>,
+    @InjectRepository(ArticleContent)
+    private readonly articleContentRepository: Repository<ArticleContent>,
     private readonly tagService: TagService,
     private readonly categoryService: CategoryService,
   ) {}
@@ -87,23 +87,23 @@ export class ArticleService {
             });
           }
 
-          return combineLatest(
+          return combineLatest([
             this.tagService.findByIds(`${tags}`),
             from(this.categoryService.findById(category)),
             of(article),
-          );
+          ]);
         }),
       )
       .pipe(
         switchMap(([tags, existCategory, article]) => {
-          const newContext = this.articleContextRepository.create({
-            context: article.context,
+          const newContent = this.articleContentRepository.create({
+            content: article.content,
           });
           const newArticle = this.articleRepository.create({
             ...article,
             category: existCategory,
             tags: tags,
-            context: newContext,
+            content: newContent,
             needPassword: !!article.password,
           });
           return from(this.articleRepository.save(newArticle));

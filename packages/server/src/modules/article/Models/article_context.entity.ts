@@ -5,13 +5,13 @@ import { Article } from './article_info.entity';
 @Entity({
   name: 'article_context',
 })
-export class ArticleContext extends Base {
+export class ArticleContent extends Base {
   @Column({ type: 'mediumtext', default: null, comment: '原始内容' })
-  context: string;
+  content: string;
 
   @OneToOne(
     type => Article,
-    article => article.context,
+    article => article.content,
   )
   info: Article;
 }

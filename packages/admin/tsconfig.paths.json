@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "isolatedModules": false,
+    "paths": {
+      "@actions/*": ["./src/redux/actions/*"],
+      "@reducer/*": ["./src/redux/reducer/*"],
+      "@epics/*": ["./src/redux/epics/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@routes/*": ["src/routes/*"],
+      "@providers/*": ["src/providers/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true
+  }
+}
+
+
+// {
+//   "compilerOptions": {
+//     "target": "es5",
+//     "lib": ["dom", "dom.iterable", "esnext"],
+//     "allowJs": true,
+//     "skipLibCheck": true,
+//     "esModuleInterop": true,
+//     "allowSyntheticDefaultImports": true,
+//     "strict": false,
+//     "forceConsistentCasingInFileNames": true,
+//     "module": "esnext",
+//     "moduleResolution": "node",
+//     "resolveJsonModule": true,
+//     "isolatedModules": true,
+//     "noEmit": true,
+//     "jsx": "react",
+//     "baseUrl": ".",
+//     "paths": {
+//       "@actions/*": ["./src/redux/actions/*"],
+//       "@reducer/*": ["./src/redux/reducer/*"],
+//       "@epics/*": ["./src/redux/epics/*"],
+//       "@utils/*": ["./src/utils/*"],
+//       "@routes/*": ["src/routes/*"],
+//       "@providers/*": ["src/providers/*"]
+//     },
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true
+//   },
+//   "include": ["src"],
+//   "exclude": ["node_modules"]
+// }

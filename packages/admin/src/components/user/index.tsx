@@ -93,7 +93,7 @@ const User: React.FunctionComponent<IUserProps> = (props) => {
 
   const getData = useCallback((params) => {
     return Usersr.getUsers(params).pipe(
-      map((res) => {
+      map((res:any) => {
         if (res.status === 200 && res.data.success) {
           setData(res.data.data[0])
           setTotal(res.data.data[1])
