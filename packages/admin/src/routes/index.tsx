@@ -39,7 +39,7 @@ export function RouteView() {
   };
 
   return (
-    <div className="route1">
+    <div className="route">
       <Switch>
         {routesRenderMsp(routes)}
         <Redirect to="/admin/home" />

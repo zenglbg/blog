@@ -1,11 +1,11 @@
 import "./index.scss";
-import "antd/dist/antd.min.css";
+
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import { PersistGate } from "redux-persist/integration/react";
-import {RouteView} from "./routes/index";
+import { RouteView } from "./routes/index";
 import store, { history, persistor } from "./redux";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/es/locale/zh_CN";
