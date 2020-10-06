@@ -9,9 +9,9 @@ const {
 const { antd, resources } = require('./loader')
 
 const { addProxy } = require('./proxy')
-const {removePre, removeManifest} = require('./custom')
+const { removePre, removeManifest, addThread } = require('./custom')
 
- 
+
 module.exports = {
   webpack: override(
     useEslintRc('.eslintrc.js'),
@@ -27,9 +27,9 @@ module.exports = {
       ["@routes"]: "src/routes",
       ["@providers"]: "src/providers"
     }),
+    addThread(),
     removePre(),
     removeManifest(),
-
   ),
   devServer: overrideDevServer(
     addProxy()

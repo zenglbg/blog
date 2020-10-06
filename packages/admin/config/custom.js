@@ -23,4 +23,46 @@ const removeManifest = () => config => {
   return config
 }
 
-module.exports = { removePre, removeManifest }
+
+
+const addThread = () => (config) => {
+  /**
+   * thread-loader 会将后面的 loader 放置在一个 worker 池里面运行，以达到多线程构建
+   */
+  const updatedRules = config.module.rules.map(rule => {
+    console.log(rule)
+    // if (rule.enforce === 'pre') {
+    //   return null
+    // }
+    console.log(String(rule.test))
+    if (rule.oneOf) {
+      const oneOf = rule.oneOf.map(r => {
+        if (/(tsx)/g.test(String(r.test))) {
+
+          // let use
+          // if (r.use && Array.isArray(rule.use)) {
+          //   use = r.use.unshift('thread-loader')
+          // }else {
+          //   use = [
+          //     'thread-loader',
+          //     r.loader
+          //   ]
+          // }
+          // r.use = use
+        }
+        return r
+      })
+
+      console.log(oneOf)
+
+      rule.oneOf = oneOf
+
+    }
+    return rule
+  })
+
+  config.module.rules = updatedRules
+  return config
+}
+
+module.exports = { removePre, removeManifest, addThread }
