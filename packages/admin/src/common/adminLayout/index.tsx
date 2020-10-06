@@ -9,13 +9,15 @@ import { IState } from "@reducer/index";
 import { menus } from "../../routes/config";
 
 import { UserInfo } from "./index-user";
-
-interface IAdminLayoutProps {}
+import { IRoutes } from "../../routes/config";
+interface IAdminLayoutProps {
+  routesRenderMsp: Function;
+  routes?: IRoutes[];
+}
 
 const findActiveMenu = (pathname) => {
   return menus.find((menu) => menu.path === pathname);
 };
-
 
 const ResourceCreate = () => {
   const menu = (
@@ -49,10 +51,19 @@ const ResourceCreate = () => {
 
 const AdminLayout: React.FunctionComponent<
   IAdminLayoutProps & RouteComponentProps & Pick<IState, "user">
-> = ({ children, history, location, match, user }) => {
+> = ({
+  children,
+  history,
+  location,
+  match,
+  user,
+  routesRenderMsp,
+  routes,
+}) => {
   const { pathname } = history.location;
   const activeMenu = findActiveMenu(pathname);
 
+  
   return (
     <Layout className="admin-layout">
       <div className="admin-layout-container">
@@ -108,7 +119,7 @@ const AdminLayout: React.FunctionComponent<
             </Row>
           </header>
           <article>
-            <div>{children}</div>
+            <div>{routes ? routesRenderMsp(routes) : null}</div>
           </article>
         </div>
       </div>

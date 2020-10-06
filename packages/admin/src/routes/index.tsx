@@ -17,7 +17,13 @@ export function RouteView() {
           const Component = /(\/admin|\/editor)/g.test(route.path)
             ? requireLogin(route.component)
             : route.component;
-          return <Component {...props} />;
+          return (
+            <Component
+              {...props}
+              routes={route.routes}
+              routesRenderMsp={routesRenderMsp}
+            />
+          );
         }}
       />
       // <Route
