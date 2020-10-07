@@ -30,11 +30,8 @@ const addThread = () => (config) => {
    * thread-loader 会将后面的 loader 放置在一个 worker 池里面运行，以达到多线程构建
    */
   const updatedRules = config.module.rules.map(rule => {
-    console.log(rule)
-    // if (rule.enforce === 'pre') {
-    //   return null
-    // }
-    console.log(String(rule.test))
+    // console.log(rule)
+    // console.log(String(rule.test))
     if (rule.oneOf) {
       const oneOf = rule.oneOf.map(r => {
         if (/(tsx)/g.test(String(r.test))) {

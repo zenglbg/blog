@@ -8,7 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Article } from './Models/article_info.entity';
 import { TagsModule } from '@modules/tag/tag.module';
 import { CategoryModule } from '@modules/Category/category.module';
-import { ArticleContent } from './Models/article_context.entity';
+import { ArticleContent } from './Models/article_content.entity';
 
 @Module({
   imports: [

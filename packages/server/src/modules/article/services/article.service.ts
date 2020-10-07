@@ -1,6 +1,6 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { Article } from '../Models/article_info.entity';
-import { from, of, combineLatest } from 'rxjs';
+import { from, of, combineLatest, forkJoin, Observable } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { map, switchMap } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { ApiErrorCode } from '@common/enums/api-error-code.enum';
 import * as dayjs from 'dayjs';
 import { TagService } from '@modules/tag/services/tag.service';
 import { CategoryService } from '@modules/Category/service/category.service';
-import { ArticleContent } from '../Models/article_context.entity';
+import { ArticleContent } from '../Models/article_content.entity';
 import { CreateArticleDto } from '../dtos/create.article.dto';
 @Injectable()
 export class ArticleService {
@@ -96,14 +96,15 @@ export class ArticleService {
       )
       .pipe(
         switchMap(([tags, existCategory, article]) => {
-          const newContent = this.articleContentRepository.create({
-            content: article.content,
-          });
+          // const newContent = this.articleContentRepository.create({
+          //   content: article.content,
+          // });
+
           const newArticle = this.articleRepository.create({
             ...article,
             category: existCategory,
             tags: tags,
-            content: newContent,
+            // content: newContent,
             needPassword: !!article.password,
           });
           return from(this.articleRepository.save(newArticle));
@@ -238,6 +239,59 @@ export class ArticleService {
     }
 
     return from(query.getOne());
+  }
+
+  /**
+   * updateById
+   * 更新文章
+   */
+  public updateById(id, article: Partial<Article>) {
+    // return from(this.articleRepository.findOne(id));
+    console.log(article);
+    const oldArticle$ = from(this.articleRepository.findOne(id));
+    const { tags, category, status } = article;
+    const obs$: any[] = [oldArticle$];
+    if (tags) {
+      const tags$ = from(this.tagService.findByIds(String(tags).split(',')));
+      obs$.push(tags$);
+    }
+    if (category) {
+      const category$ = from(this.categoryService.findById(category));
+      obs$.push(category$);
+    }
+
+    return forkJoin(...obs$).pipe(
+      map(data => {
+        const [oldArticle, tags, category] = data;
+        console.log(oldArticle, tags, category);
+
+        // const newContentArticle = this.articleContentRepository.merge({
+        //   content: article.content,
+        // });
+        const newArticle = {
+          ...article,
+          // content: newContentArticle,
+          views: oldArticle.views,
+          needPassword: !!article.password,
+          publishAt:
+            oldArticle.status === 'draft' && status === 'publish'
+              ? dayjs().format('YYYY-MM-DD HH:mm:ss')
+              : oldArticle.publishAt,
+        };
+        if (category) {
+          Object.assign(newArticle, { category });
+        }
+        if (tags) {
+          Object.assign(newArticle, { tags });
+        }
+        const updatedArticle = this.articleRepository.merge(
+          oldArticle,
+          newArticle,
+        );
+
+        return updatedArticle;
+      }),
+    );
   }
 
   public deleteById(id) {

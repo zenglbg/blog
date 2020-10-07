@@ -21,7 +21,6 @@ const resources = () => {
       })
     }
   })
-
 }
 
 
@@ -43,6 +42,10 @@ const antd = () => {
       libraryName: 'antd',
       libraryDirectory: 'es',
       style: 'css',
+    }),
+    fixBabelImports("lodash", {
+      libraryDirectory: "",
+      camel2DashComponentName: false
     }),
   ]
 
@@ -82,6 +85,9 @@ const antdMobile = () => {
   fixBabelImports('import', {
     libraryName: 'antd-mobile',
     style: 'css',
+  }), fixBabelImports("lodash", {
+    libraryDirectory: "",
+    camel2DashComponentName: false
   })]
 
 }

@@ -1,15 +1,18 @@
-import "./index.less";
+import style from "./index.module.scss";
 
 import * as React from "react";
 import { useState, useCallback } from "react";
 import { PageHeader, Input, Button, message } from "antd";
-import MDEditor from "../../common/editor";
 import { Articlesr } from "@providers/article";
+
+import MDEditor from "../../common/editor";
+import ArticleSetting from "./index-publish";
 
 interface IArticleProps {}
 
 const Article: React.FunctionComponent<IArticleProps> = (props) => {
   const [id, setId] = useState(null);
+  const [settingDrawerVisible, setSettingDrawerVisible] = useState(false);
   const [article, setArticle] = useState<{
     title: string;
     content: string;
@@ -17,11 +20,10 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
     tags?: string;
   }>({
     title: "",
-    content: ""
+    content: "",
   });
 
   const save = useCallback(() => {
-    console.log(article);
     if (!article.title) {
       message.warn("文章标题不能为空！");
       return;
@@ -40,18 +42,59 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
         console.log(error);
       }
     }
-
     if (id) {
-      
+      return Articlesr.updateArticle(id, article).subscribe((res) => {
+        if (res.success) {
+          setId(res.data.id);
+          message.success("文章已保存为草稿");
+        }
+      });
     } else {
-      return Articlesr.addArtilce(article).subscribe((res) => {
+      return Articlesr.addArticle(article).subscribe((res) => {
         // setId(res.id);
-        console.log(res);
-        message.success("文章已保存为草稿");
+        if (res.success) {
+          setId(res.data.id);
+          message.success("文章已保存为草稿");
+        }
       });
     }
-  }, [article]);
+  }, [article, id]);
 
+  const publish = useCallback(() => {
+    let canPublish = true;
+    void [
+      ["title", "请输入文章标题"],
+      ["content", "请输入文章内容"],
+    ].forEach(([key, msg]) => {
+      if (!article[key]) {
+        message.warn(msg);
+        canPublish = false;
+      }
+    });
+
+    if (!canPublish) {
+      return;
+    }
+
+    setSettingDrawerVisible(true);
+  }, [article, id]);
+
+  const saveOrPublish = (patch) => {
+    const data = Object.assign({}, article, patch);
+
+    const handle = (res) => {
+      setId(res.id);
+      message.success(
+        data.status === "draft" ? "文章已保存为草稿" : "文章已发布"
+      );
+    };
+
+    if (id) {
+      Articlesr.updateArticle(id, data).subscribe(handle);
+    } else {
+      Articlesr.addArticle(data).subscribe(handle);
+    }
+  };
   return (
     <div className="editor-wrapper">
       <header>
@@ -76,12 +119,13 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
               保存草稿
             </Button>,
             <Button key="3">预览</Button>,
-            <Button key="4" type="primary">
+            <Button key="4" type="primary" onClick={publish}>
               发布
             </Button>,
           ]}
         />
       </header>
+
       <div className="editor-content">
         <article>
           <div>
@@ -97,6 +141,12 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
           </div>
         </article>
       </div>
+
+      <ArticleSetting
+        visible={settingDrawerVisible}
+        onClose={() => setSettingDrawerVisible(false)}
+        onChange={saveOrPublish}
+      />
     </div>
   );
 };

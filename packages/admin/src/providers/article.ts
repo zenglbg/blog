@@ -12,8 +12,8 @@ export class Articlesr {
   /**
    * static addArtilce
    */
-  public static addArtilce(data) {
-    return Http.post("/article/create", data);
+  public static addArticle(article) {
+    return Http.post("/article/create", article);
   }
 
   /**
@@ -24,9 +24,8 @@ export class Articlesr {
   /**
    * static updateArticle
    */
-  public static updateArticle(id, data) {
-    return Http.patch(`/article/${id}`, data);
-    
+  public static updateArticle(id, article) {
+    return Http.patch(`/article/${id}`, article);
   }
 
   /**

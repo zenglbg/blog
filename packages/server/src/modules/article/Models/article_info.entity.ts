@@ -10,7 +10,7 @@ import {
 import { Category } from '@modules/Category/Models/category.entity';
 import { Tag } from '@modules/tag/Models/tag.entity';
 import { Base } from '@entity/base.entity';
-import { ArticleContent } from './article_context.entity';
+import { ArticleContent } from './article_content.entity';
 
 @Entity({
   name: 'article',
@@ -25,15 +25,17 @@ export class Article extends Base {
   @Column({ type: 'text', default: null, comment: '摘要，自动生成' })
   summary: string;
 
-  @OneToOne(
-    type => ArticleContent,
-    articleContent => articleContent.info,
-    {
-      cascade: true,
-    },
-  )
-  @JoinColumn()
-  content: ArticleContent;
+
+  // @OneToOne(
+  //   type => ArticleContent,
+  //   articleContent => articleContent.info,
+  //   {
+  //     cascade: true,
+  //   },
+  // )
+  // @JoinColumn()
+  @Column({ type: 'mediumtext', default: null, charset: 'utf8mb4' })
+  content: string;
 
   @ManyToOne(
     type => Category,

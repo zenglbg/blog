@@ -3,7 +3,9 @@ const {
   override,
   addWebpackAlias,
   overrideDevServer,
-  useEslintRc
+  useEslintRc,
+  addBabelPlugin,
+  addBabelPlugins
 } = require('customize-cra')
 
 const { antd, resources } = require('./loader')
@@ -14,6 +16,7 @@ const { removePre, removeManifest, addThread } = require('./custom')
 
 module.exports = {
   webpack: override(
+    ...addBabelPlugins("react-css-modules"),
     useEslintRc('.eslintrc.js'),
     ...antd(),
     resources(),

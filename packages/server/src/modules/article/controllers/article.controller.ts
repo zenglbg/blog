@@ -11,12 +11,15 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { RolesGuard, Roles } from '@modules/auth/guards/roles.guard';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { ArticleService } from '../services/article.service';
 import { CreateArticleDto } from '../dtos/create.article.dto';
+import { identity } from 'rxjs';
+import { json } from 'express';
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('article')
 @UseGuards(RolesGuard)
@@ -82,6 +85,21 @@ export class ArticleController {
   @HttpCode(HttpStatus.OK)
   public recommend(@Query('articleId') articleId) {
     return this.articleService.recommend(articleId);
+  }
+
+  /**
+   * updateById
+   * 更新文章
+   */
+  @Patch(':id')
+  @Roles('admin')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  public updateById(@Param('id') id, @Body() article) {
+    // console.log(article, typeof article)
+    // return {id,article}
+
+    return this.articleService.updateById(id, article);
   }
 
   @Delete(':id')
