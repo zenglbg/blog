@@ -33,6 +33,8 @@ import { configModule } from './modules/config/config.module';
 // 数据库
 import { orm } from './modules/database/database.module';
 
+// 文件
+import { FileModule } from './modules/file/file.module'
 @Module({
   imports: [
     configModule(),
@@ -43,6 +45,7 @@ import { orm } from './modules/database/database.module';
     TagsModule,
     ArticleModule,
     SettingModule,
+    FileModule
   ],
   controllers: [],
   providers: [

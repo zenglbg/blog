@@ -49,9 +49,9 @@ api.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     // POST传参序列化
 
-    if (config.method === "post" || config.method === "get") {
-      config.data = qs_string.stringify(config.data);
-    }
+    // if (config.method === "post" || config.method === "get") {
+    //   config.data = qs_string.stringify(config.data);
+    // }
 
     // 登录流程控制中，根据本地是否存在token判断用户登录情况
     // 但是即使token存在，也可能token是过期的，所以在每次的请求头中携带token

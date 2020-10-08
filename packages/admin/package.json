@@ -28,7 +28,7 @@
   },
   "config-overrides-path": "./config/config-overrides.js",
   "dependencies": {
-    "@ant-design/icons": "^4.2.1",
+    "@ant-design/icons": "^4.2.2",
     "@loadable/component": "^5.12.0",
     "@toast-ui/react-editor": "^2.4.0",
     "antd": "^4.6.6",
@@ -64,6 +64,7 @@
     "@types/react": "^16.9.0",
     "@types/react-css-modules": "^4.6.2",
     "@types/react-dom": "^16.9.0",
+    "@types/react-router-dom": "^5.1.6",
     "babel-plugin-import": "^1.13.0",
     "babel-plugin-react-css-modules": "^5.2.6",
     "less": "^3.12.2",

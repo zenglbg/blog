@@ -83,10 +83,12 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
     const data = Object.assign({}, article, patch);
 
     const handle = (res) => {
-      setId(res.id);
-      message.success(
-        data.status === "draft" ? "文章已保存为草稿" : "文章已发布"
-      );
+      if (res.success) {
+        setId(res.data.id);
+        message.success(
+          res.data.status === "draft" ? "文章已保存为草稿" : "文章已发布"
+        );
+      }
     };
 
     if (id) {

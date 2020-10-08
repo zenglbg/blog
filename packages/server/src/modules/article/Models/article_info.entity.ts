@@ -19,12 +19,11 @@ export class Article extends Base {
   @Column()
   title: string;
 
-  @Column({ default: null, comment: '封面图' })
+  @Column({ type: 'text', default: null, comment: '封面图' })
   cover: string;
 
   @Column({ type: 'text', default: null, comment: '摘要，自动生成' })
   summary: string;
-
 
   // @OneToOne(
   //   type => ArticleContent,

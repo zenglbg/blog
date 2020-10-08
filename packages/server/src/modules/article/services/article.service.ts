@@ -107,6 +107,7 @@ export class ArticleService {
             // content: newContent,
             needPassword: !!article.password,
           });
+
           return from(this.articleRepository.save(newArticle));
         }),
       );

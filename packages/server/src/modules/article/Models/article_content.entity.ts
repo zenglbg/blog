@@ -2,6 +2,7 @@ import { Entity, Column, OneToOne } from 'typeorm';
 import { Base } from '@common/entity/base.entity';
 import { Article } from './article_info.entity';
 
+
 @Entity({
   name: 'article_content',
 })
@@ -10,6 +11,7 @@ export class ArticleContent extends Base {
   content: string;
 
   
+
   // @OneToOne(
   //   type => Article,
   //   article => article.content,

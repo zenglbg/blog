@@ -36,3 +36,15 @@
     margin-top: 16px;
   }
 }
+
+.btns {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #f3f3f3;
+  padding: 10px 16px;
+  text-align: right;
+  background-color: #fff;
+  border-radius: 0 0 4px 4px;
+}

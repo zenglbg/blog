@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Drawer, Form, Input, Select, Switch, Tag } from "antd";
+import { Button, Drawer, Form, Input, Select, Switch, Tag } from "antd";
 
-import style from "./publish.module.scss";
+import style from "./index-publish.module.scss";
 
 import { Categorysr } from "@providers/category";
 import { Tagssr } from "@providers/tags";
@@ -14,9 +14,9 @@ interface IPublishProps {
   onChange?: (arg: any) => void;
 }
 
-const FormItem = ({ label, content }) => {
+const FormItem = ({ label, content, ...data }) => {
   return (
-    <div className={style.formItem}>
+    <div className={style.formItem} {...data}>
       <span>{label}</span>
       <div>{content}</div>
     </div>
@@ -27,7 +27,9 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
   article = {},
   visible,
   onClose,
+  onChange,
 }) => {
+  const [fileVisible, setFileVisible] = useState(false);
   const [summary, setSummary] = useState(article.summary || null);
   const [categorys, setCategorys] = useState<Array<ICategory>>([]);
   const [tags, setTags] = useState<Array<ITag>>([]);
@@ -42,6 +44,7 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
     (Array.isArray(article.tags) && article.tags.map((tag) => tag.id)) || []
   );
   const [cover, setCover] = useState(article.cover || null);
+
   useEffect(() => {
     console.log(password);
     return () => {
@@ -64,6 +67,27 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
     });
   }, []);
 
+  const send = (status: string) => () => {
+    console.log({
+      summary,
+      password,
+      isCommentable,
+      category: selectedCategory,
+      tags: selectedTags.join(","),
+      cover,
+      status,
+    });
+    onChange({
+      summary,
+      password,
+      isCommentable,
+      category: selectedCategory,
+      tags: selectedTags.join(","),
+      cover,
+      status,
+    });
+  };
+
   return (
     <Drawer
       title="文章设置"
@@ -71,6 +95,7 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
       width={480}
       onClose={onClose}
       visible={visible}
+      className={style.drawer}
     >
       <FormItem
         label="文章摘要"
@@ -117,18 +142,54 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
         label="选择标签"
         content={
           <Select
+            mode="tags"
             value={selectedTags}
             onChange={(value) => setSelectedTags(value)}
             style={{ width: "100%" }}
           >
             {tags.map((tag) => (
-              <Select.Option key={tag.id} value={tag.value}>
+              <Select.Option key={tag.id} value={tag.id}>
                 {tag.label}
               </Select.Option>
             ))}
           </Select>
         }
       />
+      <FormItem
+        style={{
+          paddingBottom: 50,
+        }}
+        label="文章封面"
+        content={
+          <div className={style.cover}>
+            <div onClick={() => setFileVisible(true)} className={style.preview}>
+              <img src={cover} alt="预览图" />
+            </div>
+
+            <Input
+              placeholder="或输入外部链接"
+              value={cover}
+              onChange={(e) => setCover(e.target.value)}
+            />
+
+            <Button onClick={(_) => setCover(null)}>移除</Button>
+          </div>
+        }
+      />
+
+      <div className={style.btns}>
+        <Button
+          style={{
+            marginRight: 8,
+          }}
+          onClick={send("draft")}
+        >
+          保存草稿
+        </Button>
+        <Button type="primary" onClick={send("publish")}>
+          发布
+        </Button>
+      </div>
     </Drawer>
   );
 };
