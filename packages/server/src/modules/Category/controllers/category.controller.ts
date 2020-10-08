@@ -38,14 +38,14 @@ export class CategoryController {
   @Patch(':id')
   @Roles('admin')
   @UseGuards(JwtAuthGuard)
-  updateById(@Param('id') id) {
-    return this.categoryService.findById(id);
+  updateById(@Param('id') id, @Body() category) {
+    return this.categoryService.updateById(id, category);
   }
 
   @Delete(':id')
   @Roles('admin')
   @UseGuards(JwtAuthGuard)
   deleteById(@Param('id') id) {
-    this.categoryService.deleteById(id);
+    return this.categoryService.deleteById(id);
   }
 }

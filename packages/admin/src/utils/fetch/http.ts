@@ -2,7 +2,6 @@ import { AxiosRequestConfig } from "axios";
 import { api } from "./api";
 import { from, Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { message } from "antd";
 import { likePost } from "./lib";
 export class Http {
   public static post(
@@ -35,16 +34,18 @@ export class Http {
 
   public static get(
     url: string,
-    data,
+    data: any,
     config?: AxiosRequestConfig
   ): Observable<any> {
-    if (`${data}`.includes("Object")) {
-      const params = Object.keys(data).reduce((acc, item) => {
-        return acc ? `${acc}&${item}=${data[item]}` : `${item}=${data[item]}`;
-      }, "");
-      url = url.slice(-1) === "?" ? `${url}${params}` : `${url}?${params}`;
+    if (!!data) {
+      if (`${data}`.includes("Object")) {
+        const params = Object.keys(data).reduce((acc, item) => {
+          return acc ? `${acc}&${item}=${data[item]}` : `${item}=${data[item]}`;
+        }, "");
+        url = url.slice(-1) === "?" ? `${url}${params}` : `${url}?${params}`;
+      }
     }
 
-    return from(api.get(url, config));
+    return from(api.get(url, config)).pipe(map(likePost));
   }
 }

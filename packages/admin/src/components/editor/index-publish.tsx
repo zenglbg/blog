@@ -1,8 +1,11 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Drawer, Form, Input, Select, Switch } from "antd";
+import { Drawer, Form, Input, Select, Switch, Tag } from "antd";
 
 import style from "./publish.module.scss";
+
+import { Categorysr } from "@providers/category";
+import { Tagssr } from "@providers/tags";
 
 interface IPublishProps {
   visible: boolean;
@@ -46,6 +49,21 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
     };
   }, [password]);
 
+  useEffect(() => {
+    console.log(`只执行一次`);
+    Categorysr.getCategorys().subscribe((res) => {
+      if (res.success) {
+        console.log(res.data);
+        setCategorys(res.data);
+      }
+    });
+    Tagssr.getTags().subscribe((res) => {
+      if (res.success) {
+        setTags(res.data);
+      }
+    });
+  }, []);
+
   return (
     <Drawer
       title="文章设置"
@@ -87,7 +105,27 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
             onChange={setSelectedCategory}
             style={{ width: "100%" }}
           >
-            <Select.Option value="323">dad</Select.Option>
+            {categorys.map((category) => (
+              <Select.Option key={category.id} value={category.value}>
+                {category.label}
+              </Select.Option>
+            ))}
+          </Select>
+        }
+      />
+      <FormItem
+        label="选择标签"
+        content={
+          <Select
+            value={selectedTags}
+            onChange={(value) => setSelectedTags(value)}
+            style={{ width: "100%" }}
+          >
+            {tags.map((tag) => (
+              <Select.Option key={tag.id} value={tag.value}>
+                {tag.label}
+              </Select.Option>
+            ))}
           </Select>
         }
       />

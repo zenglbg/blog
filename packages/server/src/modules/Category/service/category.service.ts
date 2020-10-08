@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Category } from '../Models/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 @Injectable()
@@ -17,17 +17,16 @@ export class CategoryService {
    */
   public create(category) {
     const { label } = category;
-
+    // return {category}
     return from(this.categoryRepository.findOne({ where: { label } })).pipe(
       switchMap(existcategory => {
+        console.log(existcategory);
         if (existcategory) {
           throw new HttpException('分类已经存在', HttpStatus.BAD_REQUEST);
         }
 
         const newCategory = this.categoryRepository.create(category);
-        return from(this.categoryRepository.save(newCategory)).pipe(
-          _ => category,
-        );
+        return from(this.categoryRepository.save(newCategory));
       }),
     );
   }
@@ -83,13 +82,15 @@ export class CategoryService {
    * @param Category
    */
   updateById(id, category: Partial<Category>) {
-    from(this.categoryRepository.findOne(id)).pipe(
+    return from(this.categoryRepository.findOne(id)).pipe(
       switchMap(oldCategory => {
-        const updateCategory = this.categoryRepository.merge(
-          oldCategory,
-          category,
-        );
-        return from(this.categoryRepository.save(updateCategory));
+        if (oldCategory) {
+          const updateCategory = this.categoryRepository.merge(
+            oldCategory,
+            category,
+          );
+          return from(this.categoryRepository.save(updateCategory));
+        }
       }),
     );
   }
@@ -99,14 +100,28 @@ export class CategoryService {
    * @param id
    */
   deleteById(id) {
-    return from(this.categoryRepository.findOne(id)).pipe(
-      map(existcategory => {
-        if (existcategory) {
-          this.categoryRepository.remove(existcategory);
-        } else {
-          throw new HttpException('分类不存在', HttpStatus.BAD_REQUEST);
-        }
-      }),
-    );
+    return from(this.categoryRepository.findOne(id))
+      .pipe(
+        switchMap(existcategory => {
+          console.log(`existcategory`, existcategory);
+          if (existcategory) {
+            return from(
+              this.categoryRepository
+                .createQueryBuilder()
+                .delete()
+                .where('id = :id', { id })
+                .execute(),
+            );
+          } else {
+            throw new HttpException('分类不存在', HttpStatus.BAD_REQUEST);
+          }
+        }),
+      )
+      .pipe(
+        map(result => {
+          console.log(result);
+          return result;
+        }),
+      );
   }
 }
