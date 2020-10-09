@@ -247,12 +247,11 @@ export class ArticleService {
    * 更新文章
    */
   public updateById(id, article: Partial<Article>) {
-    // return from(this.articleRepository.findOne(id));
-    console.log(article);
     const oldArticle$ = from(this.articleRepository.findOne(id));
     const { tags, category, status } = article;
     const obs$: any[] = [oldArticle$];
     if (tags) {
+      console.log(String(tags).split(','))
       const tags$ = from(this.tagService.findByIds(String(tags).split(',')));
       obs$.push(tags$);
     }
@@ -262,9 +261,8 @@ export class ArticleService {
     }
 
     return forkJoin(...obs$).pipe(
-      map(data => {
+      switchMap(data => {
         const [oldArticle, tags, category] = data;
-        console.log(oldArticle, tags, category);
 
         // const newContentArticle = this.articleContentRepository.merge({
         //   content: article.content,
@@ -279,18 +277,24 @@ export class ArticleService {
               ? dayjs().format('YYYY-MM-DD HH:mm:ss')
               : oldArticle.publishAt,
         };
+
         if (category) {
           Object.assign(newArticle, { category });
         }
         if (tags) {
           Object.assign(newArticle, { tags });
         }
+
+        // console.log(oldArticle, `newArticle`, newArticle, 
+        // `----32342432424242--4--24`,
+        // tags, category);
+
         const updatedArticle = this.articleRepository.merge(
           oldArticle,
           newArticle,
         );
-
-        return updatedArticle;
+        
+        return from(this.articleRepository.save(updatedArticle));
       }),
     );
   }

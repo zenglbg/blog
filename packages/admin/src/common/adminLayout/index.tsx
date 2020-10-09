@@ -2,14 +2,17 @@ import "./index.scss";
 
 import React from "react";
 import { connect } from "react-redux";
+import { DispatchProp } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Menu, Layout, Dropdown, Button, Row, Col } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { IState } from "@reducer/index";
+import { ActionArticle } from "@actions/index";
 import { menus } from "../../routes/config";
 
 import { UserInfo } from "./index-user";
 import { IRoutes } from "../../routes/config";
+
 interface IAdminLayoutProps {
   routesRenderMsp: Function;
   routes?: IRoutes[];
@@ -19,11 +22,11 @@ const findActiveMenu = (pathname) => {
   return menus.find((menu) => menu.path === pathname);
 };
 
-const ResourceCreate = () => {
+const ResourceCreate = ({handleArticle}) => {
   const menu = (
     <Menu>
       <Menu.Item>
-        <Link to={"/editor/article"} target="_blank">
+        <Link to={"/editor/article"} onClick={handleArticle} target="__blank">
           <span>新建文章</span>
         </Link>
       </Menu.Item>
@@ -50,7 +53,7 @@ const ResourceCreate = () => {
 };
 
 const AdminLayout: React.FunctionComponent<
-  IAdminLayoutProps & RouteComponentProps & Pick<IState, "user">
+  IAdminLayoutProps & RouteComponentProps & Pick<IState, "user"> & DispatchProp
 > = ({
   children,
   history,
@@ -59,18 +62,22 @@ const AdminLayout: React.FunctionComponent<
   user,
   routesRenderMsp,
   routes,
+  dispatch,
 }) => {
   const { pathname } = history.location;
   const activeMenu = findActiveMenu(pathname);
 
-  
+  const handleArticle = () => {
+    dispatch(ActionArticle.handleId(null));
+  };
+
   return (
     <Layout className="admin-layout">
       <div className="admin-layout-container">
         <aside className="admin-layout-container-asider">
           <div className="logo">管理后台</div>
           <div className="resourceCreate">
-            <ResourceCreate />
+            <ResourceCreate handleArticle={handleArticle} />
           </div>
           <nav className="menus">
             <ul>

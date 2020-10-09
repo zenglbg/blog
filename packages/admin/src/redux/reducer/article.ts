@@ -4,13 +4,13 @@ import { PayloadAction, getType } from "typesafe-actions";
 
 export interface StateInter {
   articles: IArticle[];
-  onArticle: number;
+  onId: string;
   total: number;
   params: any;
 }
 const initState = {
   articles: null,
-  onArticle: 0,
+  onId: null,
   total: 0,
   params: null,
 };
@@ -22,18 +22,19 @@ export function articleReducer(
   action: PayloadAction<string, StateInter>
 ): StateInter {
   switch (action.type) {
-    case getType(ActionArticle.getArticles):
-      const { articles, total } = action.payload;
+    case getType(ActionArticle.setArticles):
+      const { articles, total, params } = action.payload;
       return {
         ...state,
         articles,
         total,
+        params
       };
-    case getType(ActionArticle.onArticle):
-      const { onArticle } = action.payload;
+    case getType(ActionArticle.handleId):
+      const { onId } = action.payload;
       return {
         ...state,
-        onArticle,
+        onId,
       };
     default:
       return state;

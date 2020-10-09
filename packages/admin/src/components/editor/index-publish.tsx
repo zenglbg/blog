@@ -45,6 +45,7 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
   );
   const [cover, setCover] = useState(article.cover || null);
 
+
   useEffect(() => {
     console.log(password);
     return () => {
@@ -68,15 +69,6 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
   }, []);
 
   const send = (status: string) => () => {
-    console.log({
-      summary,
-      password,
-      isCommentable,
-      category: selectedCategory,
-      tags: selectedTags.join(","),
-      cover,
-      status,
-    });
     onChange({
       summary,
       password,

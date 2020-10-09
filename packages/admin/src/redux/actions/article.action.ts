@@ -3,7 +3,7 @@ import { createAction } from "typesafe-actions";
 export class ActionArticle {
   public static SET_ARTICLES = "SET_ARTICLES";
   public static GET_ARTICLES = "GET_ARTICLES";
-  public static ON_ARTICLE = "ON_ARTICLE";
+  public static HANDLE_ID = "HANDLE_ID";
 
 
   /**请求文章 */
@@ -24,8 +24,8 @@ export class ActionArticle {
   /**
    * 被选中的文章
    */
-  public static onArticle = createAction(
-    ActionArticle.ON_ARTICLE,
-    (data) => data
+  public static handleId = createAction(
+    ActionArticle.HANDLE_ID,
+    (onId) => ({onId})
   )();
 }

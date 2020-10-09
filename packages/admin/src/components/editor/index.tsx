@@ -3,50 +3,51 @@ import style from "./index.module.scss";
 import * as React from "react";
 import { useState, useCallback } from "react";
 import { PageHeader, Input, Button, message } from "antd";
-import { Articlesr } from "@providers/article";
+import { connect, DispatchProp } from "react-redux";
 
 import MDEditor from "../../common/editor";
 import ArticleSetting from "./index-publish";
 
+import { IState } from "@reducer/index";
+import { Articlesr } from "@providers/article";
+import { ActionArticle } from "@actions/index";
+
 interface IArticleProps {}
 
-const Article: React.FunctionComponent<IArticleProps> = (props) => {
-  const [id, setId] = useState(null);
+const Article: React.FunctionComponent<
+  IArticleProps & Pick<IState, "article"> & DispatchProp
+> = ({ article, dispatch }) => {
+  const [id, setId] = useState(article.onId);
   const [settingDrawerVisible, setSettingDrawerVisible] = useState(false);
-  const [article, setArticle] = useState<{
-    title: string;
-    content: string;
-    status?: string;
-    tags?: string;
-  }>({
-    title: "",
-    content: "",
-  });
+  const [data, setData] = useState<any>(
+    article.articles.find((item) => item.id === article.onId) || {}
+  );
 
   const save = useCallback(() => {
-    if (!article.title) {
+    if (!data.title) {
       message.warn("文章标题不能为空！");
       return;
     }
-    if (!article.content) {
+    if (!data.content) {
       message.warn("文章内容不能为空！");
       return;
     }
 
-    article.status = "draft";
+    data.status = "draft";
 
-    if (Array.isArray(article.tags)) {
+    if (Array.isArray(data.tags)) {
       try {
-        article.tags = article.tags.map((t) => t.id).join(",");
+        data.tags = data.tags.map((t) => t.id).join(",");
       } catch (error) {
         console.log(error);
       }
     }
     if (id) {
-      return Articlesr.updateArticle(id, article).subscribe((res) => {
+      return Articlesr.updateArticle(id, data).subscribe((res) => {
         if (res.success) {
           setId(res.data.id);
           message.success("文章已保存为草稿");
+          dispatch(ActionArticle.getArticles(article.params));
         }
       });
     } else {
@@ -55,10 +56,11 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
         if (res.success) {
           setId(res.data.id);
           message.success("文章已保存为草稿");
+          dispatch(ActionArticle.getArticles(article.params));
         }
       });
     }
-  }, [article, id]);
+  }, [data, id]);
 
   const publish = useCallback(() => {
     let canPublish = true;
@@ -66,7 +68,7 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
       ["title", "请输入文章标题"],
       ["content", "请输入文章内容"],
     ].forEach(([key, msg]) => {
-      if (!article[key]) {
+      if (!data[key]) {
         message.warn(msg);
         canPublish = false;
       }
@@ -77,10 +79,10 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
     }
 
     setSettingDrawerVisible(true);
-  }, [article, id]);
+  }, [data, id]);
 
   const saveOrPublish = (patch) => {
-    const data = Object.assign({}, article, patch);
+    const _article = Object.assign({}, data, patch);
 
     const handle = (res) => {
       if (res.success) {
@@ -92,9 +94,11 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
     };
 
     if (id) {
-      Articlesr.updateArticle(id, data).subscribe(handle);
+      Articlesr.updateArticle(id, _article).subscribe(handle);
+      dispatch(ActionArticle.getArticles(article.params));
     } else {
-      Articlesr.addArticle(data).subscribe(handle);
+      Articlesr.addArticle(_article).subscribe(handle);
+      dispatch(ActionArticle.getArticles(article.params));
     }
   };
   return (
@@ -103,12 +107,13 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
         <PageHeader
           title={
             <Input
+              defaultValue={data.title}
               placeholder="请输入文章标题！"
               onChange={(e) => {
                 const value = e.target.value;
-                setArticle((artilce) => {
-                  article.title = value;
-                  return article;
+                setData((data: any) => {
+                  data.title = value;
+                  return data;
                 });
               }}
             />
@@ -132,11 +137,11 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
         <article>
           <div>
             <MDEditor
-              value={article.content}
+              value={data.content}
               onChange={(value) =>
-                setArticle((article: any) => {
-                  article.content = value;
-                  return article;
+                setData((data: any) => {
+                  data.content = value;
+                  return data;
                 })
               }
             />
@@ -145,6 +150,7 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
       </div>
 
       <ArticleSetting
+        article={data}
         visible={settingDrawerVisible}
         onClose={() => setSettingDrawerVisible(false)}
         onChange={saveOrPublish}
@@ -153,4 +159,4 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
   );
 };
 
-export default Article;
+export default connect(({ article }: IState) => ({ article }))(Article);
