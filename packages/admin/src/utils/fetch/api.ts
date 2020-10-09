@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from "axios";
 import qs_string from "qs";
 import { push } from "connected-react-router";
-import { User } from "@actions/user";
+import { ActionUser } from "@actions/index";
 import store from "../../redux";
 import { errCode } from "../config";
 import { message } from "antd";
@@ -142,7 +142,7 @@ class CatchError {
      */
     if (this.status === 401 || this.status === 403) {
       store.dispatch(
-        User.loginE({
+        ActionUser.loginE({
           name: "",
           token: "",
           isLogin: false,

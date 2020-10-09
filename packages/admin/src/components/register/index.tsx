@@ -5,7 +5,7 @@ import { Card, Input, Button, Form, Modal } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 
 import { IState } from '@reducer/index'
-import { User } from '@actions/user'
+import { ActionUser } from '@actions/index'
 import { Usersr } from '@providers/user'
 
 import FormList from './child/formList'
@@ -66,6 +66,6 @@ const Register: React.FunctionComponent<PageDispatchProps & IRegisterProps> = ({
 }
 
 export default connect(({ user }: IState) => ({ user }), {
-  doLogin: User.doLogin,
-  register: User.register,
+  doLogin: ActionUser.doLogin,
+  register: ActionUser.register,
 })(Register)

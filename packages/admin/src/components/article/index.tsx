@@ -1,10 +1,14 @@
-import React, { useState, useCallback, memo, useEffect } from "react";
+import React, { useState, useCallback, memo, useEffect, Dispatch } from "react";
 import * as dayjs from "dayjs";
 import { Popconfirm, Badge, message, Divider, Tag } from "antd";
-import { map } from "rxjs/operators";
-import { Articlesr, Categorysr, Tagssr } from "@providers/index";
+import { connect, DispatchProp } from "react-redux";
+import { of } from "rxjs";
 
+import { Articlesr, Categorysr, Tagssr } from "@providers/index";
+import { IState } from "@reducer/index";
 import SPTDataTable from "../../common/SPTDataTable";
+import { AndroidOutlined } from "@ant-design/icons";
+import { ActionArticle } from "@actions/index";
 
 interface IArticleProps {}
 
@@ -79,12 +83,15 @@ const columns = [
   },
 ];
 
-const Article: React.FunctionComponent<IArticleProps> = (props) => {
+const Article: React.FunctionComponent<
+  IArticleProps & DispatchProp & Pick<IState, "article">
+> = ({ dispatch, article }) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [params, setParams] = useState(null);
   const [total, setTotal] = useState(0);
 
+  console.log(article);
   useEffect(() => {
     Categorysr.getCategorys();
     Tagssr.getTags();
@@ -94,17 +101,19 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
   }, []);
 
   const getArticles = useCallback((params = {}) => {
-    return Articlesr.getArticles(params).pipe(
-      map((res) => {
-        console.log(res);
-        if (res && res.success) {
-          setParams(params);
-          setTotal(res.data.total);
-          setArticles(res.data.data);
-        }
-        return res;
-      })
-    );
+    dispatch({ type: ActionArticle.getArticles(params) });
+    return of(123);
+    // return Articlesr.getArticles(params).pipe(
+    //   map((res) => {
+    //     console.log(res);
+    //     if (res && res.success) {
+    //       setParams(params);
+    //       setTotal(res.data.total);
+    //       setArticles(res.data.data);
+    //     }
+    //     return res;
+    //   })
+    // );
   }, []);
 
   const deleteArticle = useCallback(
@@ -160,4 +169,4 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
   );
 };
 
-export default Article;
+export default connect(({ article }: IState) => ({ article }))(Article);

@@ -1,5 +1,5 @@
 import { getType } from "typesafe-actions";
-import { User } from "@actions/user";
+import { ActionUser } from "@actions/index";
 
 export interface IUserState {
   name: string;
@@ -28,7 +28,7 @@ export default function userReducer(
   action: any
 ): IUserState {
   switch (action.type) {
-    case getType(User.loginS):
+    case getType(ActionUser.loginS):
       const { avatar, email, id, name, role, status, token } = action.payload;
       return {
         ...state,
@@ -41,7 +41,7 @@ export default function userReducer(
         token,
         isLogin: true,
       };
-    case getType(User.loginE):
+    case getType(ActionUser.loginE):
       return {
         ...state,
         name: "",

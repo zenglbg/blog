@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Card, Input, Button, Form } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { RouteComponentProps } from "react-router-dom";
-import { User } from "@actions/user";
+import { ActionUser } from "@actions/index";
 import { IState } from "@reducer/index";
 
 interface PageDispatchProps {
@@ -90,6 +90,6 @@ export default connect(
     user,
   }),
   {
-    doLogin: User.doLogin,
+    doLogin: ActionUser.doLogin,
   }
 )(Login);

@@ -1,7 +1,7 @@
 import { combineEpics } from "redux-observable";
 import { catchError } from "rxjs/operators";
 
-import * as user from "./user";
+import * as user from "./user.epics";
 
 export const rootEpics = (action$, store$, dependencies) =>
   combineEpics

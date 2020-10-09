@@ -5,7 +5,7 @@ import { RouteComponentProps, Link } from "react-router-dom";
 import { StarOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
 import { IState } from "@reducer/index";
-import { User } from "@actions/user";
+import { ActionUser } from "@actions/index";
 import { Articlesr } from "@providers/index";
 
 import style from "./index.module.scss";
@@ -79,6 +79,6 @@ export default connect(
     user,
   }),
   {
-    profiles: User.profiles,
+    profiles: ActionUser.profiles,
   }
 )(Home);
