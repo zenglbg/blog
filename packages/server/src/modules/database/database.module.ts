@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 export const orm = (): DynamicModule => {
   return TypeOrmModule.forRootAsync({
     useFactory: (config: ConfigService) => ({
-      ...config.get('ormconfig'),
+      ...config.get('database').ormConfig,
       entities: [path.join(__dirname, '../../modules/**/**.entity{.ts,.js}')],
       migrations: [path.join(__dirname, './migrations')],
       synchronize: true,

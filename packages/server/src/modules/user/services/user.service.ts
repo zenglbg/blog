@@ -16,19 +16,21 @@ import {
 
 import { User } from '../Models/user.entity';
 import { UpdatePasswordUserDto } from '../dtos/index.user.dto';
-import config from '../../config/config.default';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private configService: ConfigService,
+
   ) {
     this.init();
   }
 
   public init() {
-    const { name, password } = config().admin;
+    const { name, password } = this.configService.get('base').admin;
 
     this.createUser({
       name,

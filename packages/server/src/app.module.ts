@@ -7,7 +7,6 @@ import { LoggerMiddleware } from './common/middleware/LoggerMiddleware';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/Logging.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
-import configuration from './modules/config/configuration';
 
 // 用户
 import { UserModule } from './modules/user/user.module';

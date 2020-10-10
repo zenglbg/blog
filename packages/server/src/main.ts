@@ -6,9 +6,8 @@ import * as helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
-import configDefault from './modules/config/config.default';
 import { INestApplication } from '@nestjs/common';
-const { myApp } = configDefault();
+import { ConfigService } from "@nestjs/config";
 
 function build(app: INestApplication) {
   if (Number(process.env.OPEN_API_DOCS)) {
@@ -24,8 +23,23 @@ function build(app: INestApplication) {
   }
 }
 
+
+
+function config(app: INestApplication) {
+  const configService = app.get(ConfigService);
+  const port = configService.get("PORT");
+  const { myApp } = configService.get("base");
+  // console.log(`adminPrefix`, myApp);
+  return {
+    port,
+    myApp,
+  };
+}
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const { port, myApp } = config(app);
+
   app.enableCors({
     origin: '*',
     allowedHeaders:
@@ -49,9 +63,9 @@ async function bootstrap() {
    * 全局中间件
    */
 
-  await app.listen(process.env.PORT).then(() => {
+  await app.listen(port).then(() => {
     console.log(`
-      http://0.0.0.0:${process.env.PORT}
+      http://0.0.0.0:${port}
     `);
   });
 }

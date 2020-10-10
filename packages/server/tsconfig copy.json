@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@common/*": ["./src/common/*"],
+      "@entity/*": ["./src/common/entity/*"],
+      "@exceptions/*": ["./src/common/exceptions/*"],
+      "@filters/*": ["./src/common/filters/*"],
+      "@interceptors/*": ["./src/common/interceptors/*"],
+      "@pipes/*": ["./src/common/pipes/*"],
+      "@utils/*": ["./src/common/utils/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@config/*": ["./src/config/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/typings"],
+    "incremental": true,
+    "declaration": true,
+    "plugins": [
+      { "transform": "typescript-transform-paths" },
+      { "transform": "typescript-transform-paths", "afterDeclarations": true }
+    ]
+  },
+  "exclude": ["node_modules", "dist"]
+}
