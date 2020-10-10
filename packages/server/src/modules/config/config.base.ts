@@ -10,7 +10,7 @@ import {
 
 
 // 后台路由前缀
-export const adminPrefix = '';
+export const adminPrefix = '/api';
 
 // 应用的 url 前缀
 export const appUrl = 'https://xxx.com';

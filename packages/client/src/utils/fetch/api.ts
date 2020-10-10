@@ -1,13 +1,14 @@
 import axios from "axios";
 import { message } from "antd";
 import Router from "next/router";
+console.log(`process.env.NEXT_PUBLIC_ENV`, process.env.NEXT_PUBLIC_ENV);
 
 export const api = axios.create({
   baseURL:
-    process.env.NODE_ENV === "production"
-      ? `https://api.${process.env.NODE_DOMAIN}/api`
-      : "http://localhost:8888/api",
-  timeout: 10000,
+    process.env.NEXT_PUBLIC_ENV === "development"
+      ? `http://localhost:${process.env.NEXT_PUBLIC_API_PORT}/api`
+      : "https://api.blog.wipi.tech/api",
+  timeout: Number(process.env.NEXT_PUBLIC_TIMEOUT),
 });
 
 api.interceptors.request.use(
@@ -31,8 +32,7 @@ api.interceptors.response.use(
     const res = data.data;
 
     if (!res.success) {
-      console.log(res, res.success);
-      typeof window !== "undefined" && message.error(res.msg);
+      message.error(res.msg);
       return;
     }
 

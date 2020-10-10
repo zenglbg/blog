@@ -36,7 +36,6 @@ const nextConfig = {
 module.exports = withPlugins(
   [
     [withCss],
-
     [
       withSass,
       {

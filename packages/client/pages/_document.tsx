@@ -10,7 +10,7 @@ class MyDocument extends Document {
     return (
       <Html lang="zh-CN">
         <Head />
-        <script
+        {/* <script
           dangerouslySetInnerHTML={{
             __html: `var _hmt = _hmt || [];
               (function() {
@@ -20,7 +20,7 @@ class MyDocument extends Document {
                 s.parentNode.insertBefore(hm, s);
               })();`,
           }}
-        ></script>
+        ></script> */}
         <body>
           <Main />
           <NextScript />

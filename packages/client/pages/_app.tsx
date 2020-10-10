@@ -1,51 +1,26 @@
-import "viewerjs/dist/viewer.css";
-import "highlight.js/styles/monokai-sublime.css";
+import type { AppProps, AppContext } from "next/app";
+
+import Layout from "@components/layout";
 import "@/theme/antd.less";
 import "@/theme/reset.scss";
 import "@/theme/markdown.scss";
 
-import React from "react";
-import App from "next/app";
-import { SettingProvider } from "@/providers/setting";
+import { ArticleProvider } from "@providers/index";
 
-import Layout from "@/layout/Layout";
-
-class MyApp extends App {
-  static getInitialProps = async (ctx) => {
-    const [appProps, setting] = await Promise.all([
-      App.getInitialProps(ctx),
-      SettingProvider.getSetting(),
-    ]);
-    return { ...appProps, setting };
-  };
-
-  render() {
-    const { Component, pageProps, setting = {}, pages = {} } = this
-      .props as any;
-    const { needLayoutFooter = true } = pageProps;
-
-    return (
-      <Layout setting={setting} pages={pages} needFooter={needLayoutFooter}>
-        <div>
-          <style
-            id="holderStyle"
-            dangerouslySetInnerHTML={{
-              __html: ` * {
-              transition: none !important;
-            }`,
-            }}
-          ></style>
-          <Component
-            {...pageProps}
-            setting={setting}
-            // tags={tags}
-            // categories={categories}
-            pages={pages}
-          />
-        </div>
+function MyApp({ Component, pageProps, ...props }: AppProps) {
+  console.log(`1111`, pageProps, props)
+  return (
+    <div className="app">
+      <Layout>
+        <Component {...pageProps} />
       </Layout>
-    );
-  }
+    </div>
+  );
 }
+
+MyApp.getInitialProps = async (AppContext: AppContext) => {
+  const data = await ArticleProvider.getArticles({});
+  return {data};
+};
 
 export default MyApp;

@@ -4,7 +4,7 @@
   "author": "zhxuc <zhxuc7@163.com>",
   "private": true,
   "scripts": {
-    "dev": "next  dev -p 3333",
+    "dev": "next dev -p 3333",
     "build": "next build",
     "start": "next start",
     "pm2": "pm2 start npm --name client -- start"
@@ -18,7 +18,7 @@
     "dayjs": "^1.8.19",
     "highlight.js": "^9.18.1",
     "mime-types": "^2.1.26",
-    "next": "9.2.1",
+    "next": "latest",
     "next-page-transitions": "^1.0.0-beta.2",
     "nprogress": "^0.2.0",
     "react": "16.12.0",

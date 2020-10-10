@@ -5,7 +5,7 @@ import style from "./style.scss";
 
 interface Props {
   setting: any;
-  className: string;
+  className?: string;
 }
 
 export default memo(function Footer({ setting, className = "" }: Props) {

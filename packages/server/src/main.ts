@@ -29,7 +29,6 @@ function config(app: INestApplication) {
   const configService = app.get(ConfigService);
   const port = configService.get("PORT");
   const { myApp } = configService.get("base");
-  // console.log(`adminPrefix`, myApp);
   return {
     port,
     myApp,
