@@ -1,26 +1,41 @@
 import type { AppProps, AppContext } from "next/app";
-
+import App from "next/app";
 import Layout from "@components/layout";
+
 import "@/theme/antd.less";
 import "@/theme/reset.scss";
 import "@/theme/markdown.scss";
 
-import { ArticleProvider } from "@providers/index";
+import {
+  ArticleProvider,
+  TagProvider,
+  CategoryProvider,
+} from "@providers/index";
 
-function MyApp({ Component, pageProps, ...props }: AppProps) {
-  console.log(`1111`, pageProps, props)
+function MyApp({
+  Component,
+  pageProps,
+  tags,
+  categories,
+}: AppProps & { [key: string]: any }) {
+  const { needLayoutFooter = true } = pageProps;
+
   return (
-    <div className="app">
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </div>
+    <Layout needFooter={needLayoutFooter}>
+      <Component {...pageProps} tags={tags} categories={categories} />
+    </Layout>
   );
 }
 
 MyApp.getInitialProps = async (AppContext: AppContext) => {
-  const data = await ArticleProvider.getArticles({});
-  return {data};
+  const [appProps, tags, categories] = await Promise.all([
+    App.getInitialProps(AppContext),
+    // SettingProvider.getSetting(),
+    TagProvider.getTags({ articleStatus: "publish" }),
+    CategoryProvider.getCategory({ articleStatus: "publish" }),
+    // PageProvider.getAllPublisedPages(),
+  ]);
+  return { ...appProps, tags, categories };
 };
 
 export default MyApp;

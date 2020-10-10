@@ -5,7 +5,7 @@ export class ArticleProvider {
    * 获取所有文章
    */
   static async getArticles(params): Promise<[IArticle[], number]> {
-    return api.get('/article', { params });
+    return api.get('/article', params);
   }
 
   /**
