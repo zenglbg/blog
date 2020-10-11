@@ -2,9 +2,10 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import { NextPage } from "next";
 import InfiniteScroll from "react-infinite-scroller";
 import cls from "classnames";
-import { ArticleProvider } from "@providers/index";
+import { Pagination, Form } from "antd";
 import style from "./index.module.scss";
-import { ArticleList } from '@components/ArticleList';
+import { ArticleProvider } from "@providers/index";
+import { ArticleList } from "@components/ArticleList";
 
 const pageSize = 12;
 interface IHomeProps {
@@ -18,6 +19,12 @@ const Home: NextPage<IHomeProps> = ({
 }) => {
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState<IArticle[]>(defaultArticles);
+  useEffect(() => {
+    getArticles(page);
+    return () => {
+      // cleanup
+    };
+  }, []);
 
   const getArticles = useCallback((page) => {
     ArticleProvider.getArticles({
@@ -25,8 +32,9 @@ const Home: NextPage<IHomeProps> = ({
       pageSize,
       status: "publish",
     }).then((res) => {
+      console.log(res);
       setPage(page);
-      setArticles((articles) => [...articles, ...res[0]]);
+      setArticles((articles) => [...articles, ...res["data"]]);
     });
   }, []);
 
@@ -34,7 +42,7 @@ const Home: NextPage<IHomeProps> = ({
     <div className={style.wrapper}>
       <div className={cls("container", style.container)}>
         <div className={style.content}>
-          <InfiniteScroll
+          {/* <InfiniteScroll
             pageStart={1}
             loadMore={getArticles}
             hasMore={page * pageSize < total}
@@ -45,7 +53,22 @@ const Home: NextPage<IHomeProps> = ({
             }
           >
             <ArticleList articles={articles} />
-          </InfiniteScroll>
+          </InfiniteScroll> */}
+          <div className="articlelist">
+            <Form>
+              <Form.Item>
+                <div>32323112</div>
+              </Form.Item>
+              <Form.Item>
+                <div>32nodejs3232</div>
+              </Form.Item>
+              <Form.Item>
+                <div>32323ss2</div>
+              </Form.Item>
+            </Form>
+
+            <Pagination defaultCurrent={1} total={total + 100} />
+          </div>
 
           <aside className={cls(style.aside)}>
             <div>
