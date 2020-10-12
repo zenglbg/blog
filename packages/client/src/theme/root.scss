@@ -1,0 +1,12 @@
+@import "./var.scss";
+@import "./mixin.scss";
+
+:global {
+  .generic-box {
+    border-radius: $radius;
+    box-shadow: var(--box-shadow);
+    &:hover {
+      box-shadow: var(--box-shadow-hover);
+    }
+  }
+}

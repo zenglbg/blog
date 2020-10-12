@@ -1,7 +1,7 @@
  
 import { api } from '@/utils/fetch/api';
 
-export class MailProvider {
+export class MailApi {
   /**
    * 获取所有邮件
    */

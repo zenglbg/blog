@@ -1,7 +1,7 @@
  
 import { api } from '@/utils/fetch/api';
 
-export class ViewProvider {
+export class ViewApi {
   /**
    * 获取所有访问
    */

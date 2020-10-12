@@ -1,7 +1,7 @@
  
 import { api } from '@/utils/fetch/api';
 
-export class PageProvider {
+export class PageApi {
   /**
    * 获取所有页面
    */

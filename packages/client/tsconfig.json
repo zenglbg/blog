@@ -18,9 +18,10 @@
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
-      "@providers/*": ["./src/providers/*"],
       "@typings/*": ["./typings/*"]
-    }
+    },
+    // "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "typings/*", "**/*.ts", "**/*.tsx"]

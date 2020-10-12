@@ -12,16 +12,5 @@ export function timetrans(time) {
   return Y + M + D;
 }
 
-export const color = [
-  "magenta",
-  "red",
-  "volcano",
-  "orange",
-  "gold",
-  "lime",
-  "green",
-  "cyan",
-  "blue",
-  "geekblue",
-  "purple"
-];
+
+ 

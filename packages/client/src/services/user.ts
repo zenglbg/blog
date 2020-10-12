@@ -1,7 +1,7 @@
  
 import { api } from '@/utils/fetch/api';
 
-export class UserProvider {
+export class UserApi {
   /**
    * 用户登录
    * @param data

@@ -1,4 +1,4 @@
-@import '../../theme/var.scss';
+@import "../../theme/var.scss";
 
 .wrapper {
   &.asCard {
@@ -13,7 +13,7 @@
   box-shadow: var(--box-shadow);
   overflow: hidden;
   font-size: 0;
-
+ 
   & + .articleListItem {
     margin-top: 1rem;
 

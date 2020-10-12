@@ -1,6 +1,6 @@
 import { api } from '@/utils/fetch/api';
 
-export class CategoryProvider {
+export class CategoryApi {
   /**
    * 获取所有标签
    */

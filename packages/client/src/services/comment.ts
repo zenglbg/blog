@@ -1,6 +1,6 @@
 import { api } from '@/utils/fetch/api';
 
-export class CommentProvider {
+export class CommentApi {
   /**
    * 获取所有评论
    */

@@ -10,6 +10,7 @@
     "pm2": "pm2 start npm --name client -- start"
   },
   "dependencies": {
+    "@types/recompose": "^0.30.7",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
@@ -23,18 +24,18 @@
     "webpack-filter-warnings-plugin": "^1.2.1"
   },
   "devDependencies": {
-    "typescript": "^3.7.5",
+    "@ant-design/icons": "^4.2.2",
+    "@toast-ui/react-editor": "^2.1.0",
     "@types/node": "^13.5.3",
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
-    "@toast-ui/react-editor": "^2.1.0",
     "antd": "^4.7.0",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "dayjs": "^1.8.19",
     "highlight.js": "^9.18.1",
     "mime-types": "^2.1.26",
-    "next": "latest",
+    "next": "^9.5.5",
     "next-page-transitions": "^1.0.0-beta.2",
     "nprogress": "^0.2.0",
     "react": "16.12.0",
@@ -43,7 +44,9 @@
     "react-infinite-scroller": "^1.2.4",
     "react-lazyload": "^2.6.5",
     "react-simplemde-editor": "^4.1.0",
+    "recompose": "^0.30.0",
     "timeago.js": "^4.0.2",
+    "typescript": "^3.7.5",
     "ua-parser-js": "^0.7.21",
     "viewerjs": "^1.5.0",
     "xml": "^1.0.1"

@@ -1,7 +1,7 @@
  
 import { api } from '@/utils/fetch/api';
 
-export class SettingProvider {
+export class SettingApi {
   /**
    * 获取设置
    */

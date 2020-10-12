@@ -1,7 +1,7 @@
  
 import { api } from '@/utils/fetch/api';
 
-export class SMTPProvider {
+export class SMTPApi {
   /**
    * 上传文件
    * @param file

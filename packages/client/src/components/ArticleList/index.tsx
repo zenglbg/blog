@@ -29,6 +29,7 @@ export const ArticleList: React.FC<IProps> = ({
             <div
               key={article.id}
               className={cls(
+                'generic-box',
                 style.articleListItem,
                 bordered ? style.isBordered : false,
                 asCard ? style.asCard : false

@@ -1,11 +1,12 @@
 import { api } from '@/utils/fetch/api';
 
-export class ArticleProvider {
+export class ArticleApi {
   /**
    * 获取所有文章
    */
   static async getArticles(params): Promise<[IArticle[], number]> {
-    return api.get('/article', params);
+    console.log(params)
+    return api.get('/article', {params});
   }
 
   /**

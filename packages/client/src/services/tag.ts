@@ -1,6 +1,6 @@
 import { api } from "@/utils/fetch/api";
 
-export class TagProvider {
+export class TagApi {
   /**
    * 获取所有标签
    */

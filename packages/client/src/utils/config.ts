@@ -77,3 +77,20 @@ export const errCode = {
   __503__: "网络繁忙，请稍后尝试！",
   DEFAULT: "网络繁忙，请稍后尝试！",
 };
+
+
+
+
+export const color = [
+  "magenta",
+  "red",
+  "volcano",
+  "orange",
+  "gold",
+  "lime",
+  "green",
+  "cyan",
+  "blue",
+  "geekblue",
+  "purple"
+];

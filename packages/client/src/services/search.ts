@@ -1,7 +1,7 @@
  
 import { api } from '@/utils/fetch/api';
 
-export class SearchProvider {
+export class SearchApi {
   static async searchArticles(keyword): Promise<IArticle[]> {
     return api.get("/search/article", {
       params: { keyword }

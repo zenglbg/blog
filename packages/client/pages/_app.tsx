@@ -5,12 +5,12 @@ import Layout from "@components/layout";
 import "@/theme/antd.less";
 import "@/theme/reset.scss";
 import "@/theme/markdown.scss";
-
+import "@/theme/root.scss";
 import {
-  ArticleProvider,
-  TagProvider,
-  CategoryProvider,
-} from "@providers/index";
+  ArticleApi,
+  TagApi,
+  CategoryApi,
+} from "@/services/index";
 
 function MyApp({
   Component,
@@ -31,8 +31,8 @@ MyApp.getInitialProps = async (AppContext: AppContext) => {
   const [appProps, tags, categories] = await Promise.all([
     App.getInitialProps(AppContext),
     // SettingProvider.getSetting(),
-    TagProvider.getTags({ articleStatus: "publish" }),
-    CategoryProvider.getCategory({ articleStatus: "publish" }),
+    TagApi.getTags({ articleStatus: "publish" }),
+    CategoryApi.getCategory({ articleStatus: "publish" }),
     // PageProvider.getAllPublisedPages(),
   ]);
   return { ...appProps, tags, categories };
