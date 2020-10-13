@@ -1,17 +1,23 @@
 import React, { memo, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import { scroll } from "@/providers";
+import Search from "@components/Search";
 import cls from "classnames";
-import style from "./style.scss";
+import style from "./index.module.scss";
 
 interface Props {
   setting: any;
   menus: any;
+  affix: boolean;
+  affixVisible: boolean;
 }
 
-export default memo(function Header({ setting, menus }: Props) {
-  const { asPath, pathname } = useRouter();
+function Header({ setting, menus, affix, affixVisible }: Props) {
+  const router = useRouter();
+  const asPath = router.asPath;
+  const pathname = router.pathname;
+
   const [visible, setVisible] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
@@ -83,8 +89,12 @@ export default memo(function Header({ setting, menus }: Props) {
               <li className={style.themeToggle}>{/* <ThemeToggle /> */}</li>
             </ul>
           </nav>
+
+          <Search visible={showSearch} onClose={(_) => setShowSearch(false)} />
         </div>
       </div>
     </header>
   );
-});
+}
+
+export default scroll(Header);

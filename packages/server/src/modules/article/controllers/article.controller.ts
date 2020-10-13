@@ -12,10 +12,13 @@ import {
   ClassSerializerInterceptor,
   Delete,
   Patch,
+  Request,
 } from '@nestjs/common';
 import { RolesGuard, Roles } from '@modules/auth/guards/roles.guard';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
+import { JwtService } from '@nestjs/jwt';
+import { UserService } from '@modules/user/services/user.service'
 import { ArticleService } from '../services/article.service';
 import { CreateArticleDto } from '../dtos/create.article.dto';
 import { identity } from 'rxjs';
@@ -24,7 +27,11 @@ import { json } from 'express';
 @Controller('article')
 @UseGuards(RolesGuard)
 export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(
+    private readonly articleService: ArticleService,
+    private readonly jwtService: JwtService,
+    private readonly userService: UserService
+  ) {}
 
   /**
    * create
@@ -45,6 +52,30 @@ export class ArticleController {
   @HttpCode(HttpStatus.OK)
   public findall(@Query() queryParams) {
     return this.articleService.findAll(queryParams);
+  }
+
+  /**
+   * 获取指定文章
+   * @param id
+   */
+  @Get(':id')
+  async findById(@Request() req, @Param('id') id, @Query('status') status) {
+    let token = req.headers.authorization;
+
+    if (/Bearer/.test(token)) {
+      // 不需要 Bearer，否则验证失败
+      token = token.split(' ').pop();
+    }
+
+    try {
+      // const tokenUser = this.jwtService.decode(token) as any;
+      // const userId = tokenUser.id;
+      // const exist = await this.userService.findById(userId);
+      // const isAdmin = userId && exist.role === 'admin';
+      return this.articleService.findById(id, status, true);
+    } catch (e) {
+      return this.articleService.findById(id, status);
+    }
   }
 
   /**

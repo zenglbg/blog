@@ -1,3 +1,5 @@
+import { time } from "console";
+
 export function timetrans(time) {
   var date = new Date(time);
   var Y = date.getFullYear() + "-";
@@ -12,5 +14,27 @@ export function timetrans(time) {
   return Y + M + D;
 }
 
+export function debounce(fn, wait) {
+  var timer = null;
+  return (...args) => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, wait);
+  };
+}
 
- 
+export function throttle(fn, gapTime) {
+  let _lastTime = null;
+
+  return () => {
+    let _nowTime = Number(new Date());
+    if (_nowTime - _lastTime > gapTime || !_lastTime) {
+      fn();
+      _lastTime = _nowTime;
+    }
+  };
+}

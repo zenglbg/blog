@@ -203,6 +203,14 @@ export class ArticleService {
     );
   }
 
+  /**
+   * getArticleById
+   *
+   */
+  public getArticleById(id) {
+    return from(this.articleRepository.find({ id }));
+  }
+
   public recommend(articleId) {}
 
   /**
@@ -251,7 +259,7 @@ export class ArticleService {
     const { tags, category, status } = article;
     const obs$: any[] = [oldArticle$];
     if (tags) {
-      console.log(String(tags).split(','))
+      console.log(String(tags).split(','));
       const tags$ = from(this.tagService.findByIds(String(tags).split(',')));
       obs$.push(tags$);
     }
@@ -285,7 +293,7 @@ export class ArticleService {
           Object.assign(newArticle, { tags });
         }
 
-        // console.log(oldArticle, `newArticle`, newArticle, 
+        // console.log(oldArticle, `newArticle`, newArticle,
         // `----32342432424242--4--24`,
         // tags, category);
 
@@ -293,7 +301,7 @@ export class ArticleService {
           oldArticle,
           newArticle,
         );
-        
+
         return from(this.articleRepository.save(updatedArticle));
       }),
     );

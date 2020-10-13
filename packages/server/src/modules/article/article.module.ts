@@ -9,13 +9,14 @@ import { Article } from './Models/article_info.entity';
 import { TagsModule } from '@modules/tag/tag.module';
 import { CategoryModule } from '@modules/Category/category.module';
 import { ArticleContent } from './Models/article_content.entity';
-
+import { UserModule } from '@modules/user/user.module'
 @Module({
   imports: [
     TypeOrmModule.forFeature([Article, ArticleContent]),
     forwardRef(() => AuthModule),
     TagsModule,
-    CategoryModule
+    CategoryModule,
+    UserModule
   ],
   providers: [ArticleService],
   controllers: [ArticleController],
