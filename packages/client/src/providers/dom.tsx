@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { throttle } from "@/utils";
+import { debounce } from "@/utils";
 
 export const scroll = (BaseComponent) => (props) => {
   const [affix, setAffix] = useState(false);
@@ -12,7 +12,7 @@ export const scroll = (BaseComponent) => (props) => {
       window.scrollY ||
       document.body.scrollTop;
 
-    const handler = throttle(() => {
+    const handler = debounce(() => {
       const y =
         document.documentElement.scrollTop ||
         window.pageYOffset ||

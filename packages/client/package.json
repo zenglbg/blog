@@ -45,6 +45,8 @@
     "react-lazyload": "^2.6.5",
     "react-simplemde-editor": "^4.1.0",
     "recompose": "^0.30.0",
+    "rxjs": "^6.6.3",
+    "rxjs-hooks": "^0.6.2",
     "timeago.js": "^4.0.2",
     "typescript": "^3.7.5",
     "ua-parser-js": "^0.7.21",

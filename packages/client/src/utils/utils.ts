@@ -1,4 +1,3 @@
-import { time } from "console";
 
 export function timetrans(time) {
   var date = new Date(time);
@@ -14,7 +13,7 @@ export function timetrans(time) {
   return Y + M + D;
 }
 
-export function debounce(fn, wait) {
+export function throttle(fn, wait) {
   var timer = null;
   return (...args) => {
     if (timer) {
@@ -27,7 +26,7 @@ export function debounce(fn, wait) {
   };
 }
 
-export function throttle(fn, gapTime) {
+export function debounce(fn, gapTime) {
   let _lastTime = null;
 
   return () => {
