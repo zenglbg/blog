@@ -22,7 +22,6 @@ const Search: React.FunctionComponent<ISearchProps> = ({
 }) => {
   const fields: IFieldItem[] = useContext(searchFields);
   const [form] = Form.useForm();
-
   const getFields = () => {
     return fields.reduce((acc, field: IFieldItem, index) => {
       acc.push(
@@ -45,9 +44,7 @@ const Search: React.FunctionComponent<ISearchProps> = ({
       return acc;
     }, []);
   };
-
   const handleReset = () => form.resetFields();
-
   const onFinish = (values) => {
     onSearchBtn(
       Object.keys(values).reduce((acc, item) => {
@@ -64,6 +61,7 @@ const Search: React.FunctionComponent<ISearchProps> = ({
 
   return (
     <Form
+      form={form}
       className="search-wrapper"
       layout="inline"
       onFinish={onFinish}
