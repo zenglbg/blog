@@ -81,7 +81,6 @@
     "shelljs": "^0.8.4",
     "thread-loader": "^3.0.0",
     "ts-import-plugin": "^1.6.6",
-    "typescript": "~3.7.2",
-    "webpack-merge": "^5.1.4"
+    "typescript": "^4.0.3"
   }
 }

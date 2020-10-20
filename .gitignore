@@ -1,5 +1,7 @@
 # compiled output
 /dist
 /node_modules
-
+/laradock
 /docker
+yarn.lock
+package-lock.json

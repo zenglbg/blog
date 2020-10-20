@@ -11,7 +11,7 @@ const {
 const { antd, resources } = require('./loader')
 
 const { addProxy } = require('./proxy')
-const { removePre, removeManifest, addThread } = require('./custom')
+const { removePre, removeManifest, addThread, publicPathPlugin } = require('./custom')
 
 
 module.exports = {
@@ -33,6 +33,7 @@ module.exports = {
     addThread(),
     removePre(),
     removeManifest(),
+    publicPathPlugin()
   ),
   devServer: overrideDevServer(
     addProxy()

@@ -1,3 +1,5 @@
+const { resolve } = require('path')
+
 const removePre = () => config => {
   const updatedRules = config.module.rules.map(rule => {
     if (rule.enforce === 'pre') {
@@ -22,6 +24,7 @@ const removeManifest = () => config => {
   )
   return config
 }
+
 
 
 
@@ -62,4 +65,17 @@ const addThread = () => (config) => {
   return config
 }
 
-module.exports = { removePre, removeManifest, addThread }
+
+const publicPathPlugin = () => config => {
+
+  config.output = {
+    ...config.output,
+    path: resolve(__dirname, "../build"),
+    publicPath: '/',
+    filename: "[name].[hash:8].js",
+    chunkFilename: "[name].[hash:8].async.js",
+  }
+  return config
+}
+
+module.exports = { removePre, removeManifest, addThread, publicPathPlugin }

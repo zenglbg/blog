@@ -134,7 +134,6 @@ const User: React.FunctionComponent<IUserProps> = (props) => {
 
   return (
     <div className="user-wrapper">
-      <h1>{status}</h1>
       <searchFields.Provider value={fields}>
         <SPTDataTable
           data={data}

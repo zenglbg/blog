@@ -4,4 +4,4 @@ const nodegit = require('nodegit')
 
 
 
-shell.exec(`react-app-rewired  start`)
+shell.exec(`react-app-rewired  build`)
