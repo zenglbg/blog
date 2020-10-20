@@ -50,7 +50,7 @@ const addThread = () => (config) => {
         return r
       })
 
-      console.log(oneOf)
+      // console.log(oneOf)
 
       rule.oneOf = oneOf
 
