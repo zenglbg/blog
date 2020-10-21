@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Tag } from '../Models/tag.entity';
+import { Tag } from '../models/tag.entity';
 import { from, Observable, of } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { map, switchMap } from 'rxjs/operators';

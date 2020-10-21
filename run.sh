@@ -35,10 +35,12 @@ function run() {
 
 function server() {
   cd "$laradock" || exit
-  docker-compose up -d nginx mysql redis workspace
-  run "server" &
-  run "admin" &
-  run "client"
+  # docker-compose up -d nginx mysql redis workspace
+  docker-compose up -d mysql redis workspace nextjs nestjs
+  # docker-compose up -d nginx mysql redis workspace nextjs nestjs
+  # run "server" &
+  # run "admin" &
+  # run "client"
 }
 
 server

@@ -7,8 +7,8 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { Category } from '@modules/Category/Models/category.entity';
-import { Tag } from '@modules/tag/Models/tag.entity';
+import { Category } from '@modules/category/models/category.entity';
+import { Tag } from '@modules/tag/models/tag.entity';
 import { Base } from '@entity/base.entity';
 import { ArticleContent } from './article_content.entity';
 

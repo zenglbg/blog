@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToMany } from 'typeorm';
 import { Base } from '@common/entity/base.entity';
-import { Article } from '@modules/article/Models/article_info.entity';
+import { Article } from '@modules/article/models/article_info.entity';
 
 @Entity({
   name: 'tag',

@@ -14,7 +14,7 @@ import {
   concatMap,
 } from 'rxjs/operators';
 
-import { User } from '../Models/user.entity';
+import { User } from '../models/user.entity';
 import { UpdatePasswordUserDto } from '../dtos/index.user.dto';
 import { ConfigService } from '@nestjs/config';
 

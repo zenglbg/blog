@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../../user/Models/user.entity';
+import { User } from '../../user/models/user.entity';
 import { UserService } from '../../user/services/user.service';
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';

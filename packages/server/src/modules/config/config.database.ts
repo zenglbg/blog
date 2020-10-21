@@ -33,12 +33,7 @@ const redisConfig = {
 
 const ormConfig: ConnectionOptions = {
   type: "mysql", // support: mysql, mariadb, postgres, mssql
-  database: process.env.DATABASE_DB || "blog", // 数据库名称
   charset: "utf8mb4", // 字符集
-  host: process.env.DATABASE_HOST || "127.0.0.1", // 数据库地址
-  port: Number(process.env.DATABASE_PORT) || 3306, // 数据库端口
-  username: process.env.DATABASE_USER || "lerna", // 用户名
-  password: process.env.DATABASE_PWD || "secret", // 密码
   connectTimeout: 12000,
   // 当在数据库中处理一个大数(BIGINT和DECIMAL)数据类型的时候，你需要启用这个选项(默认: false)
   supportBigNumbers: true,

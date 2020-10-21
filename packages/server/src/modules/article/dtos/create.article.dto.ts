@@ -6,8 +6,8 @@ import {
   IsNotEmpty,
 } from 'class-validator';
 import { ApiErrorCode } from '@common/enums/api-error-code.enum';
-import { Category } from '@modules/Category/Models/category.entity';
-import { Tag } from '@modules/tag/Models/tag.entity';
+import { Category } from '@modules/category/models/category.entity';
+import { Tag } from '@modules/tag/models/tag.entity';
 
 export enum Gender {
   draft = 'draft',

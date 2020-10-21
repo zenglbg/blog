@@ -7,6 +7,8 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
+    "strict": false,
+    "forceConsistentCasingInFileNames": false,
     "baseUrl": "./",
     "paths": {
       "@common/*": ["./src/common/*"],

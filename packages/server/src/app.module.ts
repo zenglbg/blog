@@ -15,7 +15,7 @@ import { UserModule } from './modules/user/user.module';
 import { ArticleModule } from './modules/article/article.module';
 
 // 分类
-import { CategoryModule } from './modules/Category/category.module';
+import { CategoryModule } from './modules/category/category.module';
 
 // 标签
 import { TagsModule } from './modules/tag/tag.module';

@@ -7,7 +7,7 @@ export const api = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_ENV === "development"
       ? `http://localhost:${process.env.NEXT_PUBLIC_API_PORT}/api`
-      : "https://api.blog.wipi.tech/api",
+      : `http://localhost:${process.env.NEXT_PUBLIC_API_PORT}/api`,
   timeout: Number(process.env.NEXT_PUBLIC_TIMEOUT),
 });
 

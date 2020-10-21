@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Article } from '@modules/article/Models/article_info.entity';
+import { Article } from '@modules/article/models/article_info.entity';
 import { Base } from '@common/entity/base.entity';
 
 @Entity({ name: 'category' })

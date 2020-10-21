@@ -1,7 +1,8 @@
 {
-  "name": "admin1",
-  "version": "0.1.0",
+  "name": "admin",
+  "version": "0.0.0",
   "private": true,
+  "homepage": "/admin",
   "scripts": {
     "dev": "node ./scripts/start.js",
     "build": "node ./scripts/build.js",
