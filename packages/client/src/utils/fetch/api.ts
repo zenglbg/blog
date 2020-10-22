@@ -3,11 +3,15 @@ import { message } from "antd";
 import Router from "next/router";
 console.log(`process.env.NEXT_PUBLIC_ENV`, process.env.NEXT_PUBLIC_ENV);
 
+
 export const api = axios.create({
   baseURL:
+    // process.env.NEXT_PUBLIC_ENV === "development"
+    //   ? `http://localhost:${process.env.NEXT_PUBLIC_API_PORT}/api`
+    //   : process.env.NEXT_PUBLIC_API_URL,
     process.env.NEXT_PUBLIC_ENV === "development"
-      ? `http://localhost:${process.env.NEXT_PUBLIC_API_PORT}/api`
-      : `http://localhost:${process.env.NEXT_PUBLIC_API_PORT}/api`,
+      ? `http://nestjs:9999/api`
+      : `${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}/api`,
   timeout: Number(process.env.NEXT_PUBLIC_TIMEOUT),
 });
 

@@ -21,7 +21,7 @@ const themeVariables = lessToJS(
 
 
 const nextConfig = {
-  assetPrefix: isProd ? 'http://admin.com' : '/',
+  assetPrefix: isProd ? '/' : '/',
   webpack: (config) => {
     config.resolve.plugins.push(new TsconfigPathsPlugin())
     config.plugins.push(

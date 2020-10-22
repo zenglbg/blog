@@ -36,7 +36,7 @@ const cancelPending = (config: AxiosRequestConfig) => {
 
 export const api: AxiosInstance = axios.create({
   timeout: Number(process.env.REACT_APP_TIMEOUT), // 设置超时时间5s
-  baseURL: process.env.REACT_APP_ENV === "production" ? "/api" : "/api", // 测试环境
+  baseURL: process.env.REACT_APP_ENV === "production" ? "/api" : "http://client.com/api", // 测试环境
   withCredentials: true,
   headers: {
     post: {

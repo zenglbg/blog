@@ -12,7 +12,6 @@ export const configModule = () =>
       process.env.NODE_ENV === 'development'
         ? path.resolve(__dirname, '../../../.env.development')
         : path.resolve(__dirname, '../../../.env.production'),
-      path.resolve(__dirname, '../../../.env.local'),
     ],
     load: [configBase, configApi, configDatabase],
     isGlobal: true,
