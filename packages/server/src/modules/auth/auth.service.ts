@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../../user/models/user.entity';
-import { UserService } from '../../user/services/user.service';
-import { throwError } from 'rxjs';
+import { User } from '../user/models/user.entity';
+import { UserService } from '../user/services/user.service';
+import { of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { exist } from '@hapi/joi';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -32,6 +34,22 @@ export class AuthService {
         return throwError(err);
       }),
     );
+  }
+
+  public isAdmin(token: string) {
+    if (/Bearer/.test(token)) {
+      // 不需要 Bearer，否则验证失败
+      token = token.split(' ').pop();
+    }
+
+    try {
+      const { id } = this.jwtService.decode(token) as Partial<User>;
+      return this.userService
+        .findByid(id)
+        .pipe(map(user => id && user.role === 'admin'));
+    } catch (error) {
+      return of(false);
+    }
   }
 
   public validateUser(payload: User) {

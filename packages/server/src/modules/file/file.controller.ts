@@ -8,7 +8,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '@modules/auth/guards/roles.guard';
-import { FileService } from '../services/file.service';
+import { FileService } from './file.service';
 
 @Controller('file')
 @UseGuards(RolesGuard)

@@ -2,9 +2,9 @@ import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 
-import { AuthService } from './services/auth.service';
+import { AuthService } from './auth.service';
 import { UserModule } from '../user/user.module';
-import { AuthController } from './controllers/auth.controller';
+import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 
 const passModule = PassportModule.register({
@@ -20,6 +20,6 @@ const jwtModule = JwtModule.register({
   imports: [forwardRef(() => UserModule), passModule, jwtModule],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  exports: [passModule, jwtModule],
+  exports: [passModule, jwtModule, AuthService],
 })
 export class AuthModule {}

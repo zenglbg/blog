@@ -7,7 +7,8 @@ import {
   ClassSerializerInterceptor,
   Body,
 } from '@nestjs/common';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from './auth.service';
+
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('auth')

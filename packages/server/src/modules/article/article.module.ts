@@ -9,16 +9,17 @@ import { Article } from './models/article_info.entity';
 import { TagsModule } from '@modules/tag/tag.module';
 import { CategoryModule } from '@modules/category/category.module';
 import { ArticleContent } from './models/article_content.entity';
-import { UserModule } from '@modules/user/user.module'
+import { UserModule } from '@modules/user/user.module';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([Article, ArticleContent]),
     forwardRef(() => AuthModule),
     TagsModule,
     CategoryModule,
-    UserModule
+    UserModule,
   ],
   providers: [ArticleService],
   controllers: [ArticleController],
 })
-export class ArticleModule { }
+export class ArticleModule {}

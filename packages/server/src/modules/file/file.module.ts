@@ -1,8 +1,8 @@
 import { AuthModule } from '@modules/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FileController } from './controllers/file.controller';
-import { FileService } from './services/file.service';
+import { FileController } from './file.controller';
+import { FileService } from './file.service';
 import { File } from './models/file.entity';
 
 

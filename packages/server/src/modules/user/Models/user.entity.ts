@@ -40,6 +40,9 @@ export class User extends Base {
   @Column('simple-enum', { enum: ['locked', 'active'], default: 'active' })
   status: string; // 用户状态
 
+  @Column()
+  phone:Date
+
   /**
    * 插入数据前，对密码进行加密
    */
