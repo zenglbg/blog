@@ -1,11 +1,10 @@
-@import '@/theme/var.scss';
 
 .wrapper {
-  box-shadow: var(--box-shadow);
-  border-radius: var(--border-radius);
-  background-color: var(--bg-second);
   margin-bottom: 1.3rem;
   line-height: 1.29;
+  background-color: var(--bg-second);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
 
   .title {
     padding: 1rem 1.3rem;
@@ -13,7 +12,7 @@
     font-weight: bold;
     border-bottom: 1px solid var(--border-color);
 
-    > span:last-child {
+    span:last-child {
       margin-left: 8px;
     }
   }
@@ -23,38 +22,25 @@
   }
 
   li {
-    padding: 8px 7px;
+    padding: 2px 7px;
     color: var(--second-text-color);
     line-height: 1.5em;
+    display: inline-block;
+    margin: 0 7px 7px 0;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     transition: all ease-in-out 0.2s;
 
-    a {
-      width: 100%;
-      display: inline-flex;
-      justify-content: space-between;
-
-      > span:first-of-type {
-        color: var(var(--main-text-color));
-      }
-    }
-
     &:hover {
-      color: #fff;
       background-color: var(--primary-color);
-
-      a > span:first-of-type {
-        color: inherit;
-      }
+      color: #fff;
+      border: 1px solid var(--primary-color);
     }
 
     &.active {
       color: #fff;
+      border: 1px solid var(--primary-color);
       background-color: var(--primary-color);
-
-      a > span:first-of-type {
-        color: inherit;
-      }
     }
   }
 }

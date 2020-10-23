@@ -1,6 +1,6 @@
 import type { AppProps, AppContext } from "next/app";
 import App from "next/app";
-import Layout from "@components/layout";
+import Layout from "@components/common/layout";
 
 import "@/theme/antd.less";
 import "@/theme/reset.scss";

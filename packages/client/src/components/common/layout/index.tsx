@@ -1,8 +1,8 @@
 import React from "react";
 import { BackTop, Switch } from "antd";
 import { Helmet } from "react-helmet";
-import Header from "@components/Header";
-import Footer from "@components/Footer";
+import Header from "../Header";
+import Footer from "../Footer";
 import style from "./layout.module.scss";
 interface ILayoutProps {
   backgroundColor?: string;

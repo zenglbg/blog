@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { scroll } from "@/providers";
-import Search from "@components/Search";
+import Search from "../Search";
 import cls from "classnames";
 import style from "./index.module.scss";
 

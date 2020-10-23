@@ -4,7 +4,7 @@ import * as dayjs from "dayjs";
 import { NextPage } from "next";
 import Link from "next/link";
 import { Helmet } from "react-helmet";
-import cls from "classnames";
+import cls from "@/components/common/Footer/node_modules/classnames";
 import { Modal, Form, Input } from "antd";
 import { TagOutlined } from "@ant-design/icons";
 

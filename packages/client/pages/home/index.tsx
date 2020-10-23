@@ -1,15 +1,21 @@
 import * as React from "react";
 import { NextPage, NextPageContext } from "next";
-import style from "./index.module.scss";
-import IndexBanner from "./index-banner";
+import Head from "next/head";
+import HomePage from "@components/pages/home";
 
 interface IHomeProps {}
 
 const Home: NextPage<IHomeProps> = (props) => {
   return (
-    <div className={style.indexWrapper}>
-      <IndexBanner />
-    </div>
+    <>
+      <Head>
+        <link
+          href="//at.alicdn.com/t/font_2154495_ub16lgra2bf.css"
+          rel="stylesheet"
+        />
+      </Head>
+      <HomePage />
+    </>
   );
 };
 
