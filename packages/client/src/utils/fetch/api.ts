@@ -10,7 +10,7 @@ export const api = axios.create({
     //   ? `http://localhost:${process.env.NEXT_PUBLIC_API_PORT}/api`
     //   : process.env.NEXT_PUBLIC_API_URL,
     process.env.NEXT_PUBLIC_ENV === "development"
-      ? `http://nestjs:9999/api`
+      ? `http://${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}/api`
       : `${process.env.NEXT_PUBLIC_API_URL}:${process.env.NEXT_PUBLIC_API_PORT}/api`,
   timeout: Number(process.env.NEXT_PUBLIC_TIMEOUT),
 });

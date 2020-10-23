@@ -12,7 +12,7 @@ export default memo(function Footer({ setting, className = "" }: Props) {
   return (
     <footer className={cls(style.footer)}>
       <div className={cls(style.wrapper, style.isFixed)}>
-        <h1>footer</h1>
+        <h1 style={{ color: "#fff" }}>footer</h1>
       </div>
     </footer>
   );

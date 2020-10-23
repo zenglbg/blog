@@ -1,5 +1,5 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
-import { Article } from '../models/article_info.entity';
+import { Article } from './models/article_info.entity';
 import { from, of, combineLatest, forkJoin, Observable } from 'rxjs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -9,8 +9,9 @@ import { ApiErrorCode } from '@common/enums/api-error-code.enum';
 import * as dayjs from 'dayjs';
 import { TagService } from '@modules/tag/services/tag.service';
 import { CategoryService } from '@modules/category/service/category.service';
-import { ArticleContent } from '../models/article_content.entity';
-import { CreateArticleDto } from '../dtos/create.article.dto';
+import { ArticleContent } from './models/article_content.entity';
+import { CreateArticleDto } from './dtos/create.article.dto';
+
 @Injectable()
 export class ArticleService {
   constructor(

@@ -3,7 +3,7 @@ import { BackTop, Switch } from "antd";
 import { Helmet } from "react-helmet";
 import Header from "@components/Header";
 import Footer from "@components/Footer";
-
+import style from "./layout.module.scss";
 interface ILayoutProps {
   backgroundColor?: string;
   needFooter?: boolean;
@@ -29,9 +29,9 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({
   children,
 }) => {
   return (
-    <div>
+    <div className={style.pageWrapper}>
       <Header setting={{}} menus={defaultMenus} />
-      <main>{children}</main>
+      <main className={style.main_wrapper}>{children}</main>
       {needFooter ? <Footer setting={{}} /> : null}
     </div>
   );

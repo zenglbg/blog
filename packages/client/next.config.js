@@ -22,6 +22,15 @@ const themeVariables = lessToJS(
 
 const nextConfig = {
   assetPrefix: isProd ? '/' : '/',
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/home',
+        permanent: true,
+      },
+    ]
+  },
   webpack: (config) => {
     config.resolve.plugins.push(new TsconfigPathsPlugin())
     config.plugins.push(

@@ -1,0 +1,13 @@
+.indexWrapper {
+  font-size: 20px;
+}
+
+.bannerWrapper {
+  width: 100vw;
+  height: auto;
+
+  > img {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -2,9 +2,11 @@
 $height: 64px;
 
 .header {
-  position: relative;
-  width: 100%;
+  position: absolute;
   height: $height;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .wrapper {

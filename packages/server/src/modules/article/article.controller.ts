@@ -19,10 +19,10 @@ import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '@modules/user/services/user.service'
-import { ArticleService } from '../services/article.service';
-import { CreateArticleDto } from '../dtos/create.article.dto';
-import { identity } from 'rxjs';
-import { json } from 'express';
+import { ArticleService } from './article.service';
+import { CreateArticleDto } from './dtos/create.article.dto';
+ 
+
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('article')
 @UseGuards(RolesGuard)
