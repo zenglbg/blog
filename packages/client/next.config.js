@@ -3,6 +3,7 @@ const withPlugins = require('next-compose-plugins')
 const withCss = require('@zeit/next-css')
 const withLess = require('@zeit/next-less')
 const withSass = require('@zeit/next-sass')
+const withImages = require('next-images')
 const lessToJS = require('less-vars-to-js')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin')
@@ -45,6 +46,7 @@ const nextConfig = {
 }
 
 module.exports = withPlugins([
+  withImages(),
   withCss(),
   withSass({
     cssModules: true,

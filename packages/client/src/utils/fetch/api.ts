@@ -2,7 +2,7 @@ import axios from "axios";
 import { message } from "antd";
 import Router from "next/router";
 console.log(`process.env.NEXT_PUBLIC_ENV`, process.env.NEXT_PUBLIC_ENV);
-
+import { likePost } from "./lib";
 
 export const api = axios.create({
   baseURL:
@@ -17,7 +17,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    console.log(config.url)
+    console.log(config.url);
     return config;
   },
 
@@ -27,22 +27,7 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-  (data) => {
-    if (data.status && data.status == 200 && data.data.status == "error") {
-      typeof window !== "undefined" &&
-        message.error({ message: data.data.msg });
-      return;
-    }
-
-    const res = data.data;
-
-    if (!res.success) {
-      message.error(res.msg);
-      return;
-    }
-
-    return res.data;
-  },
+  likePost,
   (err) => {
     if (err && err.response && err.response.status) {
       const status = err.response.status;

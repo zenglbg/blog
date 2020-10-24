@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createFromIconfontCN } from "@ant-design/icons";
 import cls from 'classnames'
-import style from './banner.module.scss'
+import style from './scss/banner.scss'
 
 interface IBannerProps {}
 

@@ -1,42 +1,23 @@
 import { AxiosRequestConfig } from "axios";
 import { api } from "./api";
-import { from, Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { likePost } from "./lib";
+export interface AxiosResponse<T = any> {
+  code: string | number;
+  msg: string | number;
+  success: string | number;
+  data: T;
+}
+
 export class Http {
-  public static post(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ): Observable<any> {
-    return from(api.post(url, data, config)).pipe(map(likePost));
+  public static post(url: string, data?: any, config?: AxiosRequestConfig) {
+    return api.post<any, AxiosResponse<any> & any[] & string>(
+      url,
+      data,
+      config
+    );
   }
 
-  /**
-   * static patch
-   */
-  public static patch(url: string, data?: any, config?: AxiosRequestConfig) {
-    return from(api.patch(url, data, config)).pipe(map(likePost));
-  }
-
-  /**
-   * static delete
-   *
-   */
-  public static delete(url: string, data?: any, config?: AxiosRequestConfig) {
-    return from(
-      api.delete(url, {
-        ...config,
-        data,
-      })
-    ).pipe(map(likePost));
-  }
-
-  public static get(
-    url: string,
-    data: any,
-    config?: AxiosRequestConfig
-  ): Observable<any> {
+  
+  public static get(url: string, data?: any, config?: AxiosRequestConfig) {
     if (!!data) {
       if (`${data}`.includes("Object")) {
         const params = Object.keys(data).reduce((acc, item) => {
@@ -46,6 +27,27 @@ export class Http {
       }
     }
 
-    return from(api.get(url, config)).pipe(map(likePost));
+    return api.get<any, AxiosResponse<any> & any[] & string>(url, config);
+  }
+  /**
+   * static patch
+   */
+  public static patch(url: string, data?: any, config?: AxiosRequestConfig) {
+    return api.patch<any, AxiosResponse<any> & any[] & string>(
+      url,
+      data,
+      config
+    );
+  }
+
+  /**
+   * static delete
+   *
+   */
+  public static delete(url: string, data?: any, config?: AxiosRequestConfig) {
+    return api.delete<any, AxiosResponse<any> & any[] & string>(url, {
+      ...config,
+      data,
+    });
   }
 }

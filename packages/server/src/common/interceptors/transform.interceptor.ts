@@ -27,7 +27,7 @@ export class TransformInterceptor<T>
         const statusCode = response.statusCode;
         const url = request.originalUrl;
         const res = {
-          statusCode,
+          code: statusCode,
           msg: null,
           success: true,
           data,
