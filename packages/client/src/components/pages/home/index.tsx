@@ -2,7 +2,7 @@ import React from "react";
 import "./scss/index.scss";
 import IndexBanner from "./index-banner";
 import IndexNotice from "./index-notice";
-import IndexRepository from "./index-repository";
+import IndexRepository from "./index-repository/index";
 
 interface IHomeProps {}
 

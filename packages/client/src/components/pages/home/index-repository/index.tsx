@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { GithubSr } from "@/services";
-import style from "./scss/repos.scss";
 import Icon from "@ant-design/icons";
 import { from } from "rxjs";
 import { concatMap, map, toArray } from "rxjs/operators";
-import githubSvg from "./svg/github.svg";
+import githubSvg from "../svg/github.svg";
+import { DIV, P, H2, IFRAME } from "./dom";
 
 interface IResProps {}
 
@@ -23,9 +23,9 @@ const Res: React.FunctionComponent<IResProps> = (props) => {
   }, []);
 
   return (
-    <div className={style.repos_wrapper}>
-      <div className={style.my_github}>
-        <h2>我的开源</h2>
+    <DIV className="wrapper">
+      <DIV className="github">
+        <H2>我的开源</H2>
 
         <Icon
           component={githubSvg}
@@ -33,20 +33,31 @@ const Res: React.FunctionComponent<IResProps> = (props) => {
             fontSize: "54px",
           }}
         />
-      </div>
-      <div className={style.repos_list}>
+      </DIV>
+
+      <DIV className="repos-list">
         {repos.map((repo) => {
           return (
-            <div className={style.repos_li} key={repo.node_id}>
-              <h3>{repo.name}</h3>
-
-              <span className={style.li_star}>{repo.stargazers_count}</span>
-              <span className={style.li_frok}>{repo.forks}</span>
-            </div>
+            <DIV className="repos_li">
+              <H2 className="title">{repo.name}</H2>
+              <DIV>
+                {repo.name ? (
+                  <P className="footer">
+                    <IFRAME
+                      src={`https://ghbtns.com/github-btn.html?user=zenglbg&repo=${repo.name}&type=star&count=true`}
+                      scrolling="0"
+                      width="150"
+                      height="20"
+                      title="GitHub"
+                    ></IFRAME>
+                  </P>
+                ) : null}
+              </DIV>
+            </DIV>
           );
         })}
-      </div>
-    </div>
+      </DIV>
+    </DIV>
   );
 };
 

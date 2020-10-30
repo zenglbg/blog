@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createFromIconfontCN } from "@ant-design/icons";
-import cls from 'classnames'
-import style from './scss/banner.scss'
+import cls from "classnames";
+import style from "./scss/banner.scss";
 
 interface IBannerProps {}
 
@@ -18,7 +18,9 @@ const Banner: React.FunctionComponent<IBannerProps> = (props) => {
       </h2>
 
       <div className={style.motto_wrapper}>
-        <p className={style.motto_text}>成功者绝不给自己软弱的借口!</p>
+        <p className={style.motto_text}>
+          能让人快乐的是精神状态，能让人安全的是物质基础，所以要一直努力，让自己更加强大。 
+        </p>
 
         <p className={style.motto_links}>
           <a href="">

@@ -25,11 +25,11 @@ const nextConfig = {
   assetPrefix: isProd ? '/' : '/',
   async redirects() {
     return [
-      {
-        source: '/',
-        destination: '/home',
-        permanent: true,
-      },
+      // {
+      //   source: '/',
+      //   destination: '/home',
+      //   permanent: true,
+      // },
     ]
   },
   webpack: (config) => {
