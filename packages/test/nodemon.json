@@ -1,7 +1,7 @@
 {
   "verbose": false,
   "debug": false,
-  "exec": "./node_modules/.bin/ts-node ./pages/app.ts",
+  "exec": "./node_modules/.bin/ts-node ./src/pages/app.ts",
   "ignore": [
     "mochawesome-report",
     "node_modules",

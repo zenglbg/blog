@@ -15,9 +15,9 @@ const path = require('path')
 const isProd = process.env.NODE_ENV === 'production'
 
 // Where your antd-custom.less file lives
-const themeVariables = lessToJS(
-  fs.readFileSync(path.resolve(__dirname, './src/theme/antd.less'), 'utf8')
-)
+// const themeVariables = lessToJS(
+//   fs.readFileSync(path.resolve(__dirname, './styles/antd.less'), 'utf8')
+// )
 
 
 
@@ -47,46 +47,51 @@ const nextConfig = {
 
 module.exports = withPlugins([
   withImages(),
-  withLess({
-    lessLoaderOptions: {
-      javascriptEnabled: true,
-      modifyVars: themeVariables, // make your antd custom effective
-      importLoaders: 0
-    },
-    cssLoaderOptions: {
-      importLoaders: 3,
-      localIdentName: '[local]___[hash:base64:5]'
-    },
-    webpack: (config, { isServer }) => {
-      //Make Ant styles work with less
-      if (isServer) {
-        const antStyles = /antd\/.*?\/style.*?/
-        const origExternals = [...config.externals]
-        config.externals = [
-          (context, request, callback) => {
-            if (request.match(antStyles)) return callback()
-            if (typeof origExternals[0] === 'function') {
-              origExternals[0](context, request, callback)
-            } else {
-              callback()
-            }
-          },
-          ...(typeof origExternals[0] === 'function' ? [] : origExternals)
-        ]
 
-        config.module.rules.unshift({
-          test: antStyles,
-          use: 'null-loader'
-        })
-      }
+  // withLess({
+  //   lessLoaderOptions: {
+  //     javascriptEnabled: true,
+  //     modifyVars: themeVariables, // make your antd custom effective
+  //     importLoaders: 0
+  //   },
+  //   cssModules: true,
+  //   cssLoaderOptions: {
+  //     importLoaders: 3,
+  //     localIdentName: '[local]___[hash:base64:5]'
+  //   },
+  //   webpack: (config, { isServer }) => {
+  //     //Make Ant styles work with less
+  //     if (isServer) {
+  //       const antStyles = /antd\/.*?\/style.*?/
+  //       const origExternals = [...config.externals]
+  //       config.externals = [
+  //         (context, request, callback) => {
+  //           if (request.match(antStyles)) return callback()
+  //           if (typeof origExternals[0] === 'function') {
+  //             origExternals[0](context, request, callback)
+  //           } else {
+  //             callback()
+  //           }
+  //         },
+  //         ...(typeof origExternals[0] === 'function' ? [] : origExternals)
+  //       ]
+
+  //       config.module.rules.unshift({
+  //         test: antStyles,
+  //         use: 'null-loader'
+  //       })
+  //     }
 
 
-      return config
-    }
-  }),
-  withCss({
-    cssModules: true,
-  }),
+  //     return config
+  //   }
+  // }),
+  
+  
+  
+  // withCss({
+  //   cssModules: true,
+  // }),
   // withSass({
   //   cssModules: true,
   //   ...withLess({
@@ -128,3 +133,4 @@ module.exports = withPlugins([
   //   })
   // }),
 ], nextConfig)
+
