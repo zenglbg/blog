@@ -38,9 +38,10 @@ function server() {
   docker-compose up -d mysql redis
   # docker-compose up -d mysql redis workspace nextjs nestjs
   # docker-compose up -d nginx mysql redis workspace nextjs nestjs
-  # run "server" &
-  # run "admin" &
-  # run "client"
+  run "server" &
+  run "admin" &
+  run "client" &
+  run "test"
 }
 
 server

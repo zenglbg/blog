@@ -1,9 +1,9 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { Article } from './models/article_info.entity';
 import { from, of, combineLatest, forkJoin, Observable } from 'rxjs';
+import { map, switchMap, filter, tap } from 'rxjs/operators';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { map, switchMap } from 'rxjs/operators';
 import { ApiException } from '@common/exceptions/api.exception';
 import { ApiErrorCode } from '@common/enums/api-error-code.enum';
 import * as dayjs from 'dayjs';
@@ -212,7 +212,71 @@ export class ArticleService {
     return from(this.articleRepository.find({ id }));
   }
 
-  public recommend(articleId) {}
+  public recommend(articleId) {
+    const query = this.articleRepository
+      .createQueryBuilder('article')
+      .orderBy('article.publishAt', 'DESC')
+      .leftJoinAndSelect('article.category', 'category')
+      .leftJoinAndSelect('article.tags', 'tags');
+    if (!articleId) {
+      query.where('article.status=:status').setParameter('status', 'publish');
+      return query.take(6).getMany();
+    } else {
+      const sub = this.articleRepository
+        .createQueryBuilder('article')
+        .orderBy('article.publishAt', 'DESC')
+        .leftJoinAndSelect('article.category', 'category')
+        .leftJoinAndSelect('article.tags', 'tags')
+        .where('article.id=:id')
+        .setParameter('id', articleId);
+
+      return from(sub.getOne()).pipe(
+        switchMap(exist => {
+          console.log(exist);
+          if (!exist) {
+            return query.take(6).getMany();
+          } else {
+            const { title, summary } = exist;
+
+            try {
+              const nodejieba = require('nodejieba');
+              const topN = 4;
+              const kw1 = nodejieba.extract(title, topN);
+              const kw2 = nodejieba.extract(summary, topN);
+              kw1.forEach((kw, i) => {
+                let paramKey = `title_` + i;
+                console.log(kw1, kw2, paramKey);
+
+                if (i === 0) {
+                  query.where(`article.title LIKE :${paramKey}`);
+                } else {
+                  query.orWhere(`article.title LIKE :${paramKey}`);
+                }
+                query.setParameter(paramKey, `%${kw.word}%`);
+              });
+              kw2.forEach((kw, i) => {
+                let paramKey = `title_` + i;
+                if (i === 0) {
+                  query.where(`article.title LIKE :${paramKey}`);
+                } else {
+                  query.orWhere(`article.title LIKE :${paramKey}`);
+                }
+                query.setParameter(paramKey, `%${kw.word}%`);
+              });
+            } catch (error) {}
+
+            return from(query.getMany()).pipe(
+              tap(console.log),
+              filter((d: any) => {
+                return d.id !== articleId && d.status === 'publish';
+              }),
+              tap(console.log),
+            );
+          }
+        }),
+      );
+    }
+  }
 
   /**
    * checkPassword

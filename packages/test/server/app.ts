@@ -1,21 +1,26 @@
 import express from "express";
 import next from "next";
 import { parse } from "url";
-import routes from "./routes";
 
 const dev = process.env.NODE_ENV !== "production";
 
 const app = next({ dev });
 
 const handle = app.getRequestHandler();
-const handler = routes.getRequestHandler(app);
 
 app
   .prepare()
   .then(() => {
     const server = express();
 
-    server.use(handler);
+
+    // give all Nextjs's request to Nextjs before anything else
+    server.get("/_next/*", (req, res) => {
+      // console.log('next server, page');
+      handle(req, res);
+    });
+
+    server.use(express.json());
 
     server.get("*", (req, res) => {
       const parseUrl = parse(req.url, true);

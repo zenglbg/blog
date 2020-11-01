@@ -1,10 +1,13 @@
 import Head from "next/head";
 import { NextPage, NextPageContext } from "next";
 import HomePage from "@components/home";
+import { GithubSr } from "@lib/api";
+import { from } from "rxjs";
+import { concatMap, toArray, tap, map } from "rxjs/operators";
 
 interface IHomeProps {}
 
-const Home: NextPage<IHomeProps> = () => {
+const Home: NextPage<IHomeProps> = (props) => {
   return (
     <>
       <Head>
@@ -13,13 +16,13 @@ const Home: NextPage<IHomeProps> = () => {
           rel="stylesheet"
         />
       </Head>
-      <HomePage />
+      <HomePage {...props} />
     </>
   );
 };
 Home.getInitialProps = (ctx: NextPageContext) => {
   return {
-    text: 1
-  };
+    a: 1
+  }
 };
 export default Home;

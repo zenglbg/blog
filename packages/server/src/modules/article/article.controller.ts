@@ -53,6 +53,27 @@ export class ArticleController {
   public findall(@Query() queryParams) {
     return this.articleService.findAll(queryParams);
   }
+  
+  /**
+   * getArchives
+   * 获取所有文章归档
+   */
+  @Get('archives')
+  @HttpCode(HttpStatus.OK)
+  public getArchives() {
+    return this.articleService.getArchives();
+  }
+
+  /**
+   * recommend
+   * 推荐文章
+   */
+  @Get('recommend')
+  @HttpCode(HttpStatus.OK)
+  public recommend(@Query('articleId') articleId) {
+    return this.articleService.recommend(articleId)
+  }
+
 
   /**
    * 获取指定文章
@@ -96,26 +117,6 @@ export class ArticleController {
   @HttpCode(HttpStatus.OK)
   public findArticleByTag(@Param('id') tag, @Query() queryParams) {
     return this.articleService.findArticleByTag(tag, queryParams);
-  }
-
-  /**
-   * getArchives
-   * 获取所有文章归档
-   */
-  @Get('/archives')
-  @HttpCode(HttpStatus.OK)
-  public getArchives() {
-    return this.articleService.getArchives();
-  }
-
-  /**
-   * recommend
-   * 推荐文章
-   */
-  @Get('/recommend')
-  @HttpCode(HttpStatus.OK)
-  public recommend(@Query('articleId') articleId) {
-    return this.articleService.recommend(articleId);
   }
 
   /**

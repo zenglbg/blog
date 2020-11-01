@@ -6,11 +6,11 @@ import { createFromIconfontCN } from "@ant-design/icons";
 interface IBannerProps {}
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: ["//at.alicdn.com/t/font-2154495-13dd5jlmntfr.js"],
+  scriptUrl: ["//at.alicdn.com/t/font_2154495_13dd5jlmntfr.js"],
 });
 const theme = {
   colors: {
-    primary: "#0070f3",
+    primary: "pink",
     bannerImg: require("./images/banner6.jpg"),
   },
 };

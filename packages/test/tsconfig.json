@@ -11,8 +11,9 @@
     "typeRoots": ["./node_modules/@types/*", "./typings/*"],
     "paths": {
       "*": ["node_modules/"],
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
+      "@/*": ["./*"],
+      "@lib/*": ["./lib/*"],
+      "@components/*": ["./components/*"],
       "@typings/*": ["./typings/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
