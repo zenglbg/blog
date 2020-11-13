@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Menu, Dropdown, Avatar } from "antd";
-import { UserState, IState } from "@reducer/index";
+import { UserState, IState } from "@lib/redux/reducer/index";
 
 const menus = [
   {

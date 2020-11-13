@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { Card, Input, Button, Form } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { RouteComponentProps } from "react-router-dom";
-import { ActionUser } from "@actions/index";
-import { IState } from "@reducer/index";
+import { ActionUser } from "@lib/redux/actions/index";
+import { IState } from "@lib/redux/reducer/index";
 
 interface PageDispatchProps {
   doLogin: (obj: any) => void;

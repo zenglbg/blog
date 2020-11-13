@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import { Card, Input, Button, Form, Modal } from 'antd'
 import { SmileOutlined } from '@ant-design/icons'
 
-import { IState } from '@reducer/index'
-import { ActionUser } from '@actions/index'
-import { Usersr } from '@providers/user'
+import { IState } from '@lib/redux/reducer/index'
+import { ActionUser } from '@lib/redux/actions/index'
+import { Usersr } from 'src/lib/api/user'
 
 import FormList from './child/formList'
 import Rmodal from './child/modal'

@@ -20,7 +20,7 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
 
       <IndexRecommend />
 
-      
+
       <IndexRepository />
     </Wrapper>
   );

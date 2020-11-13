@@ -12,7 +12,7 @@ export class TagApi {
    * 获取指定标签下文章
    * @param id
    */
-  static async getTagWithArticles(id, needFilter = false): Promise<ITag> {
+  static async getTagWithArticles(id, needFilter = false) {
     return api.get(
       `/tag/${id}/article`,
       needFilter
@@ -27,7 +27,7 @@ export class TagApi {
    * 添加标签
    * @param data
    */
-  static async addTag(data): Promise<ITag> {
+  static async addTag(data) {
     return api.post("/tag", data);
   }
 
@@ -35,7 +35,7 @@ export class TagApi {
    * 获取标签
    * @param id
    */
-  static async getTagById(id): Promise<ITag> {
+  static async getTagById(id) {
     return api.get(`/tag/${id}`);
   }
 
@@ -44,7 +44,7 @@ export class TagApi {
    * @param id
    * @param data
    */
-  static async updateTag(id, data): Promise<ITag> {
+  static async updateTag(id, data) {
     return api.patch(`/tag/${id}`, data);
   }
 
@@ -52,7 +52,7 @@ export class TagApi {
    * 删除标签
    * @param id
    */
-  static async deleteTag(id): Promise<ITag> {
+  static async deleteTag(id) {
     return api.delete(`/tag/${id}`);
   }
 }

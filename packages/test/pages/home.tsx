@@ -1,9 +1,6 @@
 import Head from "next/head";
 import { NextPage, NextPageContext } from "next";
 import HomePage from "@components/home";
-import { GithubSr } from "@lib/api";
-import { from } from "rxjs";
-import { concatMap, toArray, tap, map } from "rxjs/operators";
 
 interface IHomeProps {}
 

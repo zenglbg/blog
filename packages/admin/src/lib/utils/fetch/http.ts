@@ -42,7 +42,12 @@ export class Http {
         const params = Object.keys(data).reduce((acc, item) => {
           return acc ? `${acc}&${item}=${data[item]}` : `${item}=${data[item]}`;
         }, "");
-        url = url.slice(-1) === "?" ? `${url}${params}` : `${url}?${params}`;
+        console.log(params);
+        url = params
+          ? url.slice(-1) === "?"
+            ? `${url}${params}`
+            : `${url}?${params}`
+          : url;
       }
     }
 

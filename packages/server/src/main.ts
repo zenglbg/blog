@@ -40,10 +40,10 @@ async function bootstrap() {
   const { port, myApp } = config(app);
 
   app.enableCors({
-    origin: '*',
+    origin: "*",
     allowedHeaders:
       'Content-Type,Content-Length, Authorization, token, Accept,X-Requested-With',
-    methods: 'PUT,POST,GET,DELETE,OPTIONS',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   });
   app.setGlobalPrefix(myApp.adminPrefix);
   /**

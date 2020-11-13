@@ -4,7 +4,7 @@ import { Row, Col, Card, Form, Input, Button, Popconfirm, message } from "antd";
 import cls from "classnames";
 
 import style from "./index.module.scss";
-import { Tagssr } from "@providers/index";
+import { Tagssr } from "src/lib/api/index";
 
 interface ICategoryProps {}
 

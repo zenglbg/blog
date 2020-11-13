@@ -2,12 +2,10 @@
   "compilerOptions": {
     "isolatedModules": false,
     "paths": {
-      "@actions/*": ["./src/redux/actions/*"],
-      "@reducer/*": ["./src/redux/reducer/*"],
-      "@epics/*": ["./src/redux/epics/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@routes/*": ["src/routes/*"],
-      "@providers/*": ["src/providers/*"]
+      "@/*": ["./src/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@redux/*": ["./src/lib/redux/*"],
+       
     },
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true

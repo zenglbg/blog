@@ -1,8 +1,8 @@
 import { ActionsObservable, ofType } from "redux-observable";
 import { getType } from "typesafe-actions";
 import { switchMap, map } from "rxjs/operators";
-import { ActionArticle } from "@actions/index";
-import { Articlesr } from "@providers/index";
+import { ActionArticle } from "@lib/redux/actions/index";
+import { Articlesr } from "@lib/api";
 
 export const getArticleEpics = (action$: ActionsObservable<any>) => {
   return action$.pipe(

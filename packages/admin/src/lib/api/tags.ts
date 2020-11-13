@@ -1,4 +1,4 @@
-import { Http } from '@utils/fetch/http'
+import { Http } from '@lib/utils/fetch/http'
 
 export class Tagssr {
 

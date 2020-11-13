@@ -23,12 +23,8 @@ module.exports = {
 
     addWebpackAlias({
       ["@"]: "src",
-      ["@actions"]: "src/redux/actions",
-      ["@reducer"]: "src/redux/reducer",
-      ["@epics"]: "src/redux/epics",
-      ["@utils"]: "src/utils",
-      ["@routes"]: "src/routes",
-      ["@providers"]: "src/providers"
+      ['@lib']: "src/lib",
+      ["@redux"]: "src/lib/redux",
     }),
     addThread(),
     removePre(),

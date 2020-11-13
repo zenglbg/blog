@@ -1,4 +1,4 @@
-import { ActionArticle } from "@actions/index";
+import { ActionArticle } from "@lib/redux/actions";
 import { PayloadAction, getType } from "typesafe-actions";
 
 

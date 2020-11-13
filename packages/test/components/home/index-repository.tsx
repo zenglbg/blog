@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { concatMap, toArray, tap, map } from "rxjs/operators";
 import { GithubApi } from "@lib/api";
 import { from } from "rxjs";
-import { concatMap, toArray, tap } from "rxjs/operators";
 import githubSvg from "./images/github.svg";
 
 const Wrapper = styled.div`
@@ -55,11 +55,9 @@ const ReposLi = styled.div`
     transition: all 0.5s;
   }
   &::before {
-
     z-index: 1;
   }
   &::after {
-
     z-index: 2;
   }
   .li-content {
@@ -137,13 +135,20 @@ const Repository: React.FunctionComponent<IRepositoryProps> = (props) => {
     const user = "zenglbg";
     from(GithubApi.getRepos(user))
       .pipe(
+        map((res) => {
+          if (res && res.status === 200) return res["data"];
+        }),
         concatMap((res) => res),
-        concatMap((data) => GithubApi.getRepoInfo({ user, repo: data.name })),
-        toArray()
-        // tap((res) => console.log(res, `tap(res=>console.log`))
+        // tap((res) => console.log(res, `tap(res=>console.log`)),
+
+        concatMap((data: any) =>
+          GithubApi.getRepoInfo({ user, repo: data.name })
+        ),
+        toArray(),
+        tap((res) => console.log(res, `tap(res=>console.log`))
       )
-      .subscribe((repos) => {
-        const colors = repos.map((repo) => {
+      .subscribe((articles: any[]) => {
+        const colors = articles.map((repo) => {
           return (
             "#" +
             ("00000" + ((Math.random() * 0x1000000) << 0).toString(16)).substr(
@@ -152,7 +157,7 @@ const Repository: React.FunctionComponent<IRepositoryProps> = (props) => {
           );
         });
         setColors(colors);
-        setRepos(repos);
+        setRepos(articles);
       });
   }, []);
 
@@ -166,7 +171,7 @@ const Repository: React.FunctionComponent<IRepositoryProps> = (props) => {
       <div className="repos-list">
         {repos.map((repo, index) => {
           return (
-            <ReposLi key={repo.full_name} color={colors[index]}>
+            <ReposLi key={index} color={colors[index]}>
               <div className="li-content">
                 <h2 className="title">{repo.name}</h2>
                 <p className="desc">{repo.description}</p>

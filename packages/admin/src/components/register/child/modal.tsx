@@ -1,6 +1,6 @@
 import React from "react";
 import { Input,   Form, Modal } from "antd";
-import { ValidatorUtils } from "@utils/validate";
+import { ValidatorUtils } from "src/lib/utils/validate";
 import { SmileOutlined } from "@ant-design/icons";
 
 export default function Rmodal({

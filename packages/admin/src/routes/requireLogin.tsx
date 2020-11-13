@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import store from "../redux";
+import store from "../lib/redux";
 interface Props {}
 
 export default function (Component) {

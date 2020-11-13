@@ -1,13 +1,9 @@
 import * as React from "react";
 import styled, { ThemeProvider } from "styled-components";
-
-import { createFromIconfontCN } from "@ant-design/icons";
+import IconFont from "@common/icon-font";
 
 interface IBannerProps {}
 
-const IconFont = createFromIconfontCN({
-  scriptUrl: ["//at.alicdn.com/t/font_2154495_13dd5jlmntfr.js"],
-});
 const theme = {
   colors: {
     primary: "pink",

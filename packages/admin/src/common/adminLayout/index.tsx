@@ -6,8 +6,8 @@ import { DispatchProp } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Menu, Layout, Dropdown, Button, Row, Col } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
-import { IState } from "@reducer/index";
-import { ActionArticle } from "@actions/index";
+import { IState } from "@lib/redux/reducer/index";
+import { ActionArticle } from "@lib/redux/actions/index";
 import { menus } from "../../routes/config";
 
 import { UserInfo } from "./index-user";

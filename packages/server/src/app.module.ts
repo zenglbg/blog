@@ -14,6 +14,9 @@ import { UserModule } from './modules/user/user.module';
 // 文章
 import { ArticleModule } from './modules/article/article.module';
 
+// 页面
+import { PageModule } from './modules/page/page.module'
+
 // 分类
 import { CategoryModule } from './modules/category/category.module';
 
@@ -40,6 +43,7 @@ import { FileModule } from './modules/file/file.module'
     orm(),
     AuthModule,
     UserModule,
+    PageModule,
     CategoryModule,
     TagsModule,
     ArticleModule,

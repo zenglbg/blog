@@ -5,12 +5,11 @@ import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, Link } from "react-router-dom";
 import { of } from "rxjs";
 
-import { AndroidOutlined } from "@ant-design/icons";
 
 import SPTDataTable from "../../common/SPTDataTable";
-import { ActionArticle } from "@actions/index";
-import { IState } from "@reducer/index";
-import { Articlesr, Categorysr, Tagssr } from "@providers/index";
+import { ActionArticle } from "@lib/redux/actions/index";
+import { IState } from "@lib/redux/reducer/index";
+import { Articlesr, Categorysr, Tagssr } from "src/lib/api/index";
 
 interface IArticleProps {}
 

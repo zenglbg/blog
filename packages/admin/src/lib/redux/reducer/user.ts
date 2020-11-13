@@ -1,5 +1,5 @@
 import { getType } from "typesafe-actions";
-import { ActionUser } from "@actions/index";
+import { ActionUser } from "@lib/redux/actions";
 
 export interface IUserState {
   name: string;

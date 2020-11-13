@@ -9,8 +9,8 @@ import React, {
 import * as dayjs from "dayjs";
 import { Select, Badge, Divider, message } from "antd";
 import { connect } from "react-redux";
-import { IState } from "@reducer/index";
-import { Usersr } from "@providers/user";
+import { IState } from "@lib/redux/reducer/index";
+import { Usersr } from "src/lib/api/user";
 import SPTDataTable from "../../common/SPTDataTable";
 import { from } from "rxjs";
 import {

@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import { RouteComponentProps, Link } from "react-router-dom";
 import { StarOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
-import { IState } from "@reducer/index";
-import { ActionUser } from "@actions/index";
-import { Articlesr } from "@providers/index";
+import { IState } from "@lib/redux/reducer/index";
+import { ActionUser } from "@lib/redux/actions/index";
+import { Articlesr } from "src/lib/api/index";
 
 import style from "./index.module.scss";
 

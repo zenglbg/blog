@@ -19,6 +19,7 @@ const admin_register = loadable(() => import("../components/register"));
 const admin_home = loadable(() => import("../components/home"));
 const admin_article = loadable(() => import("../components/article"));
 const admin_editor = loadable(() => import("../components/editor"));
+const admin_page = loadable(() => import("../components/page"));
 const admin_category = loadable(() => import("../components/category"));
 const admin_tags = loadable(() => import("../components/tags"));
 const admin_user = loadable(() => import("../components/user"));
@@ -210,12 +211,12 @@ export const routes = [
     exact: true,
     menu: true,
     layout: true,
-    component: admin_editor,
+    component: admin_page,
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
-    label: "新建文章",
-    path: "/editor/article",
+    label: "新建页面",
+    path: "/editor/page",
     ignore: true,
     icon: "form",
     exact: true,

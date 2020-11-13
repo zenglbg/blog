@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Usersr } from "@providers/index";
+import { Usersr } from "src/lib/api/index";
 import { map, withLatestFrom, switchMap, tap } from "rxjs/operators";
 import { message } from "antd";
 import { useObservableState } from "observable-hooks";

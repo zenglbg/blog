@@ -8,9 +8,9 @@ import { connect, DispatchProp } from "react-redux";
 import MDEditor from "../../common/editor";
 import ArticleSetting from "./index-publish";
 
-import { IState } from "@reducer/index";
-import { Articlesr } from "@providers/article";
-import { ActionArticle } from "@actions/index";
+import { IState } from "@lib/redux/reducer/index";
+import { Articlesr } from "src/lib/api/article";
+import { ActionArticle } from "@lib/redux/actions/index";
 
 interface IArticleProps {}
 

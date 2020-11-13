@@ -1,7 +1,7 @@
 import React from "react";
 import { Input, Button,   Form } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
-import { ValidatorUtils } from "@utils/validate";
+import { ValidatorUtils } from "src/lib/utils/validate";
 
 export default function FomrList({
   get_validate_code,

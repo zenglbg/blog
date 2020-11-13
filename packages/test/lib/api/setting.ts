@@ -1,5 +1,5 @@
- 
-import { api } from '@lib/utils/fetch/api';
+import { Http } from "@lib/utils/fetch/http";
+import { api } from "@lib/utils/fetch/api";
 
 export class SettingApi {
   /**

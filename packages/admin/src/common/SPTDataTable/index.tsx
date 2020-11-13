@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 
 import Search from "../Search";
 import Pagination from "../Pagination";
-import { IState } from "@reducer/index";
+import { IState } from "@lib/redux/reducer/index";
 
 interface ISPTDataTableProps {
   data: Array<any>;
