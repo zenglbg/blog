@@ -16,7 +16,7 @@ export class PageService {
   create(page: Partial<Page>) {
     const { name, path } = page;
 
-    from(this.pageRepository.findOne({ where: { path } })).pipe(
+    return from(this.pageRepository.findOne({ where: { path } })).pipe(
       switchMap(exist => {
         if (exist) {
           throw new HttpException('页面已存在', HttpStatus.BAD_REQUEST);

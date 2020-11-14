@@ -1,4 +1,18 @@
 import loadable from "@loadable/component";
+import {
+  DashboardFilled,
+  FormatPainterFilled,
+  CopyFilled,
+  TagFilled,
+  SnippetsFilled,
+  MessageFilled,
+  MailFilled,
+  FolderFilled,
+  SearchOutlined,
+  ProjectFilled,
+  UserOutlined,
+  SettingFilled,
+} from "@ant-design/icons";
 export interface IRoutes {
   title?: string;
   component?: any;
@@ -15,18 +29,20 @@ export interface IRoutes {
 const AdminLayout = loadable(() => import("../common/adminLayout"));
 const admin_login = loadable(() => import("../components/login"));
 const admin_register = loadable(() => import("../components/register"));
+const editor_article = loadable(() => import("../components/editor"));
+const editor_page = loadable(() => import("../components/page"));
 
 const admin_home = loadable(() => import("../components/home"));
+const admin_pages = loadable(() => import("../components/pages"));
 const admin_article = loadable(() => import("../components/article"));
-const admin_editor = loadable(() => import("../components/editor"));
-const admin_page = loadable(() => import("../components/page"));
+
 const admin_category = loadable(() => import("../components/category"));
 const admin_tags = loadable(() => import("../components/tags"));
 const admin_user = loadable(() => import("../components/user"));
 
 export const menus = [
   {
-    icon: "dashboard",
+    icon: DashboardFilled,
     path: "/admin/home",
     label: "工作台",
     title: "工作台",
@@ -39,7 +55,7 @@ export const menus = [
     divider: true,
   },
   {
-    icon: "form",
+    icon: FormatPainterFilled,
     label: "所有文章",
     title: "所有文章",
     path: "/admin/article",
@@ -50,7 +66,7 @@ export const menus = [
   },
 
   {
-    icon: "copy",
+    icon: CopyFilled,
     label: "分类管理",
     title: "分类管理",
     path: "/admin/article/category",
@@ -60,7 +76,7 @@ export const menus = [
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
-    icon: "tag",
+    icon: TagFilled,
     label: "标签管理",
     title: "标签管理",
     path: "/admin/article/tags",
@@ -73,40 +89,21 @@ export const menus = [
     divider: true,
   },
   {
-    icon: "snippets",
+    icon: SnippetsFilled,
     label: "所有页面",
     title: "所有页面",
     path: "/admin/page",
     exact: true,
     menu: true,
-    component: admin_home,
+    component: admin_pages,
     beforeEnter: (routeProps, extraProps) => {},
   },
-  {
-    label: "新建页面",
-    path: "/admin/page/editor",
-    ignore: true,
-    icon: "dashboard",
-    exact: true,
-    menu: true,
-    component: admin_home,
-    beforeEnter: (routeProps, extraProps) => {},
-  },
-  {
-    label: "编辑页面",
-    path: "/admin/page/editor/[id]",
-    ignore: true,
-    icon: "dashboard",
-    exact: true,
-    menu: true,
-    component: admin_home,
-    beforeEnter: (routeProps, extraProps) => {},
-  },
+
   {
     divider: true,
   },
   {
-    icon: "message",
+    icon: MessageFilled,
     label: "评论管理",
     title: "评论管理",
     path: "/admin/comment",
@@ -116,7 +113,7 @@ export const menus = [
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
-    icon: "mail",
+    icon: MailFilled,
     label: "邮件管理",
     title: "邮件管理",
     path: "/admin/mail",
@@ -126,7 +123,7 @@ export const menus = [
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
-    icon: "folder-open",
+    icon: FolderFilled,
     label: "文件管理",
     title: "文件管理",
     path: "/admin/file",
@@ -139,7 +136,7 @@ export const menus = [
     divider: true,
   },
   {
-    icon: "search",
+    icon: SearchOutlined,
     label: "搜索记录",
     title: "搜索记录",
     path: "/admin/search",
@@ -150,7 +147,7 @@ export const menus = [
   },
 
   {
-    icon: "project",
+    icon: ProjectFilled,
     label: "访问统计",
     title: "访问统计",
     path: "/admin/view",
@@ -163,9 +160,9 @@ export const menus = [
     divider: true,
   },
   {
+    icon: UserOutlined,
     label: "个人中心",
     title: "个人中心",
-    icon: "user",
     path: "/admin/ownspace",
     ignore: true,
     exact: true,
@@ -174,7 +171,7 @@ export const menus = [
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
-    icon: "user",
+    icon: UserOutlined,
     label: "用户管理",
     title: "用户管理",
     path: "/admin/user",
@@ -185,7 +182,7 @@ export const menus = [
   },
 
   {
-    icon: "setting",
+    icon: SettingFilled,
     label: "系统设置",
     title: "系统设置",
     path: "/admin/setting",
@@ -195,6 +192,8 @@ export const menus = [
     beforeEnter: (routeProps, extraProps) => {},
   },
 ];
+
+
 export const admins = menus.filter((item) => item.path);
 
 export const routes = [
@@ -205,13 +204,13 @@ export const routes = [
   },
   {
     label: "新建页面",
-    path: "/editor/page",
+    path: "/editor/page/:id",
     ignore: true,
     icon: "form",
     exact: true,
     menu: true,
     layout: true,
-    component: admin_page,
+    component: editor_page,
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
@@ -222,18 +221,29 @@ export const routes = [
     exact: true,
     menu: true,
     layout: true,
-    component: admin_editor,
+    component: editor_page,
     beforeEnter: (routeProps, extraProps) => {},
   },
   {
     label: "编辑文章",
-    path: "/editor/article/[id]",
+    path: "/editor/article",
     ignore: true,
     icon: "form",
     title: "所有文章",
     exact: true,
     menu: true,
-    component: admin_editor,
+    component: editor_article,
+    beforeEnter: (routeProps, extraProps) => {},
+  },
+  {
+    label: "编辑文章",
+    path: "/editor/article/:id",
+    ignore: true,
+    icon: "form",
+    title: "所有文章",
+    exact: true,
+    menu: true,
+    component: editor_article,
     beforeEnter: (routeProps, extraProps) => {},
   },
   {

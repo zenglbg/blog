@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { DispatchProp } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Menu, Layout, Dropdown, Button, Row, Col } from "antd";
-import { SmileOutlined } from "@ant-design/icons";
+import { GithubFilled, SmileFilled } from "@ant-design/icons";
 import { IState } from "@lib/redux/reducer/index";
 import { ActionArticle } from "@lib/redux/actions/index";
 import { menus } from "../../routes/config";
@@ -22,7 +22,7 @@ const findActiveMenu = (pathname) => {
   return menus.find((menu) => menu.path === pathname);
 };
 
-const ResourceCreate = ({handleArticle}) => {
+const ResourceCreate = ({ handleArticle }) => {
   const menu = (
     <Menu>
       <Menu.Item>
@@ -44,7 +44,7 @@ const ResourceCreate = ({handleArticle}) => {
         style={{ width: "100%" }}
         type="primary"
         size="large"
-        icon={<SmileOutlined />}
+        icon={<SmileFilled />}
       >
         新建
       </Button>
@@ -84,12 +84,13 @@ const AdminLayout: React.FunctionComponent<
               {menus
                 .filter((m: any) => !m.ignore)
                 .map((menu, index) => {
+                  const Icon = menu.icon;
                   return menu.divider ? (
                     <div className="divider" key={`${index}adminlayout`}></div>
                   ) : (
                     <li key={`${index}adminlayout`}>
                       <Link to={menu.path} className="active">
-                        <SmileOutlined type={menu.icon} />
+                        <Icon />
                         <span>{menu.label}</span>
                       </Link>
                     </li>
@@ -112,7 +113,7 @@ const AdminLayout: React.FunctionComponent<
                     href="https://github.com/zhxuc/wipi"
                     target="_blank"
                   >
-                    <SmileOutlined type="github" />
+                    <GithubFilled />
                     <span></span>
                   </a>
                   <UserInfo

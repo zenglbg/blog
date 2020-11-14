@@ -40,7 +40,7 @@ export const api: AxiosInstance = axios.create({
     process.env.REACT_APP_ENV === "production"
       ? "/api"
       : "http://localhost:9999/api", // 测试环境
-  withCredentials: true,
+  withCredentials: false,
   headers: {
     post: {
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
