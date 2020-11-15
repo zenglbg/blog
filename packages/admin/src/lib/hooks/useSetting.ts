@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { SettingApi } from '@lib/api';
+import React, { useEffect, useState } from "react";
+import { SettingApi } from "@lib/api";
 
 export const useSetting = () => {
   const [value, setValue] = useState<any>({});
 
   useEffect(() => {
-    SettingApi.getSetting().then(res => {
-      setValue(res);
+    SettingApi.getSetting().subscribe((res) => {
+      if (res.success) {
+        setValue(res.data);
+      }
     });
   }, []);
 

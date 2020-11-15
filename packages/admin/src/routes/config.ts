@@ -39,6 +39,7 @@ const admin_article = loadable(() => import("../components/article"));
 const admin_category = loadable(() => import("../components/category"));
 const admin_tags = loadable(() => import("../components/tags"));
 const admin_user = loadable(() => import("../components/user"));
+const admin_setting = loadable(() => import("../components/setting"));
 
 export const menus = [
   {
@@ -188,7 +189,7 @@ export const menus = [
     path: "/admin/setting",
     exact: true,
     menu: true,
-    component: admin_home,
+    component: admin_setting,
     beforeEnter: (routeProps, extraProps) => {},
   },
 ];

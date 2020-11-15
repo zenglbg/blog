@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+const Wrapper = styled.div``;
 
 import IndexBanner from "./index-banner";
 import IndexNotice from "./index-notice";
@@ -10,7 +11,7 @@ interface IHomeProps {}
 
 const Home: React.FunctionComponent<IHomeProps> = (props) => {
   useEffect(() => {
-    console.log(props);
+    console.log(props,`propspropspropsprops`);
   }, []);
   return (
     <Wrapper>
@@ -26,5 +27,4 @@ const Home: React.FunctionComponent<IHomeProps> = (props) => {
   );
 };
 
-const Wrapper = styled.div``;
 export default Home;

@@ -145,7 +145,7 @@ const Repository: React.FunctionComponent<IRepositoryProps> = (props) => {
           GithubApi.getRepoInfo({ user, repo: data.name })
         ),
         toArray(),
-        tap((res) => console.log(res, `tap(res=>console.log`))
+        // tap((res) => console.log(res, `tap(res=>console.log`))
       )
       .subscribe((articles: any[]) => {
         const colors = articles.map((repo) => {

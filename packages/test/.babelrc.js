@@ -2,6 +2,13 @@ module.exports = {
   "presets": ["next/babel"],
   "plugins": [
     ["babel-plugin-styled-components", { "ssr": true, "pure": true }],
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": true
+      }
+    ]
     // [
     //   "babel-plugin-transform-imports",
     //   {

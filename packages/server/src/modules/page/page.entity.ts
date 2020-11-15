@@ -40,6 +40,9 @@ export class Page extends Base {
   @Column('simple-enum', { enum: ['draft', 'publish'], comment: '页面状态' })
   status: string;
 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  publishAt: Date; // 发布日期
+
  
   @Column({ type: 'int', default: 0, comment: '阅读量' })
   views: number;

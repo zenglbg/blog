@@ -38,6 +38,7 @@ const Home: React.FunctionComponent<Props & RouteComponentProps> = ({
   const handleClick = () => {
     history.push("/login");
   };
+  
   return (
     <div className={style.recentArticle}>
       <div className={style.title}>

@@ -1,6 +1,6 @@
-import "../styles/globals.css";
+import "../styles/globals.less";
 import App, { AppProps, AppContext } from "next/app";
-import { SettingApi, CategoryApi, TagApi } from "@lib/api";
+import { SettingApi, CategoryApi, TagApi, PageApi } from "@lib/api";
 import Layout from "@common/layout";
 import Header from "@/common/header";
 
@@ -35,15 +35,14 @@ MyApp.getInitialProps = async function (appContext: AppContext) {
     SettingApi.getSetting(),
     TagApi.getTags({ articleStatus: "publish" }),
     CategoryApi.getCategory({ articleStatus: "publish" }),
-    CategoryApi.getCategory({ articleStatus: "publish" }),
+    PageApi.getPages({ status: "publish" }),
   ]);
-  console.log(setting, categories, tags);
   return {
     ...appProps,
     setting,
     categories,
     tags,
-    pages: [],
+    pages,
   };
 };
 
