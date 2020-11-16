@@ -64,6 +64,13 @@ export class ArticleController {
     return this.articleService.getArchives();
   }
 
+  @Get('love')
+  @HttpCode(HttpStatus.OK)
+  public getLove()
+  {
+    return this.articleService.getLove()
+  }
+
   /**
    * recommend
    * 推荐文章

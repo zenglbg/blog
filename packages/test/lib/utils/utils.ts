@@ -1,3 +1,4 @@
+import { ThemedStyledFunction, StyledFunction } from "styled-components";
 
 export function timetrans(time) {
   var date = new Date(time);
@@ -36,4 +37,18 @@ export function debounce(fn, gapTime) {
       _lastTime = _nowTime;
     }
   };
+}
+
+export function withProps<U>() {
+  return <P, T, O>(
+    fn: ThemedStyledFunction<P, T, O>
+  ): ThemedStyledFunction<P & U, T, O & U> => fn;
+}
+export function styledComponentWithProps<
+  T,
+  U extends HTMLElement = HTMLElement
+>(
+  styledFunction: StyledFunction<React.HTMLProps<U>>
+): StyledFunction<T & React.HTMLProps<U>> {
+  return styledFunction;
 }

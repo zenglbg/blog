@@ -158,6 +158,14 @@ export class ArticleService {
     return this.queryMiddle(query, queryParams);
   }
 
+  public getLove() {
+    const query = this.articleRepository
+      .createQueryBuilder('article')
+      .orderBy('article.views', 'DESC')
+      .limit(7);
+
+    return query.getMany();
+  }
   /**
    * getArchives
    *

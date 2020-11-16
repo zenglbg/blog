@@ -54,6 +54,8 @@ const Wrapper = styled.div`
       overflow: hidden;
       .info-time {
         text-align: right;
+        color: var(--second-text-color);
+
       }
 
       .info-title {

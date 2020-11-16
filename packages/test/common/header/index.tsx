@@ -10,7 +10,7 @@ const Wrapper = styled.header`
   top: 0;
   border-bottom: 1px solid var(--border-color);
   background-color: var(--bg);
-  z-index: 1;
+  z-index: 9999;
 
   &.isFixed {
     position: fixed;

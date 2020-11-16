@@ -13,6 +13,9 @@ export class ArticleApi {
     return api.get("/article", { params });
   }
 
+  static getLove(): Promise<IArticle[]> {
+    return api.get("/article/love");
+  }
   /**
    * 获取分类所有文章
    * @param category

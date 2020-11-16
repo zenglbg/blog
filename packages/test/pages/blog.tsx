@@ -2,7 +2,11 @@ import { NextPage, NextPageContext } from "next";
 import BlogPage from "@components/blog";
 import { ArticleApi } from "@lib/api";
 
-interface IBlogProps {}
+interface IBlogProps {
+  articles: IArticle[];
+  loveList: IArticle[]
+  total: number;
+}
 const pageSize = 12;
 
 const Blog: NextPage<IBlogProps> = (props) => {
@@ -10,15 +14,20 @@ const Blog: NextPage<IBlogProps> = (props) => {
 };
 
 Blog.getInitialProps = async (ctx: NextPageContext) => {
-  const { data, total } = await ArticleApi.getArticles({
-    page: 1,
-    pageSize,
-    status: "publish",
-  });
+  const [articleList, loveList] = await Promise.all([
+    ArticleApi.getArticles({
+      page: 1,
+      pageSize,
+      status: "publish",
+    }),
+    ArticleApi.getLove()
+  ]);
+  const { data, total } = articleList;
 
   return {
     articles: data,
     total,
+    loveList,
     needLayoutFooter: false,
   };
 };
