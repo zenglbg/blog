@@ -21,5 +21,6 @@ import { UserModule } from '@modules/user/user.module';
   ],
   providers: [ArticleService],
   controllers: [ArticleController],
+  exports: [ArticleService]
 })
 export class ArticleModule {}

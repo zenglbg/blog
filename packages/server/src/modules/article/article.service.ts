@@ -204,6 +204,16 @@ export class ArticleService {
     );
   }
 
+  public search(keyword) {
+    return this.articleRepository
+      .createQueryBuilder('article')
+      .where('article.title LIKE :keyword')
+      .orWhere('article.summary LIKE :keyword')
+      .orWhere('article.content LIKE :keyword')
+      .setParameter('keyword', `%${keyword}%`)
+      .getMany();
+  }
+
   /**
    * getArticleById
    *

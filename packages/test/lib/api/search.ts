@@ -1,10 +1,9 @@
- 
-import { api } from '@lib/utils/fetch/api';
+import { api } from "@lib/utils/fetch/api";
 
 export class SearchApi {
-  static async searchArticles(keyword): Promise<IArticle[]> {
+  static searchArticles(keyword): Promise<IArticle[]> {
     return api.get("/search/article", {
-      params: { keyword }
+      params: { keyword },
     });
   }
 

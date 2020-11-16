@@ -11,6 +11,7 @@ const Wrapper = styled.div`
     margin: 0 auto 20px;
     padding: 16px 20px;
     width: 100%;
+    height: 16.5rem;
     overflow: hidden;
     border-radius: 0.25rem;
     box-shadow: var(--box-shadow);
@@ -23,9 +24,19 @@ const Wrapper = styled.div`
     flex-direction: row;
     align-items: stretch;
 
+    &:nth-of-type(2n) {
+      flex-direction: row-reverse;
+      .info-wrapper {
+        .info-time,
+        .info-title {
+          text-align: left;
+        }
+      }
+    }
+
     .img-wrapper {
       flex: 0 0 auto;
-      width: 220px;
+      width: 22rem;
       margin-right: 1rem;
       border-radius: var(--border-radius);
       overflow: hidden;
@@ -41,31 +52,34 @@ const Wrapper = styled.div`
     .info-wrapper {
       flex: 1;
       overflow: hidden;
+      .info-time {
+        text-align: right;
+      }
+
       .info-title {
+        text-align: right;
         position: relative;
         color: var(--main-text-color);
         font-weight: 600;
         font-size: 20px;
         line-height: 1.4;
-        text-align: left;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
       .info-desc {
         max-width: 100%;
-        font-size: 14px;
-        margin: 0;
-        color: var(--second-text-color);
-
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        font-size: 0.8rem;
+        max-height: 6em;
         overflow: hidden;
+        margin-top: 1rem;
+        color: var(--second-text-color);
+        text-overflow: ellipsis;
       }
 
       .info-meta {
         width: 100%;
-        margin: 1rem 0 0;
+        margin: 0.5rem 0 0;
         font-size: 14px;
         color: var(--second-text-color);
         clear: both;
@@ -105,8 +119,11 @@ const ArticleList: React.FunctionComponent<IArticleListProps> = ({
               {article.cover ? <img src={article.cover} alt="" /> : null}
             </div>
             <div className="info-wrapper">
+              <p className="info-time">
+                <IconFont type="icon-time" />
+                {dayjs(article.publishAt).format(`YYYY-MM-DD HH:mm:ss`)}
+              </p>
               <p className="info-title">{article.title}</p>
-              <p className="info-desc">{article.summary}</p>
               <div className="info-meta">
                 {article.category ? (
                   <>
@@ -119,12 +136,13 @@ const ArticleList: React.FunctionComponent<IArticleListProps> = ({
                   <IconFont type="icon-Views" />
                   {article.views} 次阅读
                 </span>
-
-                <span className="pullRight">
-                  <IconFont type="icon-time" />
-                  {dayjs(article.publishAt).format(`YYYY-MM-DD HH:mm:ss`)}
-                </span>
               </div>
+              <div
+                className="info-desc"
+                dangerouslySetInnerHTML={{
+                  __html: article.content,
+                }}
+              ></div>
             </div>
           </div>
         );

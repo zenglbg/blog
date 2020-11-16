@@ -37,6 +37,7 @@ import { orm } from './modules/database/database.module';
 
 // 文件
 import { FileModule } from './modules/file/file.module'
+import { SearchModule } from '@modules/search/search.module';
 @Module({
   imports: [
     configModule(),
@@ -44,6 +45,7 @@ import { FileModule } from './modules/file/file.module'
     AuthModule,
     UserModule,
     PageModule,
+    SearchModule,
     CategoryModule,
     TagsModule,
     ArticleModule,

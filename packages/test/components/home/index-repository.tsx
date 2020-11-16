@@ -42,6 +42,8 @@ const ReposLi = styled.div`
   background-color: #fff;
   position: relative;
   height: 200px;
+  max-width: 44.25rem;
+  margin: 0 auto;
 
   &::before,
   &::after {
@@ -144,7 +146,7 @@ const Repository: React.FunctionComponent<IRepositoryProps> = (props) => {
         concatMap((data: any) =>
           GithubApi.getRepoInfo({ user, repo: data.name })
         ),
-        toArray(),
+        toArray()
         // tap((res) => console.log(res, `tap(res=>console.log`))
       )
       .subscribe((articles: any[]) => {

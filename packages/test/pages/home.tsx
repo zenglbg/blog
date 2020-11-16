@@ -1,9 +1,11 @@
 import Head from "next/head";
 import { NextPage, NextPageContext } from "next";
 import HomePage from "@components/home";
+import { ArticleApi } from "@lib/api";
 
-interface IHomeProps {}
-
+interface IHomeProps {
+  articles: IArticle[];
+}
 const Home: NextPage<IHomeProps> = (props) => {
   return (
     <>
@@ -17,9 +19,11 @@ const Home: NextPage<IHomeProps> = (props) => {
     </>
   );
 };
-Home.getInitialProps = (ctx: NextPageContext) => {
+Home.getInitialProps = async (ctx: NextPageContext) => {
+  const articles = await ArticleApi.getRecommend();
+
   return {
-    a: 1
-  }
+    articles,
+  };
 };
 export default Home;

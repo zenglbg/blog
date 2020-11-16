@@ -1,7 +1,9 @@
 import { Drawer, Input } from "antd";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+
 import { SearchOutlined } from "@ant-design/icons";
+
 const Wrapper = styled.div`
   position: fixed;
   right: 6rem;
@@ -10,12 +12,13 @@ const Wrapper = styled.div`
   transform: translateY(-50%);
 `;
 
-interface IHeaderInputProps {}
+interface IHeaderInputProps {
+  onSearch: Function;
+}
 
-const HeaderInput: React.FunctionComponent<IHeaderInputProps> = (props) => {
-  const [articles, setArticles] = useState<IArticle[] | null>([]);
-  const [keyword, setKeyword] = useState("");
-
+const HeaderInput: React.FunctionComponent<IHeaderInputProps> = ({
+  onSearch,
+}) => {
   return (
     <Wrapper>
       <Input
@@ -23,6 +26,7 @@ const HeaderInput: React.FunctionComponent<IHeaderInputProps> = (props) => {
         size="large"
         prefix={<SearchOutlined />}
         allowClear
+        onChange={(e) => onSearch(e.target.value)}
       />
     </Wrapper>
   );

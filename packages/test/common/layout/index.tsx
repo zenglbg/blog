@@ -5,8 +5,9 @@ import Header from "@common/header";
 import { HomeFilled, EditFilled, FileZipFilled } from "@ant-design/icons";
 import SearchBox from "./search-box";
 import ThemeToggle from "./theme-toggle";
-import DrawerBox from './drawer-box'
-
+import DrawerBox from "./drawer-box";
+import { ArticleApi, SearchApi } from "@lib/api";
+import { debounce } from "lodash";
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,6 +46,7 @@ const defaultMenus = [
     icon: FileZipFilled,
   },
 ];
+
 const Layout: React.FunctionComponent<ILayoutProps> = ({
   children,
   setting = {},
@@ -59,6 +61,16 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({
       icon: r.icon,
     })),
   ];
+
+  const [searchList, setSearchList] = useState<IArticle[] | null>([]);
+  const [keyword, setKeyword] = useState(null)
+  const onSearch = debounce((keyword) => {
+    setKeyword(keyword)
+    SearchApi.searchArticles(keyword).then((data) => {
+      return setSearchList(data);
+    });
+  }, 200);
+
   return (
     <Wrapper>
       <Helmet>
@@ -75,12 +87,10 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({
 
       <main className="main-container">{children}</main>
 
-
-      <SearchBox />
-      <DrawerBox />
+      <SearchBox onSearch={onSearch} />
+      <DrawerBox searchList={searchList} keyword={keyword} />
 
       <ThemeToggle />
-
 
       {needLayoutFooter ? <footer></footer> : null}
     </Wrapper>
