@@ -9,8 +9,7 @@ export class ArticleApi {
     pageSize: number;
     status: string;
     [key: string]: any;
-  }): Promise<[IArticle[], number]>  {
-    console.log(params);
+  }): Promise<{ data: IArticle[]; total: number }> {
     return api.get("/article", { params });
   }
 
