@@ -1,41 +1,49 @@
-import type { AppProps, AppContext } from "next/app";
-import App from "next/app";
-import Layout from "@components/common/layout";
+import "../styles/globals.less";
+import App, { AppProps, AppContext } from "next/app";
+import { SettingApi, CategoryApi, TagApi, PageApi } from "@lib/api";
+import Layout from "@common/layout";
+import Header from "@/common/header";
 
-import "@/theme/antd.less";
-import "@/theme/reset.scss";
-import "@/theme/markdown.scss";
-import "@/theme/root.scss";
-import {
-  ArticleApi,
-  TagApi,
-  CategoryApi,
-} from "@/services/index";
-
-function MyApp({
+const MyApp = ({
   Component,
   pageProps,
+  setting,
+  pages,
   tags,
   categories,
-}: AppProps & { [key: string]: any }) {
+}: AppProps & {
+  [key: string]: any;
+}) => {
   const { needLayoutFooter = true } = pageProps;
 
   return (
-    <Layout needFooter={needLayoutFooter}>
-      <Component {...pageProps} tags={tags} categories={categories} />
+    <Layout setting={setting} pages={pages} needLayoutFooter={needLayoutFooter}>
+      <Component
+        {...pageProps}
+        setting={setting}
+        tags={tags}
+        categories={categories}
+        pages={pages}
+      />
     </Layout>
   );
-}
+};
 
-MyApp.getInitialProps = async (AppContext: AppContext) => {
-  const [appProps, tags, categories] = await Promise.all([
-    App.getInitialProps(AppContext),
-    // SettingProvider.getSetting(),
+MyApp.getInitialProps = async function (appContext: AppContext) {
+  const [appProps, setting, categories, tags, pages] = await Promise.all([
+    App.getInitialProps(appContext),
+    SettingApi.getSetting(),
     TagApi.getTags({ articleStatus: "publish" }),
     CategoryApi.getCategory({ articleStatus: "publish" }),
-    // PageProvider.getAllPublisedPages(),
+    PageApi.getPages({ status: "publish" }),
   ]);
-  return { ...appProps, tags, categories };
+  return {
+    ...appProps,
+    setting,
+    categories,
+    tags,
+    pages,
+  };
 };
 
 export default MyApp;

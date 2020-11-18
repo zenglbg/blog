@@ -11,8 +11,10 @@
     "typeRoots": ["./node_modules/@types/*", "./typings/*"],
     "paths": {
       "*": ["node_modules/"],
-      "@/*": ["./src/*"],
-      "@components/*": ["./src/components/*"],
+      "@/*": ["./*"],
+      "@lib/*": ["./lib/*"],
+      "@components/*": ["./components/*"],
+      "@common/*": ["./common/*"],
       "@typings/*": ["./typings/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -21,8 +23,8 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
   },
-  "include": ["*.tsx", "./controllers/*"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
