@@ -6,6 +6,7 @@ interface IBlogProps {
   articles: IArticle[];
   loveList: IArticle[];
   total: number;
+  page: number
 }
 
 const Blog: NextPage<IBlogProps> = (props) => {
@@ -33,6 +34,7 @@ Blog.getInitialProps = async (ctx: NextPageContext) => {
     articles: data,
     total,
     loveList,
+    page,
     needLayoutFooter: false,
   };
 };

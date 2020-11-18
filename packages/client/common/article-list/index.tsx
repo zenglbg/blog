@@ -10,7 +10,6 @@ const Wrapper = styled.div`
   .article-item {
     position: relative;
     margin: 0 auto 20px;
-    padding: 16px 20px;
     width: 100%;
     height: 16.5rem;
     overflow: hidden;
@@ -53,6 +52,8 @@ const Wrapper = styled.div`
     .info-wrapper {
       flex: 1;
       overflow: hidden;
+      padding: 16px 20px;
+
       .info-time {
         text-align: right;
         color: var(--second-text-color);

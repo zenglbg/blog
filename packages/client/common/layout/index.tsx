@@ -9,6 +9,7 @@ import { debounce } from "lodash";
 import SearchBox from "./search-box";
 import ThemeToggle from "./theme-toggle";
 import DrawerBox from "./drawer-box";
+import CatBox from "./cat-box";
 import Footer from "../footer";
 
 const Wrapper = styled.div`
@@ -68,12 +69,32 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({
 
   const [searchList, setSearchList] = useState<IArticle[] | null>([]);
   const [keyword, setKeyword] = useState(null);
+  const [showCat, setShowCat] = useState<"show" | "">("");
   const onSearch = debounce((keyword) => {
     setKeyword(keyword);
     SearchApi.searchArticles(keyword).then((data) => {
       return setSearchList(data);
     });
   }, 200);
+
+  useEffect(() => {
+    document.addEventListener(
+      "scroll",
+      debounce((e) => {
+        var osTop =
+          document.documentElement.scrollTop || document.body.srcollTop;
+        if (osTop > 800) {
+          setShowCat("show");
+        } else {
+          setShowCat("");
+        }
+      }, 100)
+    );
+
+    return () => {
+      document.removeEventListener("scroll", () => {});
+    };
+  }, []);
 
   return (
     <Wrapper>
@@ -99,6 +120,8 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({
       />
 
       <ThemeToggle />
+
+      <CatBox className={showCat} />
 
       {needLayoutFooter ? <Footer setting={setting} /> : null}
     </Wrapper>

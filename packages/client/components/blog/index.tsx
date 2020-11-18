@@ -147,10 +147,12 @@ interface IBlogProps {
   articles: IArticle[];
   loveList: IArticle[];
   total: number;
+  page: number;
 }
 
 const Blog: React.FunctionComponent<IBlogProps> = (props) => {
-  const { articles, total, loveList, tags, categories } = props as any;
+  const { articles, total, loveList, tags, categories, page } = props as any;
+   
   return (
     <Wrapper>
       <div className="banner-wrapper">
@@ -163,15 +165,20 @@ const Blog: React.FunctionComponent<IBlogProps> = (props) => {
 
           <CPagination
             hideOnSinglePage={true}
-            defaultCurrent={1}
+            defaultCurrent={Number(page)}
             total={total}
             pageSize={12}
-            onChange={(page, size) => {
+            onChange={(curr, size) => {
               const search = location.search;
               if (search) {
-                window.location.href = `${window.location.href}&page=${page}&pageSize=${size}`;
+                window.location.href = `${
+                  window.location.pathname
+                }${location.search.replace(
+                  /page=.*&pageSize=.*$/,
+                  `page=${curr}&pageSize=${size}`
+                )}`;
               } else {
-                window.location.href = `${window.location.href}?page=${page}&pageSize=${size}`;
+                window.location.href = `${window.location.pathname}?page=${curr}&pageSize=${size}`;
               }
             }}
           />
