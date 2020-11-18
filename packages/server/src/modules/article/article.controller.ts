@@ -18,10 +18,9 @@ import { RolesGuard, Roles } from '@modules/auth/guards/roles.guard';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '@modules/user/services/user.service'
+import { UserService } from '@modules/user/services/user.service';
 import { ArticleService } from './article.service';
 import { CreateArticleDto } from './dtos/create.article.dto';
- 
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('article')
@@ -30,7 +29,7 @@ export class ArticleController {
   constructor(
     private readonly articleService: ArticleService,
     private readonly jwtService: JwtService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   /**
@@ -53,7 +52,7 @@ export class ArticleController {
   public findall(@Query() queryParams) {
     return this.articleService.findAll(queryParams);
   }
-  
+
   /**
    * getArchives
    * 获取所有文章归档
@@ -66,9 +65,8 @@ export class ArticleController {
 
   @Get('love')
   @HttpCode(HttpStatus.OK)
-  public getLove()
-  {
-    return this.articleService.getLove()
+  public getLove() {
+    return this.articleService.getLove();
   }
 
   /**
@@ -78,9 +76,8 @@ export class ArticleController {
   @Get('recommend')
   @HttpCode(HttpStatus.OK)
   public recommend(@Query('articleId') articleId) {
-    return this.articleService.recommend(articleId)
+    return this.articleService.recommend(articleId);
   }
-
 
   /**
    * 获取指定文章
@@ -106,6 +103,25 @@ export class ArticleController {
     }
   }
 
+  /**
+   * 校验文章密码
+   * @param id
+   * @param article
+   */
+  @Post(':id/checkPassword')
+  @HttpCode(HttpStatus.OK)
+  checkPassword(@Param('id') id, @Body() article) {
+    return this.articleService.checkPassword(id, article);
+  }
+
+  /**
+   * 文章访问量 +1
+   */
+  @Post(':id/views')
+  @HttpCode(HttpStatus.OK)
+  updateViewsById(@Param('id') id) {
+    return this.articleService.updateViewsById(id);
+  }
   /**
    * findArticleByCategory
    * 获取分类下的所有文章

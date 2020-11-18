@@ -3,11 +3,14 @@ import { Helmet } from "react-helmet";
 import styled from "styled-components";
 import Header from "@common/header";
 import { HomeFilled, EditFilled, FileZipFilled } from "@ant-design/icons";
+import { ArticleApi, SearchApi } from "@lib/api";
+import { debounce } from "lodash";
+
 import SearchBox from "./search-box";
 import ThemeToggle from "./theme-toggle";
 import DrawerBox from "./drawer-box";
-import { ArticleApi, SearchApi } from "@lib/api";
-import { debounce } from "lodash";
+import Footer from "../footer";
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -97,7 +100,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({
 
       <ThemeToggle />
 
-      {needLayoutFooter ? <footer></footer> : null}
+      {needLayoutFooter ? <Footer setting={setting} /> : null}
     </Wrapper>
   );
 };

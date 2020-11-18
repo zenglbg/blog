@@ -4,7 +4,7 @@ import { ArticleApi } from "@lib/api";
 
 interface IBlogProps {
   articles: IArticle[];
-  loveList: IArticle[]
+  loveList: IArticle[];
   total: number;
 }
 const pageSize = 12;
@@ -14,15 +14,22 @@ const Blog: NextPage<IBlogProps> = (props) => {
 };
 
 Blog.getInitialProps = async (ctx: NextPageContext) => {
-  console.log(`ctx.query)`,ctx.query)
+  const tag = ctx.query["tag"];
   const [articleList, loveList] = await Promise.all([
-    ArticleApi.getArticles({
-      page: 1,
-      pageSize,
-      status: "publish",
-      // ...ctx.query
-    }),
-    ArticleApi.getLove()
+    tag
+      ? ArticleApi.getArticlesByTag(tag, {
+          page: 1,
+          pageSize,
+          status: "publish",
+          // ...ctx.query
+        })
+      : ArticleApi.getArticles({
+          page: 1,
+          pageSize,
+          status: "publish",
+          // ...ctx.query
+        }),
+    ArticleApi.getLove(),
   ]);
   const { data, total } = articleList;
 

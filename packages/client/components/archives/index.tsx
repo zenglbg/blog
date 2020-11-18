@@ -139,7 +139,6 @@ interface IArchivesProps {
     [key: string]: { [key: string]: IArticle[] };
   };
 }
-const MonthWrapper = function (months) {};
 
 const Archives: React.FunctionComponent<IArchivesProps> = ({ archives }) => {
   return (
@@ -171,7 +170,11 @@ const Archives: React.FunctionComponent<IArchivesProps> = ({ archives }) => {
                                 <span className="content-time">
                                   {dayjs(article.publishAt).format("DD")}：
                                 </span>
-                                <Link href="">
+                                <Link
+                                  key={article.id}
+                                  href="/article/id"
+                                  as={`/article/${article.id}`}
+                                >
                                   <a className="content-link">
                                     <span className="content-name">
                                       {article.title}

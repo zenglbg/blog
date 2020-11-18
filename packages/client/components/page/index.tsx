@@ -89,7 +89,7 @@ const Page: React.FunctionComponent<IPageProps> = (props) => {
             <div className="content">
               <div
                 ref={ref}
-                className={"markdown"}
+                className="markdown"
                 dangerouslySetInnerHTML={{ __html: page.content }}
               ></div>
             </div>

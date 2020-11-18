@@ -33,7 +33,10 @@ export class ArticleApi {
    * @param tag
    * @param params
    */
-  static async getArticlesByTag(tag, params): Promise<[IArticle[], number]> {
+  static async getArticlesByTag(
+    tag,
+    params
+  ): Promise<{ data: IArticle[]; total: number }> {
     return api.get("/article/tag/" + tag, { params });
   }
 

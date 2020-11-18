@@ -116,8 +116,12 @@ const ArticleList: React.FunctionComponent<IArticleListProps> = ({
     <Wrapper>
       {articles.map((article) => {
         return (
-          <Link href="/article/id" as={`/article/${article.id}`}>
-            <div className="article-item" key={article.id}>
+          <Link
+            key={article.id}
+            href="/article/id"
+            as={`/article/${article.id}`}
+          >
+            <div className="article-item">
               <div className="img-wrapper">
                 {article.cover ? <img src={article.cover} alt="" /> : null}
               </div>

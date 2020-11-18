@@ -1,4 +1,5 @@
 import "../styles/globals.less";
+import '../styles/markdown.less'
 import App, { AppProps, AppContext } from "next/app";
 import { SettingApi, CategoryApi, TagApi, PageApi } from "@lib/api";
 import Layout from "@common/layout";
@@ -33,8 +34,8 @@ MyApp.getInitialProps = async function (appContext: AppContext) {
   const [appProps, setting, categories, tags, pages] = await Promise.all([
     App.getInitialProps(appContext),
     SettingApi.getSetting(),
-    TagApi.getTags({ articleStatus: "publish" }),
     CategoryApi.getCategory({ articleStatus: "publish" }),
+    TagApi.getTags({ articleStatus: "publish" }),
     PageApi.getPages({ status: "publish" }),
   ]);
   return {

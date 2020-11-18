@@ -123,17 +123,11 @@ const LoveLi: any = styled.li`
 interface IBlogProps {
   articles: IArticle[];
   loveList: IArticle[];
-  tags: ITag[];
   total: number;
 }
 
-const Blog: React.FunctionComponent<IBlogProps> = ({
-  articles,
-  total,
-  loveList,
-  tags,
-}) => {
-  // console.log(tags);
+const Blog: React.FunctionComponent<IBlogProps> = (props) => {
+  const { articles, total, loveList, tags } = props as any;
   return (
     <Wrapper>
       <div className="banner-wrapper">
@@ -152,12 +146,12 @@ const Blog: React.FunctionComponent<IBlogProps> = ({
               <ul className="love-list">
                 {loveList &&
                   loveList.map((love) => (
-                    <Link href="/article/id" as={`/article/${love.id}`}>
-                      <LoveLi
-                        key={love.id}
-                        className="love-li"
-                        bgImg={love.cover}
-                      >
+                    <Link
+                      key={love.id}
+                      href="/article/id"
+                      as={`/article/${love.id}`}
+                    >
+                      <LoveLi className="love-li" bgImg={love.cover}>
                         <div className="li-left">
                           <p className="li-title">{love.title}</p>
                           <p className="li-link">{love.id}</p>
@@ -175,7 +169,9 @@ const Blog: React.FunctionComponent<IBlogProps> = ({
 
             <div className="tag-content">
               {tags.map((tag) => (
-                <p key={tag.id}>{tag.label}</p>
+                <Link key={tag.id} href={`/blog?tag=${tag.value}`}>
+                  <p>{tag.label}</p>
+                </Link>
               ))}
             </div>
           </div>

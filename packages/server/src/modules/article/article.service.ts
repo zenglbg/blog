@@ -312,6 +312,16 @@ export class ArticleService {
     ).pipe(map(data => (!!data ? { pass: !!data, ...data } : { pass: false })));
   }
 
+  public updateViewsById(id) {
+    return from(this.articleRepository.findOne(id)).pipe(
+      switchMap(old => {
+        const newArticle = this.articleRepository.merge(old, {
+          views: old.views + 1,
+        });
+        return this.articleRepository.save(newArticle);
+      }),
+    );
+  }
   /**
    * @function findById
    * 获取指定文章信息

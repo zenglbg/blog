@@ -15,7 +15,7 @@ const Section = styled.section`
   width: 100vw;
   height: 100vh;
   /* background: url(./images/home/banner6.jpg) no-repeat center / contain; */
-  background-color: ${({ theme }) => theme.colors.primary};
+  /* background-color: ${({ theme }) => theme.colors.primary}; */
   background-image: url(${({ theme }) => theme.colors.bannerImg});
   display: flex;
   flex-direction: column;
