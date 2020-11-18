@@ -16,7 +16,7 @@ export class SettingService {
 
   /**
    * 更新系统设置
-   * @param setting 
+   * @param setting
    */
   update(setting: Partial<Setting>) {
     const old$ = from(this.settingRepository.find());
@@ -58,6 +58,14 @@ export class SettingService {
           'systemFooterInfo',
           'seoKeyword',
           'seoDesc',
+          'github',
+          'paypal',
+          'wechat',
+          'instagram',
+          'youtube',
+          'alipay',
+          'soundcloud',
+          'telegram',
         ].reduce((a, c) => {
           a[c] = res[c];
           return a;

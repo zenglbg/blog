@@ -12,11 +12,11 @@ interface IHomeProps {
   articles: IArticle[];
 }
 
-const Home: React.FunctionComponent<IHomeProps> = ({ articles }) => {
-  useEffect(() => {}, []);
+const Home: React.FunctionComponent<IHomeProps> = (props) => {
+  const { articles, setting } = props as any;
   return (
     <Wrapper>
-      <IndexBanner />
+      <IndexBanner setting={setting} />
 
       {/* <IndexNotice /> */}
 

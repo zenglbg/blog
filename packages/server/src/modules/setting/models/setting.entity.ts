@@ -21,6 +21,30 @@ export class Setting extends Base {
   systemFooterInfo: string;
 
   @Column({ type: 'text', default: null })
+  github: string;
+
+  @Column({ type: 'text', default: null })
+  paypal: string;
+
+  @Column({ type: 'mediumtext', default: null })
+  wechat: string;
+
+  @Column({ type: 'mediumtext', default: null })
+  alipay: string;
+
+  @Column({ type: 'text', default: null })
+  instagram: string;
+
+  @Column({ type: 'text', default: null })
+  youtube: string;
+
+  @Column({ type: 'text', default: null })
+  soundcloud: string;
+
+  @Column({ type: 'text', default: null })
+  telegram: string;
+
+  @Column({ type: 'text', default: null })
   seoKeyword: string;
 
   @Column({ type: 'text', default: null })

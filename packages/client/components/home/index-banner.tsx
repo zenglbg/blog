@@ -2,15 +2,6 @@ import * as React from "react";
 import styled, { ThemeProvider } from "styled-components";
 import IconFont from "@common/icon-font";
 
-interface IBannerProps {}
-
-const theme = {
-  colors: {
-    primary: "pink",
-    bannerImg: require("./images/banner6.jpg"),
-  },
-};
-
 const Section = styled.section`
   width: 100vw;
   height: 100vh;
@@ -75,6 +66,27 @@ const Section = styled.section`
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      a {
+        position: relative;
+
+        img {
+          opacity: 0;
+          position: absolute;
+          width: 10rem;
+          height: 12rem;
+          left: 50%;
+          bottom: 0;
+          transform: translate(-50%, 102%);
+          transition: all ease-out 0.5s;
+        }
+        &:hover {
+          img {
+            opacity: 1;
+            transform: translate(-50%, 99%);
+          }
+        }
+      }
     }
   }
 
@@ -98,8 +110,17 @@ const Section = styled.section`
     }
   }
 `;
+const theme = {
+  colors: {
+    primary: "pink",
+    bannerImg: require("./images/banner6.jpg"),
+  },
+};
+interface IBannerProps {
+  setting: any;
+}
 
-const Banner: React.FunctionComponent<IBannerProps> = (props) => {
+const Banner: React.FunctionComponent<IBannerProps> = ({ setting }) => {
   return (
     <ThemeProvider theme={theme}>
       <Section>
@@ -114,31 +135,36 @@ const Banner: React.FunctionComponent<IBannerProps> = (props) => {
           </p>
 
           <p className="motto-links">
-            <a href="">
+            <a href={setting.github}>
               <IconFont type="icon-github" />
             </a>
-            <a href="">
+            <a target="__blank">
+              <IconFont type="icon-wechat" />
+              <img src={setting.wechat} alt="" />
+            </a>
+            <a href={setting.paypal} target="__blank">
               <IconFont type="icon-paypal" />
             </a>
-            <a href="">
-              <IconFont type="icon-wechat" />
+            <a>
+              <IconFont type="icon-alipay" target="__blank" />
+              <img src={setting.alipay} alt="" />
             </a>
-            <a href="">
-              <IconFont type="icon-instagram" />
-            </a>
-            <a href="mailto:zenglbg@gmail.com">
+            {setting.instagram ? (
+              <a href={setting.instagram} target="__blank">
+                <IconFont type="icon-instagram" />
+              </a>
+            ) : null}
+            <a href="mailto:zenglbg@gmail.com" target="__blank">
               <IconFont type="icon-emailFilled" />
             </a>
-            <a href="">
+            <a href={setting.youtube} target="__blank">
               <IconFont type="icon-youtube" />
             </a>
-            <a href="">
-              <IconFont type="icon-alipay" />
+
+            <a href={setting.soundcloud} target="__blank">
+              <IconFont type="icon-soundcloud" target="__blank" />
             </a>
-            <a href="">
-              <IconFont type="icon-soundcloud" />
-            </a>
-            <a href="">
+            <a href={setting.telegram} target="__blank">
               <IconFont type="icon-telegram" />
             </a>
           </p>

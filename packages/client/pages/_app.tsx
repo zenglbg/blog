@@ -3,7 +3,6 @@ import '../styles/markdown.less'
 import App, { AppProps, AppContext } from "next/app";
 import { SettingApi, CategoryApi, TagApi, PageApi } from "@lib/api";
 import Layout from "@common/layout";
-import Header from "@/common/header";
 
 const MyApp = ({
   Component,
