@@ -2,9 +2,56 @@ import * as React from "react";
 import { useState, useMemo, useCallback } from "react";
 import { Row, Col, Card, Form, Input, Button, Popconfirm, message } from "antd";
 import cls from "classnames";
+import styled from "styled-components";
 
-import style from "./index.module.scss";
-import { Categorysr } from "src/lib/api/category";
+
+
+const Wrapper = styled.div`
+  .categoryRow {
+    justify-content: space-between;
+  }
+
+  .btns {
+    button + button {
+      margin-left: 16px;
+    }
+
+    &.isEdit {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  ul.list {
+    background-color: #fff;
+  }
+
+  li.item {
+    border: 1px solid #666;
+    padding: 2px 8px;
+    color: #333;
+    line-height: 1.5em;
+    display: inline-block;
+    margin: 0 7px 7px 0;
+    border-radius: 2px;
+    transition: all ease-in-out 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $primaryColor;
+      color: #fff;
+      border: 1px solid $primaryColor;
+    }
+
+    &.active {
+      color: $primaryColor;
+      border: 1px solid $primaryColor;
+      background-color: $primaryColor;
+    }
+  }
+`;
+
+import { CategoryApi } from "@lib/api";
 
 interface ICategoryProps {}
 
@@ -27,7 +74,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
     if (!label) {
       return;
     }
-    Categorysr.addCategory({ label, value }).subscribe(() => {
+    CategoryApi.addCategory({ label, value }).subscribe(() => {
       message.success(`添加分类成功`);
       reset();
       getData();
@@ -35,7 +82,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   };
 
   const del = () => {
-    Categorysr.delCategory(current.id).subscribe(() => {
+    CategoryApi.delCategory(current.id).subscribe(() => {
       message.success(`删除分类成功`);
       reset();
       getData();
@@ -46,7 +93,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
     if (!label) {
       return;
     }
-    Categorysr.updateCategory(current.id, { label, value }).subscribe(() => {
+    CategoryApi.updateCategory(current.id, { label, value }).subscribe(() => {
       message.success(`更新分类成功`);
       reset();
       getData();
@@ -54,7 +101,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   };
 
   const getData = useCallback(() => {
-    Categorysr.getCategorys().subscribe((res) => {
+    CategoryApi.getCategorys().subscribe((res) => {
       if (res.success) {
         setData(res.data);
       }
@@ -62,8 +109,8 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   }, []);
 
   return (
-    <div className={style.categoryWrapper}>
-      <Row className={style.categoryRow}>
+    <Wrapper>
+      <Row className="categoryRow">
         <Col xs={24} sm={24} md={8}>
           <Card title="添加分类">
             <Form>
@@ -81,9 +128,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
                   placeholder="请输入分类值"
                 />
               </Form.Item>
-              <div
-                className={cls(style.btns, isCreateMode ? false : style.isEdit)}
-              >
+              <div className={cls("btns", isCreateMode ? false : "isEdit")}>
                 {isCreateMode ? (
                   <Button type="primary" onClick={addCategory}>
                     保存
@@ -105,7 +150,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
         </Col>
         <Col xs={24} sm={24} md={15}>
           <Card title="所有分类" bordered={true}>
-            <ul className={style.list}>
+            <ul className="list">
               {data.map((d) => (
                 <li
                   key={d.id}
@@ -115,9 +160,9 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
                     setLabel(d.label);
                     setValue(d.value);
                   }}
-                  className={cls(style.item)}
+                  className="item"
                 >
-                  <a key={d.id} className={style.tag}>
+                  <a key={d.id} className="tag">
                     <span>{d.label}</span>
                   </a>
                 </li>
@@ -126,7 +171,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
           </Card>
         </Col>
       </Row>
-    </div>
+    </Wrapper>
   );
 };
 

@@ -1,4 +1,3 @@
-import style from "./index.module.scss";
 
 import * as React from "react";
 import { useState, useCallback } from "react";

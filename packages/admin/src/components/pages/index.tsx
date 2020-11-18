@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { useSetting } from "@lib/hooks";
 import { PageApi } from "@lib/api";
 import SPTDataTable from "@/common/SPTDataTable";
-import {useColumns} from './columns'
+import { useColumns } from "./index-columns";
+import { IState } from "@redux/reducer";
+import { ActionPage } from "@redux/actions";
+import { action } from "typesafe-actions";
+
 const Wrapper = styled.div``;
-interface IPagesProps {}
 
-const Pages: React.FunctionComponent<IPagesProps> = (props) => {
-  const [pages, setPage] = useState<IPage[]>([]);
-  const [total, setTotal] = useState(0);
-  const columns = useColumns()
+interface IPagesProps {
+  getpage: Function;
+  setpage: Function;
+  handleId: Function;
+}
 
+const Pages: React.FunctionComponent<IPagesProps & Pick<IState, "page">> = ({
+  getpage,
+  page,
+  handleId,
+}) => {
+  const { pages, total } = page;
+  const columns = useColumns(handleId);
 
   useEffect(() => {
-    PageApi.getPagelist().subscribe((res) => {
-      if (res.success) {
-        const [pages, total] = res.data;
-        setPage(pages);
-        setTotal(total);
-      }
-    });
+    getpage();
   }, []);
 
-  const onSearch = () => {
-    
-  };
+  const onSearch = () => {};
 
   return (
     <Wrapper>
@@ -39,4 +43,12 @@ const Pages: React.FunctionComponent<IPagesProps> = (props) => {
   );
 };
 
-export default Pages;
+const mapStateToProps = ({ page }: IState) => ({ page });
+
+const mapDispatchToProps = {
+  getpage: ActionPage.getpage,
+  setpage: ActionPage.setpage,
+  handleId: ActionPage.handleId,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pages);

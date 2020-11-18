@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 
 const Action = styled.div``;
 
-export function useColumns() {
+export function useColumns(handleId: Function) {
   const setting = useSetting();
 
   const deletePage = (id) => {};
@@ -79,7 +79,13 @@ export function useColumns() {
             <Divider type="vertical" />
 
             <Link to={`/editor/page/${record.id}`} target="_blank">
-              编辑
+              <span
+                onClick={() => {
+                  handleId(record);
+                }}
+              >
+                编辑
+              </span>
             </Link>
 
             <Divider type="vertical" />

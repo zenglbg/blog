@@ -1,10 +1,61 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Button, Drawer, Form, Input, Select, Switch, Tag } from "antd";
+import styled from "styled-components";
 
-import style from "./index-publish.module.scss";
+const Wrapper = styled(Drawer)`
+  .cover {
+    .preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 180px;
+      background-color: #f5f5f5;
+      color: #888;
+      margin-bottom: 16px;
 
-import { Categorysr } from "src/lib/api/category";
+      img {
+        max-width: 100%;
+        max-height: 180px;
+        display: block;
+      }
+    }
+
+    button {
+      margin-top: 16px;
+    }
+  }
+
+  .btns {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #f3f3f3;
+    padding: 10px 16px;
+    text-align: right;
+    background-color: #fff;
+    border-radius: 0 0 4px 4px;
+  }
+`;
+
+const FormItemWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  > span {
+    padding-right: 16px;
+  }
+
+  > div {
+    flex: 1;
+  }
+
+  + .formItem {
+    margin-top: 16px;
+  }
+`;
+
+import { CategoryApi } from "@lib/api";
 import { Tagssr } from "src/lib/api/tags";
 
 interface IPublishProps {
@@ -16,10 +67,10 @@ interface IPublishProps {
 
 const FormItem = ({ label, content, ...data }) => {
   return (
-    <div className={style.formItem} {...data}>
+    <FormItemWrapper className="formItem" {...data}>
       <span>{label}</span>
       <div>{content}</div>
-    </div>
+    </FormItemWrapper>
   );
 };
 
@@ -45,7 +96,6 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
   );
   const [cover, setCover] = useState(article.cover || null);
 
-
   useEffect(() => {
     console.log(password);
     return () => {
@@ -55,7 +105,7 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
 
   useEffect(() => {
     console.log(`只执行一次`);
-    Categorysr.getCategorys().subscribe((res) => {
+    CategoryApi.getCategorys().subscribe((res) => {
       if (res.success) {
         console.log(res.data);
         setCategorys(res.data);
@@ -81,13 +131,13 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
   };
 
   return (
-    <Drawer
+    <Wrapper
       title="文章设置"
       placement="right"
       width={480}
       onClose={onClose}
       visible={visible}
-      className={style.drawer}
+      className="drawer"
     >
       <FormItem
         label="文章摘要"
@@ -153,8 +203,8 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
         }}
         label="文章封面"
         content={
-          <div className={style.cover}>
-            <div onClick={() => setFileVisible(true)} className={style.preview}>
+          <div className="cover">
+            <div onClick={() => setFileVisible(true)} className="preview">
               <img src={cover} alt="预览图" />
             </div>
 
@@ -169,7 +219,7 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
         }
       />
 
-      <div className={style.btns}>
+      <div className="btns">
         <Button
           style={{
             marginRight: 8,
@@ -182,7 +232,7 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
           发布
         </Button>
       </div>
-    </Drawer>
+    </Wrapper>
   );
 };
 

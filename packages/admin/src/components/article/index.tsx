@@ -5,11 +5,10 @@ import { connect, DispatchProp } from "react-redux";
 import { RouteComponentProps, Link } from "react-router-dom";
 import { of } from "rxjs";
 
-
 import SPTDataTable from "../../common/SPTDataTable";
 import { ActionArticle } from "@lib/redux/actions/index";
 import { IState } from "@lib/redux/reducer/index";
-import { Articlesr, Categorysr, Tagssr } from "src/lib/api/index";
+import { Articlesr, CategoryApi, Tagssr } from "@lib/api";
 
 interface IArticleProps {}
 
@@ -88,11 +87,8 @@ const Article: React.FunctionComponent<
   IArticleProps & DispatchProp & Pick<IState, "article"> & RouteComponentProps
 > = ({ dispatch, article, history }) => {
   useEffect(() => {
-    Categorysr.getCategorys();
+    CategoryApi.getCategorys();
     Tagssr.getTags();
-    return () => {
-      // cleanup
-    };
   }, []);
 
   const getArticles = useCallback((params = {}) => {
@@ -122,7 +118,11 @@ const Article: React.FunctionComponent<
     key: "action",
     render: (_, record) => (
       <span>
-        <Link to="/editor/article" target="__blank" onClick={() => handleArticle(record.id)}>
+        <Link
+          to="/editor/article"
+          target="__blank"
+          onClick={() => handleArticle(record.id)}
+        >
           编辑
         </Link>
         <Divider type="vertical" />

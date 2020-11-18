@@ -1,20 +1,33 @@
-import './index.less'
-import React, { SyntheticEvent, useState } from 'react'
-import { connect } from 'react-redux'
-import { Card, Input, Button, Form, Modal } from 'antd'
-import { SmileOutlined } from '@ant-design/icons'
+import React, { SyntheticEvent, useState } from "react";
+import { connect } from "react-redux";
+import { Card, Input, Button, Form, Modal } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 
-import { IState } from '@lib/redux/reducer/index'
-import { ActionUser } from '@lib/redux/actions/index'
-import { Usersr } from 'src/lib/api/user'
+import { IState } from "@lib/redux/reducer/index";
+import { ActionUser } from "@lib/redux/actions/index";
+import { Usersr } from "src/lib/api/user";
 
-import FormList from './child/formList'
-import Rmodal from './child/modal'
+import FormList from "./index-formList";
+import Rmodal from "./index-modal";
+
+const Wrapper = styled.div`
+  width: 99vw;
+  height: 99vh;
+  position: relative;
+
+  .register-form {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%);
+  }
+`;
 
 interface PageDispatchProps {
-  doLogin: Function
-  get_validate_code: Function
-  register: Function
+  doLogin: Function;
+  get_validate_code: Function;
+  register: Function;
 }
 
 interface State {}
@@ -24,29 +37,29 @@ interface IRegisterProps {}
 const Register: React.FunctionComponent<PageDispatchProps & IRegisterProps> = ({
   register,
 }) => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false);
 
   const get_validate_code = () => {
     /** 获取验证码 */
-  }
+  };
   const handleAuth = ({ user_name, user_email, validate_code }) => {
     /**
      * 验证验证码，并打开密码输入弹窗
      */
-    setVisible(true)
-  }
+    setVisible(true);
+  };
 
   const handleOk = ({ name, email, password }) => {
     /**
      * 注册按钮，请求注册
      */
-    register({ name, email, password })
-  }
+    register({ name, email, password });
+  };
 
-  const handleCannel = () => setVisible(false)
+  const handleCannel = () => setVisible(false);
 
   return (
-    <div className="register">
+    <Wrapper>
       <Card className="register-form" style={{ width: 400, borderRadius: 4 }}>
         <FormList
           get_validate_code={get_validate_code}
@@ -61,11 +74,11 @@ const Register: React.FunctionComponent<PageDispatchProps & IRegisterProps> = ({
         />
         {/* 输入密码 */}
       </Card>
-    </div>
-  )
-}
+    </Wrapper>
+  );
+};
 
 export default connect(({ user }: IState) => ({ user }), {
   doLogin: ActionUser.doLogin,
   register: ActionUser.register,
-})(Register)
+})(Register);

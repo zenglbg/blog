@@ -1,6 +1,6 @@
 import { Http } from "@lib/utils/fetch/http";
 
-export class Categorysr {
+export class CategoryApi {
   public static addCategory(category) {
     return Http.post("/category", category);
   }

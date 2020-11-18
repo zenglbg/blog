@@ -58,14 +58,13 @@ const Page: React.FunctionComponent<IPageProps & RouteComponentProps> = ({
   match,
 }) => {
   const setting = useSetting();
-  const [id, setId] = useState(null);
+  const [id, setId] = useState(match.params["id"]);
   const [page, setPage] = useState<any>({});
   const [pageDrawerVisible, setPageDrawerVisible] = useState(false);
 
   const updateOrCreate = (msg) => {
     if (id) {
       return PageApi.updatePage(id, page).subscribe((res) => {
-        console.log(res);
         if (res.success) {
           setId(res.data.id);
           message.success(msg);

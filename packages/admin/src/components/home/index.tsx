@@ -7,8 +7,74 @@ import { Row, Col } from "antd";
 import { IState } from "@lib/redux/reducer/index";
 import { ActionUser } from "@lib/redux/actions/index";
 import { Articlesr } from "src/lib/api/index";
+import styled from "styled-components";
 
-import style from "./index.module.scss";
+const Wrapper = styled.div`
+  .title {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    color: $textSecondColor;
+
+    i {
+      font-size: 0.8em;
+      margin-left: 4px;
+    }
+  }
+
+  .recentArticleItem {
+    > a {
+      display: inline-block;
+      width: 100%;
+      border: 1px solid $borderColor;
+      border-radius: 4px;
+
+      img {
+        display: inline-block;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        width: 100%;
+        height: 120px;
+      }
+
+      .title {
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+
+      .desc {
+        padding: 0px 12px 6px;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .listItem {
+    background: #fff;
+    padding: 16px 12px;
+  }
+
+  .comments {
+    width: 100%;
+
+    .ant-list-item-meta {
+      width: 100%;
+      overflow: hidden;
+    }
+  }
+
+  .articles {
+    margin: 24px 0;
+  }
+
+  .action a {
+    color: #1890ff;
+  }
+`;
 
 interface Props {
   user: any;
@@ -20,11 +86,11 @@ const Home: React.FunctionComponent<Props & RouteComponentProps> = ({
   profiles,
 }) => {
   const [collapsed, setCollapsed] = useState("");
-  const [articles, setArticles] = useState([])
+  const [articles, setArticles] = useState([]);
   useEffect(() => {
     profiles();
-    getArticles()
-  },[]);
+    getArticles();
+  }, []);
 
   const getArticles = useCallback((params = {}) => {
     return Articlesr.getArticles(params).subscribe((res) => {
@@ -38,10 +104,10 @@ const Home: React.FunctionComponent<Props & RouteComponentProps> = ({
   const handleClick = () => {
     history.push("/login");
   };
-  
+
   return (
-    <div className={style.recentArticle}>
-      <div className={style.title}>
+    <Wrapper className="recentArticle">
+      <div className="title">
         <span>最新文章</span>
         <Link to="/home/article">
           <span>更多</span>
@@ -54,24 +120,27 @@ const Home: React.FunctionComponent<Props & RouteComponentProps> = ({
         </Link>
       </div>
       <Row gutter={16}>
-        {articles.slice(0, 4).map((article) => {
+        {articles.slice(0, 4).map((article, index) => {
           return (
-            <Col span={24 / 4} className={style.recentArticleItem}>
+            <Col
+              key={`article.${index}`}
+              span={24 / 4}
+              className="recentArticleItem"
+            >
               <Link
                 to={`/article/editor/[id]`}
+                target="_blank"
                 // as={`/article/editor/` + article.id}
               >
-                <a target="_blank">
-                  <img width={120} alt="文章封面" src={article.cover} />
-                  <p className={style.title}>{article.title}</p>
-                  <p className={style.desc}>{article.summary}</p>
-                </a>
+                <img width={120} alt="文章封面" src={article.cover} />
+                <p className="title">{article.title}</p>
+                <p className="desc">{article.summary}</p>
               </Link>
             </Col>
           );
         })}
       </Row>
-    </div>
+    </Wrapper>
   );
 };
 
