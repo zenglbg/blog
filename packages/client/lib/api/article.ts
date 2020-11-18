@@ -5,8 +5,8 @@ export class ArticleApi {
    * 获取所有文章
    */
   static async getArticles(params: {
-    page: number;
-    pageSize: number;
+    page: string | number | string[];
+    pageSize: string | number | string[];
     status: string;
     [key: string]: any;
   }): Promise<{ data: IArticle[]; total: number }> {
@@ -24,7 +24,7 @@ export class ArticleApi {
   static async getArticlesByCategory(
     category,
     params
-  ): Promise<[IArticle[], number]> {
+  ): Promise<{ data: IArticle[]; total: number }> {
     return api.get("/article/category/" + category, { params });
   }
 

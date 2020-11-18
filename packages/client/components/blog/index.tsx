@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import ArticleList from "@common/article-list";
 import styled from "styled-components";
+import { Pagination } from "antd";
 import iconTop from "./images/icon-top.png";
 import iconTags from "./images/tags.png";
+import iconCategorys from "./images/category.png";
 import banner from "./images/banner1.jpg";
+import _ from "lodash";
 
 const Wrapper = styled.div`
   .banner-wrapper {
@@ -25,6 +28,7 @@ const Wrapper = styled.div`
       transform: translateX(1rem);
 
       .top-title,
+      .category-title,
       .tag-title {
         color: var(--main-text-color);
         font-size: 0.9rem;
@@ -44,12 +48,17 @@ const Wrapper = styled.div`
         }
       }
 
-      .tag-wrapper {
+      .tag-wrapper,
+      .category-wrapper {
         margin-top: 2rem;
+        .category-title {
+          background-image: url(${iconCategorys});
+        }
         .tag-title {
           background-image: url(${iconTags});
         }
 
+        .category-content,
         .tag-content {
           display: flex;
           p {
@@ -66,7 +75,21 @@ const Wrapper = styled.div`
     }
   }
 `;
+const CPagination = styled(Pagination)`
+  transform: translateX(2rem);
+  padding-bottom: 1rem;
 
+  .ant-pagination-prev,
+  .ant-pagination-next {
+    button {
+      border-radius: 50%;
+      padding: 0;
+    }
+  }
+  .ant-pagination-item {
+    border-radius: 50%;
+  }
+`;
 const LoveLi: any = styled.li`
   overflow: hidden;
   position: relative;
@@ -127,7 +150,7 @@ interface IBlogProps {
 }
 
 const Blog: React.FunctionComponent<IBlogProps> = (props) => {
-  const { articles, total, loveList, tags } = props as any;
+  const { articles, total, loveList, tags, categories } = props as any;
   return (
     <Wrapper>
       <div className="banner-wrapper">
@@ -137,6 +160,21 @@ const Blog: React.FunctionComponent<IBlogProps> = (props) => {
       <div className="content">
         <div className="content-left">
           <ArticleList articles={articles} />
+
+          <CPagination
+            hideOnSinglePage={true}
+            defaultCurrent={1}
+            total={total}
+            pageSize={12}
+            onChange={(page, size) => {
+              const search = location.search;
+              if (search) {
+                window.location.href = `${window.location.href}&page=${page}&pageSize=${size}`;
+              } else {
+                window.location.href = `${window.location.href}?page=${page}&pageSize=${size}`;
+              }
+            }}
+          />
         </div>
 
         <div className="content-right">
@@ -171,6 +209,20 @@ const Blog: React.FunctionComponent<IBlogProps> = (props) => {
               {tags.map((tag) => (
                 <Link key={tag.id} href={`/blog?tag=${tag.value}`}>
                   <p>{tag.label}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className="category-wrapper">
+            <p className="category-title">Category Cound</p>
+
+            <div className="category-content">
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/blog?category=${category.value}`}
+                >
+                  <p>{category.label}</p>
                 </Link>
               ))}
             </div>

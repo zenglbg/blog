@@ -7,28 +7,24 @@ interface IBlogProps {
   loveList: IArticle[];
   total: number;
 }
-const pageSize = 12;
 
 const Blog: NextPage<IBlogProps> = (props) => {
   return <BlogPage {...props} />;
 };
 
 Blog.getInitialProps = async (ctx: NextPageContext) => {
-  const tag = ctx.query["tag"];
+  const { tag, category, page = 1, pageSize = 12 } = ctx.query;
+  const queryParams = {
+    page,
+    pageSize,
+    status: "publish",
+  };
   const [articleList, loveList] = await Promise.all([
     tag
-      ? ArticleApi.getArticlesByTag(tag, {
-          page: 1,
-          pageSize,
-          status: "publish",
-          // ...ctx.query
-        })
-      : ArticleApi.getArticles({
-          page: 1,
-          pageSize,
-          status: "publish",
-          // ...ctx.query
-        }),
+      ? ArticleApi.getArticlesByTag(tag, queryParams)
+      : category
+      ? ArticleApi.getArticlesByCategory(category, queryParams)
+      : ArticleApi.getArticles(queryParams),
     ArticleApi.getLove(),
   ]);
   const { data, total } = articleList;
