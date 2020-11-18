@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import dayjs from "dayjs";
+import Link from "next/link";
 import IconFont from "@common/icon-font";
 
 const Wrapper = styled.div`
@@ -55,7 +56,6 @@ const Wrapper = styled.div`
       .info-time {
         text-align: right;
         color: var(--second-text-color);
-
       }
 
       .info-title {
@@ -116,37 +116,39 @@ const ArticleList: React.FunctionComponent<IArticleListProps> = ({
     <Wrapper>
       {articles.map((article) => {
         return (
-          <div className="article-item" key={article.id}>
-            <div className="img-wrapper">
-              {article.cover ? <img src={article.cover} alt="" /> : null}
-            </div>
-            <div className="info-wrapper">
-              <p className="info-time">
-                <IconFont type="icon-time" />
-                {dayjs(article.publishAt).format(`YYYY-MM-DD HH:mm:ss`)}
-              </p>
-              <p className="info-title">{article.title}</p>
-              <div className="info-meta">
-                {article.category ? (
-                  <>
-                    <IconFont type="icon-MissingMetadata-1" />
-                    <span className="category">{article.category.label}</span>
-                    <span className="seperator">·</span>
-                  </>
-                ) : null}
-                <span>
-                  <IconFont type="icon-Views" />
-                  {article.views} 次阅读
-                </span>
+          <Link href="/article/id" as={`/article/${article.id}`}>
+            <div className="article-item" key={article.id}>
+              <div className="img-wrapper">
+                {article.cover ? <img src={article.cover} alt="" /> : null}
               </div>
-              <div
-                className="info-desc"
-                dangerouslySetInnerHTML={{
-                  __html: article.content,
-                }}
-              ></div>
+              <div className="info-wrapper">
+                <p className="info-time">
+                  <IconFont type="icon-time" />
+                  {dayjs(article.publishAt).format(`YYYY-MM-DD HH:mm:ss`)}
+                </p>
+                <p className="info-title">{article.title}</p>
+                <div className="info-meta">
+                  {article.category ? (
+                    <>
+                      <IconFont type="icon-MissingMetadata-1" />
+                      <span className="category">{article.category.label}</span>
+                      <span className="seperator">·</span>
+                    </>
+                  ) : null}
+                  <span>
+                    <IconFont type="icon-Views" />
+                    {article.views} 次阅读
+                  </span>
+                </div>
+                <div
+                  className="info-desc"
+                  dangerouslySetInnerHTML={{
+                    __html: article.content,
+                  }}
+                ></div>
+              </div>
             </div>
-          </div>
+          </Link>
         );
       })}
     </Wrapper>

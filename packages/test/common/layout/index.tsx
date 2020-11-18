@@ -57,16 +57,16 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({
   const menus = [
     ...defaultMenus,
     ...pages[0].map((r) => ({
-      path: r.path,
+      path: `/page/${r.id}`,
       label: r.name,
       icon: r.icon,
     })),
   ];
 
   const [searchList, setSearchList] = useState<IArticle[] | null>([]);
-  const [keyword, setKeyword] = useState(null)
+  const [keyword, setKeyword] = useState(null);
   const onSearch = debounce((keyword) => {
-    setKeyword(keyword)
+    setKeyword(keyword);
     SearchApi.searchArticles(keyword).then((data) => {
       return setSearchList(data);
     });
@@ -89,7 +89,11 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({
       <main className="main-container">{children}</main>
 
       <SearchBox onSearch={onSearch} />
-      <DrawerBox searchList={searchList} keyword={keyword} />
+      <DrawerBox
+        searchList={searchList}
+        setKeyword={setKeyword}
+        keyword={keyword}
+      />
 
       <ThemeToggle />
 

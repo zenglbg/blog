@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import ArticleList from "@common/article-list";
-import styled, { StyledFunction } from "styled-components";
-import { withProps, styledComponentWithProps } from "@lib/utils";
+import styled from "styled-components";
 import iconTop from "./images/icon-top.png";
 import iconTags from "./images/tags.png";
 import banner from "./images/banner1.jpg";
@@ -152,17 +152,19 @@ const Blog: React.FunctionComponent<IBlogProps> = ({
               <ul className="love-list">
                 {loveList &&
                   loveList.map((love) => (
-                    <LoveLi
-                      key={love.id}
-                      className="love-li"
-                      bgImg={love.cover}
-                    >
-                      <div className="li-left">
-                        <p className="li-title">{love.title}</p>
-                        <p className="li-link">{love.id}</p>
-                      </div>
-                      <div className="li-right"></div>
-                    </LoveLi>
+                    <Link href="/article/id" as={`/article/${love.id}`}>
+                      <LoveLi
+                        key={love.id}
+                        className="love-li"
+                        bgImg={love.cover}
+                      >
+                        <div className="li-left">
+                          <p className="li-title">{love.title}</p>
+                          <p className="li-link">{love.id}</p>
+                        </div>
+                        <div className="li-right"></div>
+                      </LoveLi>
+                    </Link>
                   ))}
               </ul>
             </div>

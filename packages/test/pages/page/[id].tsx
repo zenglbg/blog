@@ -3,13 +3,12 @@ import { NextPage, NextPageContext } from "next";
 import { PageApi } from "@/lib/api";
 import PagePage from "@components/page";
 
-
 interface IPageProps {
   page: IPage;
 }
 
 const Page: NextPage<IPageProps> = (props) => {
-  return <PagePage />;
+  return <PagePage {...props} />;
 };
 
 Page.getInitialProps = async function (ctx: NextPageContext) {
