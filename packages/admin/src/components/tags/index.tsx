@@ -48,7 +48,7 @@ const Wrapper = styled.div`
     }
   }
 `;
-import { Tagssr } from "src/lib/api/index";
+import { TagApi } from "src/lib/api/index";
 
 interface ICategoryProps {}
 
@@ -71,7 +71,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
     if (!label) {
       return;
     }
-    Tagssr.addTag({ label, value }).subscribe(() => {
+    TagApi.addTag({ label, value }).subscribe(() => {
       message.success(`添加标签成功`);
       reset();
       getData();
@@ -79,7 +79,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   };
 
   const del = () => {
-    Tagssr.delTag(current.id).subscribe(() => {
+    TagApi.delTag(current.id).subscribe(() => {
       message.success(`删除标签成功`);
       reset();
       getData();
@@ -90,7 +90,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
     if (!label) {
       return;
     }
-    Tagssr.updateTag(current.id, { label, value }).subscribe(() => {
+    TagApi.updateTag(current.id, { label, value }).subscribe(() => {
       message.success(`更新标签成功`);
       reset();
       getData();
@@ -98,7 +98,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   };
 
   const getData = useCallback(() => {
-    Tagssr.getTags().subscribe((res) => {
+    TagApi.getTags().subscribe((res) => {
       if (res.success) {
         setData(res.data);
       }

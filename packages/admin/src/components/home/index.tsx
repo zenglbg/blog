@@ -6,8 +6,10 @@ import { StarOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
 import { IState } from "@lib/redux/reducer/index";
 import { ActionUser } from "@lib/redux/actions/index";
-import { Articlesr } from "src/lib/api/index";
+import { ArticleApi } from "src/lib/api/index";
 import styled from "styled-components";
+
+
 
 const Wrapper = styled.div`
   .title {
@@ -93,11 +95,9 @@ const Home: React.FunctionComponent<Props & RouteComponentProps> = ({
   }, []);
 
   const getArticles = useCallback((params = {}) => {
-    return Articlesr.getArticles(params).subscribe((res) => {
-      if (res && res.success) {
-        setArticles(res.data.data);
-      }
-      return res;
+    return ArticleApi.getArticles(params).then((data) => {
+      setArticles(data.data);
+      return data;
     });
   }, []);
 

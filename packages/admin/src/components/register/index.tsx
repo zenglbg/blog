@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 import { IState } from "@lib/redux/reducer/index";
 import { ActionUser } from "@lib/redux/actions/index";
-import { Usersr } from "src/lib/api/user";
+import { UserApi } from "src/lib/api/user";
 
 import FormList from "./index-formList";
 import Rmodal from "./index-modal";

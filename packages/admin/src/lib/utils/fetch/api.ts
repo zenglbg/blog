@@ -1,10 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from "axios";
-import qs_string from "qs";
 import { push } from "connected-react-router";
-import { ActionUser } from "@lib/redux/actions/index";
-import store from "../../redux";
+import { ActionUser } from "@redux/actions";
+import store from "@lib/redux";
 import { errCode } from "../config";
-import { message } from "antd";
+import { likePost } from "./lib";
 
 const apiWithoutToken = [
   /**
@@ -92,7 +91,7 @@ api.interceptors.response.use(
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
     cancelPending(response.config);
-    return response;
+    return likePost(response);
   },
   (error) => {
     return Promise.reject(error);

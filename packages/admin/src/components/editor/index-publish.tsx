@@ -56,7 +56,7 @@ const FormItemWrapper = styled.div`
 `;
 
 import { CategoryApi } from "@lib/api";
-import { Tagssr } from "src/lib/api/tags";
+import { TagApi } from "src/lib/api/tags";
 
 interface IPublishProps {
   visible: boolean;
@@ -111,7 +111,7 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
         setCategorys(res.data);
       }
     });
-    Tagssr.getTags().subscribe((res) => {
+    TagApi.getTags().subscribe((res) => {
       if (res.success) {
         setTags(res.data);
       }

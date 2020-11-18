@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { useState, useCallback } from "react";
 import { PageHeader, Input, Button, message } from "antd";
@@ -8,7 +7,7 @@ import MDEditor from "../../common/editor";
 import ArticleSetting from "./index-publish";
 
 import { IState } from "@lib/redux/reducer/index";
-import { Articlesr } from "src/lib/api/article";
+import { ArticleApi } from "src/lib/api/article";
 import { ActionArticle } from "@lib/redux/actions/index";
 
 interface IArticleProps {}
@@ -42,21 +41,16 @@ const Article: React.FunctionComponent<
       }
     }
     if (id) {
-      return Articlesr.updateArticle(id, data).subscribe((res) => {
-        if (res.success) {
-          setId(res.data.id);
-          message.success("文章已保存为草稿");
-          dispatch(ActionArticle.getArticles(article.params));
-        }
+      return ArticleApi.updateArticle(id, data).then((data) => {
+        setId(data.id);
+        message.success("文章已保存为草稿");
+        dispatch(ActionArticle.getArticles(article.params));
       });
     } else {
-      return Articlesr.addArticle(article).subscribe((res) => {
-        // setId(res.id);
-        if (res.success) {
-          setId(res.data.id);
-          message.success("文章已保存为草稿");
-          dispatch(ActionArticle.getArticles(article.params));
-        }
+      return ArticleApi.addArticle(article).then((data) => {
+        setId(data.id);
+        message.success("文章已保存为草稿");
+        dispatch(ActionArticle.getArticles(article.params));
       });
     }
   }, [data, id]);
@@ -93,10 +87,10 @@ const Article: React.FunctionComponent<
     };
 
     if (id) {
-      Articlesr.updateArticle(id, _article).subscribe(handle);
+      ArticleApi.updateArticle(id, _article).then(handle);
       dispatch(ActionArticle.getArticles(article.params));
     } else {
-      Articlesr.addArticle(_article).subscribe(handle);
+      ArticleApi.addArticle(_article).then(handle);
       dispatch(ActionArticle.getArticles(article.params));
     }
   };

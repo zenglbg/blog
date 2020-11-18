@@ -8,7 +8,7 @@ import { of } from "rxjs";
 import SPTDataTable from "../../common/SPTDataTable";
 import { ActionArticle } from "@lib/redux/actions/index";
 import { IState } from "@lib/redux/reducer/index";
-import { Articlesr, CategoryApi, Tagssr } from "@lib/api";
+import { ArticleApi, CategoryApi, TagApi } from "@lib/api";
 
 interface IArticleProps {}
 
@@ -88,7 +88,7 @@ const Article: React.FunctionComponent<
 > = ({ dispatch, article, history }) => {
   useEffect(() => {
     CategoryApi.getCategorys();
-    Tagssr.getTags();
+    TagApi.getTags();
   }, []);
 
   const getArticles = useCallback((params = {}) => {
@@ -96,7 +96,7 @@ const Article: React.FunctionComponent<
   }, []);
 
   const deleteArticle = useCallback((id) => {
-    return Articlesr.deleteArticle(id).subscribe((_) => {
+    return ArticleApi.deleteArticle(id).then((_) => {
       message.success("文章删除成功");
       getArticles(article.params);
     });

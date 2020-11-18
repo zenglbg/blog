@@ -1,6 +1,6 @@
 import { Http } from '@lib/utils/fetch/http'
 
-export class Tagssr {
+export class TagApi {
 
   public static addTag(tag) {
     return Http.post("/tag", tag);

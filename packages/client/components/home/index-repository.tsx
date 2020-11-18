@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { concatMap, toArray, tap, map } from "rxjs/operators";
+import { concatMap, toArray, tap, map, mergeMap } from "rxjs/operators";
 import { GithubApi } from "@lib/api";
 import { from } from "rxjs";
 import githubSvg from "./images/github.svg";
@@ -142,8 +142,7 @@ const Repository: React.FunctionComponent<IRepositoryProps> = (props) => {
         }),
         concatMap((res) => res),
         // tap((res) => console.log(res, `tap(res=>console.log`)),
-
-        concatMap((data: any) =>
+        mergeMap((data: any) =>
           GithubApi.getRepoInfo({ user, repo: data.name })
         ),
         toArray()

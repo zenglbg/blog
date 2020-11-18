@@ -1,5 +1,4 @@
 import { PageApi } from "@lib/api";
-import { Observable } from "redux";
 import { ActionPage } from "@redux/actions";
 import { ActionsObservable, ofType } from "redux-observable";
 import { getType } from "typesafe-actions";
