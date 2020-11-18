@@ -10,7 +10,7 @@ const Wrapper = styled.header`
   top: 0;
   border-bottom: 1px solid var(--border-color);
   background-color: var(--bg);
-  z-index: 9999;
+  z-index: 9990;
 
   &.isFixed {
     position: fixed;
@@ -68,7 +68,7 @@ interface IHeaderProps {
 const Header: React.FunctionComponent<IHeaderProps> = ({ setting, menus }) => {
   const [affix, setAffix] = useState(false);
   const [affixVisible, setAffixVisible] = useState(false);
-  console.log(menus);
+  // console.log(menus);
   return (
     <Wrapper
       className={`${affix ? "isFixed" : ""} ${affixVisible ? "visible" : ""}`}

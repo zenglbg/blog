@@ -14,11 +14,13 @@ const Blog: NextPage<IBlogProps> = (props) => {
 };
 
 Blog.getInitialProps = async (ctx: NextPageContext) => {
+  console.log(`ctx.query)`,ctx.query)
   const [articleList, loveList] = await Promise.all([
     ArticleApi.getArticles({
       page: 1,
       pageSize,
       status: "publish",
+      // ...ctx.query
     }),
     ArticleApi.getLove()
   ]);

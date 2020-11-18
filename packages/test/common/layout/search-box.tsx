@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   position: fixed;
   right: 6rem;
   top: 1.7rem;
-  z-index: 2;
+  z-index: 9991;
   transform: translateY(-50%);
 `;
 

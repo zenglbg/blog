@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import ArticleList from "@common/article-list";
 import styled, { StyledFunction } from "styled-components";
 import { withProps, styledComponentWithProps } from "@lib/utils";
+import iconTop from "./images/icon-top.png";
+import iconTags from "./images/tags.png";
+import banner from "./images/banner1.jpg";
 
 const Wrapper = styled.div`
   .banner-wrapper {
     height: 24rem;
-    background: pink;
+    background: url(${banner}) no-repeat center / cover;
   }
 
   .content {
@@ -15,22 +18,49 @@ const Wrapper = styled.div`
     margin-top: 3rem;
     .content-left {
       width: 65%;
+      transform: translateX(-1rem);
     }
     .content-right {
       width: 35%;
       transform: translateX(1rem);
 
+      .top-title,
+      .tag-title {
+        color: var(--main-text-color);
+        font-size: 0.9rem;
+        width: 15rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px dashed var(--border-color);
+        padding-left: 1.2rem;
+        background: no-repeat left 0.2rem / 1rem;
+      }
       .top-wrapper {
         .top-title {
-          color: var(--main-text-color);
-          font-size: 0.9rem;
-          width: 15rem;
-          padding-bottom: 0.5rem;
-          border-bottom: 1px dashed var(--border-color);
+          background-image: url(${iconTop});
         }
         .top-content {
         }
         .love-list {
+        }
+      }
+
+      .tag-wrapper {
+        margin-top: 2rem;
+        .tag-title {
+          background-image: url(${iconTags});
+        }
+
+        .tag-content {
+          display: flex;
+          p {
+            height: 1rem;
+            line-height: 1rem;
+            margin-right: 0.5rem;
+            background-color: rgba(0, 150, 94, 0.1);
+            padding: 0 0.5rem;
+            font-size: 0.7rem;
+            color: #ff7743;
+          }
         }
       }
     }
@@ -53,7 +83,8 @@ const LoveLi: any = styled.li`
     top: 0;
     bottom: 0;
     background-color: rgba(27, 29, 30, 0.8);
-    background: url(${(props: any) => props.bgImg}) no-repeat right center /  3.66rem;
+    background: url(${(props: any) => props.bgImg}) no-repeat right center /
+      3.66rem;
     padding: 0.9rem;
     box-sizing: border-box;
     z-index: 2;
@@ -66,7 +97,6 @@ const LoveLi: any = styled.li`
       text-overflow: ellipsis;
     }
 
-
     .li-title {
       font-size: 0.9rem;
       color: var(--main-text-color);
@@ -76,7 +106,6 @@ const LoveLi: any = styled.li`
     .li-link {
       font-size: 0.9rem;
       color: var(--second-text-color);
-
     }
   }
   .li-right {
@@ -94,6 +123,7 @@ const LoveLi: any = styled.li`
 interface IBlogProps {
   articles: IArticle[];
   loveList: IArticle[];
+  tags: ITag[];
   total: number;
 }
 
@@ -101,7 +131,9 @@ const Blog: React.FunctionComponent<IBlogProps> = ({
   articles,
   total,
   loveList,
+  tags,
 }) => {
+  // console.log(tags);
   return (
     <Wrapper>
       <div className="banner-wrapper">
@@ -133,6 +165,16 @@ const Blog: React.FunctionComponent<IBlogProps> = ({
                     </LoveLi>
                   ))}
               </ul>
+            </div>
+          </div>
+
+          <div className="tag-wrapper">
+            <p className="tag-title">Tag Cound</p>
+
+            <div className="tag-content">
+              {tags.map((tag) => (
+                <p key={tag.id}>{tag.label}</p>
+              ))}
             </div>
           </div>
         </div>

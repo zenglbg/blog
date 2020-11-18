@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   top: 68px;
   right: 0;
   height: 100vh;
+  z-index: 9991;
 
   .ant-drawer-body {
     background-color: var(--bg);
