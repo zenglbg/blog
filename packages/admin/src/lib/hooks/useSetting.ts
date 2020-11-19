@@ -5,10 +5,8 @@ export const useSetting = () => {
   const [value, setValue] = useState<any>({});
 
   useEffect(() => {
-    SettingApi.getSetting().subscribe((res) => {
-      if (res.success) {
-        setValue(res.data);
-      }
+    SettingApi.getSetting().then((res) => {
+      setValue(res);
     });
   }, []);
 

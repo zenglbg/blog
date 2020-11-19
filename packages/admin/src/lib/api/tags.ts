@@ -1,20 +1,19 @@
-import { Http } from '@lib/utils/fetch/http'
+import { api } from "@lib/utils/fetch/api";
 
 export class TagApi {
-
-  public static addTag(tag) {
-    return Http.post("/tag", tag);
+  public static addTag(tag): Promise<ITag> {
+    return api.post("/tag", tag);
   }
 
-  public static delTag(id) {
-    return Http.delete(`/tag/${id}`);
+  public static delTag(id): Promise<ITag> {
+    return api.delete(`/tag/${id}`);
   }
 
-  public static updateTag(id, tag) {
-    return Http.patch(`/tag/${id}`, tag);
+  public static updateTag(id, tag): Promise<ITag> {
+    return api.patch(`/tag/${id}`, tag);
   }
 
-  public static getTags(data={}) {
-    return Http.get("/tag", data);
+  public static getTags(data = {}): Promise<ITag[]> {
+    return api.get("/tag", data);
   }
 }

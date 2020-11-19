@@ -1,10 +1,8 @@
 import * as React from "react";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Row, Col, Card, Form, Input, Button, Popconfirm, message } from "antd";
 import cls from "classnames";
 import styled from "styled-components";
-
-
 
 const Wrapper = styled.div`
   .categoryRow {
@@ -74,7 +72,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
     if (!label) {
       return;
     }
-    CategoryApi.addCategory({ label, value }).subscribe(() => {
+    CategoryApi.addCategory({ label, value }).then(() => {
       message.success(`添加分类成功`);
       reset();
       getData();
@@ -82,7 +80,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   };
 
   const del = () => {
-    CategoryApi.delCategory(current.id).subscribe(() => {
+    CategoryApi.delCategory(current.id).then(() => {
       message.success(`删除分类成功`);
       reset();
       getData();
@@ -93,7 +91,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
     if (!label) {
       return;
     }
-    CategoryApi.updateCategory(current.id, { label, value }).subscribe(() => {
+    CategoryApi.updateCategory(current.id, { label, value }).then(() => {
       message.success(`更新分类成功`);
       reset();
       getData();
@@ -101,13 +99,14 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   };
 
   const getData = useCallback(() => {
-    CategoryApi.getCategorys().subscribe((res) => {
-      if (res.success) {
-        setData(res.data);
-      }
+    CategoryApi.getCategorys().then((res) => {
+      setData(res);
     });
   }, []);
 
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <Wrapper>
       <Row className="categoryRow">

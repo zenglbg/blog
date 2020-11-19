@@ -10,12 +10,12 @@ const { resolve } = require('path')
 
 const resources = () => {
   return adjustStyleLoaders(rule => {
-    if (rule.test.toString().includes('scss')) {
+    if (rule.test.toString().includes('less')) {
       rule.use.push({
         loader: require.resolve('sass-resources-loader'),
         options: {
           resources: [
-            resolve(__dirname, '../src/assets/style/var.scss')
+            resolve(__dirname, '../src/assets/style/var.less')
           ]
         }
       })

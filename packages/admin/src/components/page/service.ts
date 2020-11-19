@@ -6,12 +6,9 @@ export function usePage() {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    PageApi.getPagelist().subscribe((res) => {
-      if (res.success) {
-        const [pages, total] = res.data;
-        setPages(pages);
-        setTotal(total);
-      }
+    PageApi.getPagelist().then(([pages, total]) => {
+      setPages(pages);
+      setTotal(total);
     });
   }, []);
 

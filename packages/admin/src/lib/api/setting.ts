@@ -1,17 +1,17 @@
-import { Http } from "@lib/utils/fetch/http";
+import { api } from "@lib/utils/fetch/api";
 
 export class SettingApi {
   /**
    * 获取设置
    */
-  static getSetting() {
-    return Http.post("/setting/get");
+  static getSetting(): Promise<any> {
+    return api.post("/setting/get");
   }
 
   /**
    * 更新设置
    */
-  static updateSetting(data) {
-    return Http.post(`/setting`, data);
+  static updateSetting(data): Promise<any> {
+    return api.post(`/setting`, data);
   }
 }

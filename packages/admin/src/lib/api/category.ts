@@ -1,19 +1,19 @@
-import { Http } from "@lib/utils/fetch/http";
+import { api } from "@lib/utils/fetch/api";
 
 export class CategoryApi {
-  public static addCategory(category) {
-    return Http.post("/category", category);
+  public static addCategory(category): Promise<ICategory> {
+    return api.post("/category", category);
   }
 
-  public static delCategory(id) {
-    return Http.delete(`/category/${id}`);
+  public static delCategory(id): Promise<ICategory> {
+    return api.delete(`/category/${id}`);
   }
 
-  public static updateCategory(id, category) {
-    return Http.patch(`/category/${id}`, category);
+  public static updateCategory(id, category): Promise<ICategory> {
+    return api.patch(`/category/${id}`, category);
   }
 
-  public static getCategorys(data={}) {
-    return Http.get("/category", data);
+  public static getCategorys(data = {}): Promise<ICategory[]> {
+    return api.get("/category", data);
   }
 }

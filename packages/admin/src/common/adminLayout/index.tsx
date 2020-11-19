@@ -1,4 +1,4 @@
-import "./index.scss";
+import "./index.less";
 
 import React from "react";
 import { connect } from "react-redux";

@@ -105,16 +105,11 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
 
   useEffect(() => {
     console.log(`只执行一次`);
-    CategoryApi.getCategorys().subscribe((res) => {
-      if (res.success) {
-        console.log(res.data);
-        setCategorys(res.data);
-      }
+    CategoryApi.getCategorys().then((res) => {
+      setCategorys(res);
     });
-    TagApi.getTags().subscribe((res) => {
-      if (res.success) {
-        setTags(res.data);
-      }
+    TagApi.getTags().then((res) => {
+      setTags(res);
     });
   }, []);
 

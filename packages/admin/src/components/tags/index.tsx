@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Row, Col, Card, Form, Input, Button, Popconfirm, message } from "antd";
 import cls from "classnames";
 import styled from "styled-components";
@@ -71,7 +71,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
     if (!label) {
       return;
     }
-    TagApi.addTag({ label, value }).subscribe(() => {
+    TagApi.addTag({ label, value }).then(() => {
       message.success(`添加标签成功`);
       reset();
       getData();
@@ -79,7 +79,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   };
 
   const del = () => {
-    TagApi.delTag(current.id).subscribe(() => {
+    TagApi.delTag(current.id).then(() => {
       message.success(`删除标签成功`);
       reset();
       getData();
@@ -90,7 +90,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
     if (!label) {
       return;
     }
-    TagApi.updateTag(current.id, { label, value }).subscribe(() => {
+    TagApi.updateTag(current.id, { label, value }).then(() => {
       message.success(`更新标签成功`);
       reset();
       getData();
@@ -98,13 +98,13 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
   };
 
   const getData = useCallback(() => {
-    TagApi.getTags().subscribe((res) => {
-      if (res.success) {
-        setData(res.data);
-      }
+    TagApi.getTags().then((res) => {
+      setData(res);
     });
   }, []);
-
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <Wrapper>
       <Row className="categoryRow">
