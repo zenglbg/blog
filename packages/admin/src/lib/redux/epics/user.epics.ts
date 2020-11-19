@@ -1,6 +1,6 @@
-import { ofType, Epic, ActionsObservable } from "redux-observable";
-import { of, merge, concat, combineLatest } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { ofType, ActionsObservable } from "redux-observable";
+import { of, concat } from "rxjs";
+import { map, switchMap, concatMap } from "rxjs/operators";
 import { getType } from "typesafe-actions";
 import { push } from "connected-react-router";
 
@@ -13,7 +13,7 @@ export const userEpic = (action$: ActionsObservable<any>, state$) =>
     switchMap(({ payload }) => {
       return UserApi.login(payload);
     }),
-    map((res) => {
+    concatMap((res) => {
       return concat(of(ActionUser.loginS(res)), of(push("/admin/home")));
     })
   );
@@ -33,15 +33,3 @@ export const register = (action$: ActionsObservable<any>, state$) =>
       }
     })
   );
-
-// export const profiles = (action$: ActionsObservable<any>) =>
-//   action$.pipe(
-//     ofType(getType(ActionUser.instance.profiles)),
-//     switchMap(({ payload }) => {
-//       return SrActionUser.profiles().pipe(
-//         map(({ response }) => {
-//           return ActionUser.instance.profiles0(response);
-//         })
-//       );
-//     })
-//   );

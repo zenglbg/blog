@@ -7,6 +7,9 @@ import styled from "styled-components";
 import { RouteComponentProps } from "react-router";
 import { PageApi } from "@/lib/api/page";
 import { FileImageFilled } from "@ant-design/icons";
+import { connect } from "react-redux";
+import { IState } from "@/lib/redux/reducer";
+import { ActionPage } from "@/lib/redux/actions";
 
 const Wrapper = styled.div`
   background-color: #f4f5f5;
@@ -52,79 +55,52 @@ const Btns = styled.div`
   margin-top: 20px;
 `;
 
-interface IPageProps {}
+interface IPageProps {
+  setPage: Function;
+  addPage: Function
+}
 
-const Page: React.FunctionComponent<IPageProps & RouteComponentProps> = ({
-  match,
-}) => {
+const Page: React.FunctionComponent<
+  IPageProps & RouteComponentProps & Pick<IState, "page">
+> = (props) => {
+  const [page, setPage] = useState(props.page.page);
   const setting = useSetting();
-  const [id, setId] = useState(match.params["id"]);
-  const [page, setPage] = useState<any>({});
   const [pageDrawerVisible, setPageDrawerVisible] = useState(false);
 
-  const updateOrCreate = (msg) => {
-    if (id) {
-      return PageApi.updatePage(id, page).subscribe((res) => {
-        if (res.success) {
-          setId(res.data.id);
-          message.success(msg);
-        }
-      });
+ 
+  const checkAuth = () => {
+    const auths = {
+      name: "请输入页面名称",
+      content: "请输入页面内容",
+      path: "请输入页面路径",
+    };
+
+    const isPublish = Object.keys(auths).some((key) => {
+      if (!page[key]) {
+        message.warn(auths[key]);
+        return !page[key];
+      }
+    });
+
+    if (isPublish) {
+      return false;
     } else {
-      return PageApi.createPage(page).subscribe((res) => {
-        console.log(res);
-        if (res.success) {
-          setId(res.data.id);
-          message.success(msg);
-        }
-      });
+      return true;
     }
   };
 
   const save = () => {
-    const auths = {
-      name: "请输入页面名称",
-      content: "请输入页面内容",
-      path: "请输入页面路径",
-    };
-
-    const isPublish = Object.keys(auths).some((key) => {
-      if (!page[key]) {
-        message.warn(auths[key]);
-        return !page[key];
-      }
-    });
-
-    if (isPublish) {
-      return;
+    if (checkAuth()) {
+      page.status = "draft";
+      props.addPage(page)
     }
-
-    page.status = "draft";
-
-    updateOrCreate("页面已保存");
   };
 
   const publish = () => {
-    const auths = {
-      name: "请输入页面名称",
-      content: "请输入页面内容",
-      path: "请输入页面路径",
-    };
-
-    const isPublish = Object.keys(auths).some((key) => {
-      if (!page[key]) {
-        message.warn(auths[key]);
-        return !page[key];
-      }
-    });
-
-    if (isPublish) {
-      return;
+    if (checkAuth()) {
+      page.status = "publish";
+      props.addPage(page)
     }
-
-    page.status = "publish";
-
-    updateOrCreate("页面已发布");
   };
 
   return (
@@ -138,7 +114,7 @@ const Page: React.FunctionComponent<IPageProps & RouteComponentProps> = ({
           onBack={() => window.close()}
           title={
             <Input
-              defaultValue={page.title}
+              defaultValue={page.name}
               placeholder="请输入文章标题！"
               onChange={(e) => {
                 const value = e.target.value;
@@ -236,4 +212,7 @@ const Page: React.FunctionComponent<IPageProps & RouteComponentProps> = ({
   );
 };
 
-export default Page;
+export default connect(({ page }: IState) => ({ page }), {
+  setPage: ActionPage.setpage,
+  addPage: ActionPage.addPage
+})(Page);

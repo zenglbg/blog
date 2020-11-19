@@ -70,7 +70,7 @@ export class ArticleApi {
    * @param data
    */
   static async addArticle(data): Promise<IArticle> {
-    return api.post("/article", data);
+    return api.post("/article/create", data);
   }
 
   /**

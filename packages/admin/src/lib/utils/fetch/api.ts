@@ -4,6 +4,19 @@ import { ActionUser } from "@redux/actions";
 import store from "@lib/redux";
 import { errCode } from "../config";
 import { likePost } from "./lib";
+import { message } from "antd";
+
+let httpCode = {
+  //常见的http状态码信息，可以自己去调整配置
+  400: "请求参数错误",
+  401: "权限不足, 请重新登录",
+  403: "服务器拒绝本次访问",
+  404: "请求资源未找到",
+  500: "内部服务器错误",
+  501: "服务器不支持该请求中使用的方法",
+  502: "网关错误",
+  504: "网关超时",
+};
 
 const apiWithoutToken = [
   /**
@@ -94,6 +107,24 @@ api.interceptors.response.use(
     return likePost(response);
   },
   (error) => {
-    return Promise.reject(error);
+    console.log();
+    if (error.response) {
+      let tips =
+        error.response.status in httpCode
+          ? httpCode[error.response.status]
+          : error.response.data.message;
+
+      message.error({
+        content: tips,
+      });
+
+      if (error.response.status === 401) {
+        // token或者登陆失效情况下跳转到登录页面
+        store.dispatch(push(`/login`))
+      }
+
+      return Promise.reject(error);
+    } else {
+    }
   }
 );

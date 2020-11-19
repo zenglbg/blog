@@ -1,28 +1,23 @@
 import { createAction } from "typesafe-actions";
 
 export class ActionPage {
-  public static SET_PAGE = "SET_PAGE";
-  public static GET_PAGE = "GET_PAGE";
-  public static HANDLE_PAGE = "HANDLE_PAGE";
-
   /**请求页面 */
-  public static getpage = createAction(
-    ActionPage.GET_PAGE,
-    (params) => params
-  )();
+  public static getpage = createAction("GET_PAGE", (params) => params)();
 
   /**
    * 获取页面数据
    */
   public static setpage = createAction(
-    ActionPage.SET_PAGE,
-    (data) => data
+    "SET_PAGE",
+    (data: { pages: IPage[]; total: number }) => data
   )();
+
+  public static addPage = createAction("ADD_PAGE", (page: IPage) => page)();
 
   /**
    * 被选中的页面
    */
-  public static handleId = createAction(ActionPage.HANDLE_PAGE, (page) => ({
+  public static handleId = createAction("HANDLE_PAGE", (page) => ({
     page,
   }))();
 }

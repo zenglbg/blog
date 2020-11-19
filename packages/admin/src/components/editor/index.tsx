@@ -6,9 +6,10 @@ import { connect, DispatchProp } from "react-redux";
 import MDEditor from "../../common/editor";
 import ArticleSetting from "./index-publish";
 
-import { IState } from "@lib/redux/reducer/index";
-import { ArticleApi } from "src/lib/api/article";
-import { ActionArticle } from "@lib/redux/actions/index";
+import { IState } from "@redux/reducer";
+import { ArticleApi } from "@lib/api";
+import { ActionArticle } from "@redux/actions";
+import { retry } from "rxjs/operators";
 
 interface IArticleProps {}
 
@@ -21,41 +22,7 @@ const Article: React.FunctionComponent<
     article.articles.find((item) => item.id === article.onId) || {}
   );
 
-  const save = useCallback(() => {
-    if (!data.title) {
-      message.warn("文章标题不能为空！");
-      return;
-    }
-    if (!data.content) {
-      message.warn("文章内容不能为空！");
-      return;
-    }
-
-    data.status = "draft";
-
-    if (Array.isArray(data.tags)) {
-      try {
-        data.tags = data.tags.map((t) => t.id).join(",");
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (id) {
-      return ArticleApi.updateArticle(id, data).then((data) => {
-        setId(data.id);
-        message.success("文章已保存为草稿");
-        dispatch(ActionArticle.getArticles(article.params));
-      });
-    } else {
-      return ArticleApi.addArticle(article).then((data) => {
-        setId(data.id);
-        message.success("文章已保存为草稿");
-        dispatch(ActionArticle.getArticles(article.params));
-      });
-    }
-  }, [data, id]);
-
-  const publish = useCallback(() => {
+  const checkAuth = () => {
     let canPublish = true;
     void [
       ["title", "请输入文章标题"],
@@ -66,24 +33,50 @@ const Article: React.FunctionComponent<
         canPublish = false;
       }
     });
+    return canPublish;
+  };
 
-    if (!canPublish) {
-      return;
+  const save = useCallback(() => {
+    if (checkAuth()) {
+      data.status = "draft";
+
+      if (Array.isArray(data.tags)) {
+        try {
+          data.tags = data.tags.map((t) => t.id).join(",");
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      if (id) {
+        return ArticleApi.updateArticle(id, data).then((data) => {
+          setId(data.id);
+          message.success("文章已保存为草稿");
+          dispatch(ActionArticle.getArticles(article.params));
+        });
+      } else {
+        return ArticleApi.addArticle(data).then((data) => {
+          setId(data.id);
+          message.success("文章已保存为草稿");
+          dispatch(ActionArticle.getArticles(article.params));
+        });
+      }
     }
+  }, [data, id]);
 
-    setSettingDrawerVisible(true);
+  const publish = useCallback(() => {
+    if (checkAuth()) {
+      setSettingDrawerVisible(true);
+    }
   }, [data, id]);
 
   const saveOrPublish = (patch) => {
     const _article = Object.assign({}, data, patch);
 
     const handle = (res) => {
-      if (res.success) {
-        setId(res.data.id);
-        message.success(
-          res.data.status === "draft" ? "文章已保存为草稿" : "文章已发布"
-        );
-      }
+      setId(res.id);
+      message.success(
+        res.status === "draft" ? "文章已保存为草稿" : "文章已发布"
+      );
     };
 
     if (id) {
