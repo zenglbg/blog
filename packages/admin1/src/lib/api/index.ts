@@ -1,6 +1,8 @@
-export * from "./article";
-export * from "./category";
-export * from "./tags";
-export * from "./user";
-export * from './setting'
-export * from './page'
+import { ArticleApi } from "./article";
+import { CategoryApi } from "./category";
+import { TagApi } from "./tags";
+import UserApi from "./user";
+import { SettingApi } from "./setting";
+import PageApi from "./page";
+
+export { ArticleApi, CategoryApi, TagApi, UserApi, SettingApi, PageApi };

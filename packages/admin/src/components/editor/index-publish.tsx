@@ -65,7 +65,7 @@ interface IPublishProps {
   onChange?: (arg: any) => void;
 }
 
-const FormItem = ({ label, content, ...data }) => {
+const FormItem = ({ label, content, ...data }: any) => {
   return (
     <FormItemWrapper className="formItem" {...data}>
       <span>{label}</span>
@@ -81,7 +81,7 @@ const Publish: React.FunctionComponent<IPublishProps> = ({
   onChange,
 }) => {
   const [fileVisible, setFileVisible] = useState(false);
-  const [summary, setSummary] = useState(article.summary || null);
+  const [summary, setSummary] = useState<any>(article.summary || null);
   const [categorys, setCategorys] = useState<Array<ICategory>>([]);
   const [tags, setTags] = useState<Array<ITag>>([]);
   const [password, setPassword] = useState(article.password || null);

@@ -11,8 +11,8 @@ interface ISPTDataTableProps {
   data: Array<any>;
   columns: Array<any>;
   total: number;
-  onSearch?: (params?: any) => void;
-  customDataTable?: (data) => React.ReactNode;
+  onSearch: (params?: any) => void;
+  customDataTable?: (data:any) => React.ReactNode;
 }
 
 const SPTDataTable: React.FunctionComponent<ISPTDataTableProps> = ({

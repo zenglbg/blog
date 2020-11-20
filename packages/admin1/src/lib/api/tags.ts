@@ -1,4 +1,4 @@
-import { api } from "@/lib/fetch/api";
+import { api } from "../fetch";
 
 export class TagApi {
   public static addTag(tag: any): Promise<ITag> {

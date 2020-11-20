@@ -5,7 +5,6 @@
       "@/*": ["./src/*"],
       "@lib/*": ["./src/lib/*"],
       "@redux/*": ["./src/lib/redux/*"],
-       
     },
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true

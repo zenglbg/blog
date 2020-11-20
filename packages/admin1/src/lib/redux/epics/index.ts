@@ -10,7 +10,7 @@ import { catchError } from "rxjs/operators";
 import * as user from "./user.epics";
 import * as article from "./article.epics";
 import * as page from "./page.epics";
-import { IState } from "../reducer";
+import { IState } from "@reducer";
 
 
 export const rootEpics: Epic<Action, Action, void, void> = (

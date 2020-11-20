@@ -16,7 +16,9 @@ interface Props {
 export default function preview({ markdown = "" }: Props): ReactElement {
   useEffect(() => {
     const $el = document.getElementById("content");
-    $el.innerHTML = converter.makeHtml(markdown);
+    if ($el) {
+      $el.innerHTML = converter.makeHtml(markdown);
+    }
   });
 
   return (

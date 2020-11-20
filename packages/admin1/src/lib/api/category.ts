@@ -1,4 +1,4 @@
-import { api } from "@/lib/fetch/api";
+import { api } from "../fetch";
 
 export class CategoryApi {
   public static addCategory(category: any): Promise<ICategory> {

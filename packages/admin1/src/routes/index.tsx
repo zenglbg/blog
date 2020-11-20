@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, RouteComponentProps, Switch, Redirect } from "react-router-dom";
-import requireLogin from "./requireLogin";
+import Auth from './index-auth'
 import { routes, IRoutes } from "./config";
 
 interface Props {}
@@ -13,9 +13,7 @@ export function RouteView() {
         path={route.path}
         exact={route.exact}
         render={(props: RouteComponentProps) => {
-          const Component = /(\/admin|\/editor)/g.test(route.path)
-            ? requireLogin(route.component)
-            : route.component;
+          const Component = route.component;
           return (
             <Component
               {...props}
@@ -29,12 +27,11 @@ export function RouteView() {
   };
 
   return (
-    <div className="route">
+    <Auth>
       <Switch>
         {routesRenderMsp(routes)}
         <Redirect to="/admin/home" />
       </Switch>
-    </div>
+    </Auth>
   );
 }
- 

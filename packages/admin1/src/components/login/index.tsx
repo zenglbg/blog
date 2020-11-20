@@ -29,7 +29,6 @@ interface Props {
 const Login: React.FunctionComponent<
   PageDispatchProps & RouteComponentProps & Props
 > = ({ doLogin, history, ...props }) => {
-  console.log(props);
 
   const onFinish = (values) => {
     doLogin(values);

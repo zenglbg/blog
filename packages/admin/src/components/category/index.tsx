@@ -54,11 +54,11 @@ import { CategoryApi } from "@lib/api";
 interface ICategoryProps {}
 
 const Category: React.FunctionComponent<ICategoryProps> = (props) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [mode, setMode] = useState("create");
-  const [label, setLabel] = useState(null);
-  const [value, setValue] = useState(null);
-  const [current, setCurrent] = useState(null);
+  const [label, setLabel] = useState<any>(null);
+  const [value, setValue] = useState<any>(null);
+  const [current, setCurrent] = useState<any>(null);
   const isCreateMode = useMemo(() => mode === "create", [mode]);
 
   const reset = useCallback(() => {
@@ -150,7 +150,7 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
         <Col xs={24} sm={24} md={15}>
           <Card title="所有分类" bordered={true}>
             <ul className="list">
-              {data.map((d) => (
+              {data.map((d:any) => (
                 <li
                   key={d.id}
                   onClick={() => {

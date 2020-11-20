@@ -1,15 +1,12 @@
 {
   "compilerOptions": {
-    "isolatedModules": false,
     "paths": {
       "@/*": ["./src/*"],
       "@api": ["./src/lib/api/index"],
       "@actions": ["./src/lib/redux/actions/index"],
       "@reducer": ["./src/lib/redux/reducer/index"],
-      "@epics": ["./src/lib/redux/epic/index"]
-    },
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true
+      "@epics'": ["./src/lib/redux/epics/index"]
+    }
   }
 }
 

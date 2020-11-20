@@ -11,7 +11,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { EditorProps } from "@toast-ui/react-editor";
 
 import { Spin } from "antd";
-let ToastEditor;
+let ToastEditor: any;
 
 interface Props {
   value: string;
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export default function Editor({ value, onChange }: Props): ReactElement {
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

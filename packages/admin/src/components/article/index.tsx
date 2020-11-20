@@ -17,7 +17,7 @@ const columns = [
     title: "状态",
     dataIndex: "status",
     key: "status",
-    render: (status) => {
+    render: (status: any) => {
       const isDraft = status === "draft";
       return (
         <Badge
@@ -31,7 +31,7 @@ const columns = [
     title: "分类",
     key: "category",
     dataIndex: "category",
-    render: (category) =>
+    render: (category: any) =>
       category ? (
         <span>
           <Tag color={"magenta"} key={category.value}>
@@ -44,7 +44,7 @@ const columns = [
     title: "标签",
     key: "tags",
     dataIndex: "tags",
-    render: (tags) => (
+    render: (tags: any) => (
       <span>
         {Array.isArray(tags)
           ? tags.map((tag) => {
@@ -66,7 +66,7 @@ const columns = [
     title: "阅读量",
     dataIndex: "views",
     key: "views",
-    render: (views) => (
+    render: (views: any) => (
       <Badge
         count={views}
         showZero={true}
@@ -79,7 +79,7 @@ const columns = [
     title: "发布时间",
     dataIndex: "publishAt",
     key: "publishAt",
-    render: (date) => dayjs.default(date).format("YYYY-MM-DD HH:mm:ss"),
+    render: (date: any) => dayjs.default(date).format("YYYY-MM-DD HH:mm:ss"),
   },
 ];
 
@@ -102,7 +102,7 @@ const Article: React.FunctionComponent<
     });
   }, []);
 
-  const handleArticle = (id) => {
+  const handleArticle = (id: any) => {
     dispatch(ActionArticle.handleId(id));
   };
 
@@ -110,13 +110,13 @@ const Article: React.FunctionComponent<
     title: "标题",
     dataIndex: "title",
     key: "title",
-    render: (text, record) => <a href="">{text}</a>,
+    render: (text: any, record: any) => <a href="">{text}</a>,
   };
 
   const actionColumn = {
     title: "操作",
     key: "action",
-    render: (_, record) => (
+    render: (_: any, record: any) => (
       <span>
         <Link
           to="/editor/article"

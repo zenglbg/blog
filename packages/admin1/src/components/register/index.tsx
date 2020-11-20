@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import { IState } from "@reducer";
 import { ActionUser } from "@actions";
+import { UserApi } from "@api";
 
 import FormList from "./index-formList";
 import Rmodal from "./index-modal";
@@ -41,14 +42,14 @@ const Register: React.FunctionComponent<PageDispatchProps & IRegisterProps> = ({
   const get_validate_code = () => {
     /** 获取验证码 */
   };
-  const handleAuth = ({ user_name, user_email, validate_code }: any) => {
+  const handleAuth = ({ user_name, user_email, validate_code }) => {
     /**
      * 验证验证码，并打开密码输入弹窗
      */
     setVisible(true);
   };
 
-  const handleOk = ({ name, email, password }: any) => {
+  const handleOk = ({ name, email, password }) => {
     /**
      * 注册按钮，请求注册
      */

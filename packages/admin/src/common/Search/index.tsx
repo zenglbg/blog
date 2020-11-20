@@ -12,7 +12,7 @@ export interface IFieldItem {
   children?: React.ReactNode;
 }
 interface ISearchProps {
-  onSearchBtn?: (arg: any) => void;
+  onSearchBtn: (arg: any) => void;
   onReset?: Function;
 }
 
@@ -24,30 +24,31 @@ const Search: React.FunctionComponent<ISearchProps> = ({
   const [form] = Form.useForm();
   const getFields = () => {
     return fields.reduce((acc, field: IFieldItem, index) => {
-      acc.push(
-        <Form.Item
-          label={field.label}
-          key={`${field.label}`}
-          name={field.field}
-          rules={field.rules}
-        >
-          {field.children ? (
-            field.children
-          ) : (
-            <Input
-              style={{ width: 180 }}
-              placeholder={field.msg || "placeholder"}
-            />
-          )}
-        </Form.Item>
-      );
+      acc
+        .push
+        // <Form.Item
+        //   label={field.label}
+        //   key={`${field.label}`}
+        //   name={field.field}
+        //   rules={field.rules}
+        // >
+        //   {field.children ? (
+        //     field.children
+        //   ) : (
+        //     <Input
+        //       style={{ width: 180 }}
+        //       placeholder={field.msg || "placeholder"}
+        //     />
+        //   )}
+        // </Form.Item>
+        ();
       return acc;
     }, []);
   };
   const handleReset = () => form.resetFields();
-  const onFinish = (values) => {
+  const onFinish = (values: any) => {
     onSearchBtn(
-      Object.keys(values).reduce((acc, item) => {
+      Object.keys(values).reduce((acc: any, item: any) => {
         if (values[item]) {
           acc[item] = values[item];
         }
@@ -55,7 +56,7 @@ const Search: React.FunctionComponent<ISearchProps> = ({
       }, {})
     );
   };
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
 

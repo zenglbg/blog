@@ -18,11 +18,11 @@ interface IAdminLayoutProps {
   routes?: IRoutes[];
 }
 
-const findActiveMenu = (pathname) => {
+const findActiveMenu = (pathname: any) => {
   return menus.find((menu) => menu.path === pathname);
 };
 
-const ResourceCreate = ({ handleArticle }) => {
+const ResourceCreate = ({ handleArticle }: any) => {
   const menu = (
     <Menu>
       <Menu.Item>
@@ -84,15 +84,17 @@ const AdminLayout: React.FunctionComponent<
               {menus
                 .filter((m: any) => !m.ignore)
                 .map((menu, index) => {
-                  const Icon = menu.icon;
+                  const Icon: any = menu.icon;
                   return menu.divider ? (
                     <div className="divider" key={`${index}adminlayout`}></div>
                   ) : (
                     <li key={`${index}adminlayout`}>
-                      <Link to={menu.path} className="active">
-                        <Icon />
-                        <span>{menu.label}</span>
-                      </Link>
+                      {menu.path && (
+                        <Link to={menu.path} className="active">
+                          <Icon />
+                          <span>{menu.label}</span>
+                        </Link>
+                      )}
                     </li>
                   );
                 })}
