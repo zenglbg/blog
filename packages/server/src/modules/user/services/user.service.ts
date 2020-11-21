@@ -24,7 +24,6 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private configService: ConfigService,
-
   ) {
     this.init();
   }
@@ -49,6 +48,7 @@ export class UserService {
         console.log(
           `管理员账户已经存在，用户名：${name}，密码：${password}，请及时登录系统修改默认密码`,
         );
+
         console.log();
       },
     );
@@ -85,7 +85,7 @@ export class UserService {
   public createUser(user: Partial<User>) {
     const { name } = user;
     return from(this.userRepository.findOne({ where: { name } })).pipe(
-      switchMap(existUser => {
+      concatMap(existUser => {
         if (existUser) {
           throw new ApiException(
             '用户已存在',
@@ -94,7 +94,7 @@ export class UserService {
           );
         }
         const newUser = this.userRepository.create(user);
-        return from(this.userRepository.save(newUser));
+        return this.userRepository.save(newUser);
       }),
       catchError(err => {
         return throwError(err);
@@ -110,14 +110,14 @@ export class UserService {
   public login(user: Partial<User>) {
     const { name, password } = user;
     return from(this.userRepository.findOne({ where: { name } })).pipe(
-      switchMap(existUser => {
+      concatMap(existUser => {
         if (!existUser) {
           throw new HttpException(`用户不存在`, HttpStatus.BAD_REQUEST);
         } else {
-          return combineLatest(
+          return combineLatest([
             from(User.comparePassword(password, existUser.password)),
             of(existUser),
-          );
+          ]);
         }
       }),
       map(([isSame, existUser]) => {
@@ -134,7 +134,6 @@ export class UserService {
       }),
     );
   }
-  
 
   /**
    * findByid

@@ -8,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Category } from '@modules/category/models/category.entity';
+import { ArticleContent } from './article_content.entity';
 import { Tag } from '@modules/tag/models/tag.entity';
 import { Base } from '@entity/base.entity';
 
@@ -24,16 +25,16 @@ export class Article extends Base {
   @Column({ type: 'text', default: null, comment: '摘要，自动生成' })
   summary: string;
 
-  // @OneToOne(
-  //   type => ArticleContent,
-  //   articleContent => articleContent.info,
-  //   {
-  //     cascade: true,
-  //   },
-  // )
-  // @JoinColumn()
-  @Column({ type: 'mediumtext', default: null, charset: 'utf8mb4' })
-  content: string;
+  @OneToOne(
+    type => ArticleContent,
+    articleContent => articleContent.info,
+    {
+      cascade: true,
+    },
+  )
+  @JoinColumn()
+  // @Column({ type: 'mediumtext', default: null, charset: 'utf8mb4' })
+  content: ArticleContent;
 
   @ManyToOne(
     type => Category,

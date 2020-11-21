@@ -12,9 +12,9 @@ export class ArticleContent extends Base {
 
   
 
-  // @OneToOne(
-  //   type => Article,
-  //   article => article.content,
-  // )
-  // info: Article;
+  @OneToOne(
+    type => Article,
+    article => article.content,
+  )
+  info: Article;
 }

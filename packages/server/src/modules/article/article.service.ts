@@ -1,7 +1,7 @@
 import { Injectable, HttpStatus, HttpException } from '@nestjs/common';
 import { Article } from './models/article_info.entity';
 import { from, of, combineLatest, forkJoin, Observable } from 'rxjs';
-import { map, switchMap, filter, tap } from 'rxjs/operators';
+import { map, switchMap, filter, tap, concatMap } from 'rxjs/operators';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ApiException } from '@common/exceptions/api.exception';
@@ -11,6 +11,8 @@ import { TagService } from '@modules/tag/services/tag.service';
 import { CategoryService } from '@modules/category/service/category.service';
 import { ArticleContent } from './models/article_content.entity';
 import { CreateArticleDto } from './dtos/create.article.dto';
+import { Tag } from '@modules/tag/models/tag.entity';
+import { Category } from '@modules/category/models/category.entity';
 
 @Injectable()
 export class ArticleService {
@@ -97,15 +99,15 @@ export class ArticleService {
       )
       .pipe(
         switchMap(([tags, existCategory, article]) => {
-          // const newContent = this.articleContentRepository.create({
-          //   content: article.content,
-          // });
+          const newContent = this.articleContentRepository.create({
+            content: article.content,
+          });
 
           const newArticle = this.articleRepository.create({
             ...article,
             category: existCategory,
             tags: tags,
-            // content: newContent,
+            content: newContent,
             needPassword: !!article.password,
           });
 
@@ -123,7 +125,7 @@ export class ArticleService {
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.tags', 'tag')
       .leftJoinAndSelect('article.category', 'category')
-      // .leftJoinAndSelect('article.context', 'context')
+      .leftJoinAndSelect('article.context', 'context')
       .orderBy('article.publishAt', 'DESC');
 
     return this.queryMiddle(query, queryParams);
@@ -137,6 +139,7 @@ export class ArticleService {
     const query = this.articleRepository
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.category', 'category')
+      .leftJoinAndSelect('article.context', 'context')
       .where('category.value=:value', { value: category })
       .orderBy('article.publishAt', 'DESC');
 
@@ -153,6 +156,7 @@ export class ArticleService {
       .innerJoinAndSelect('article.tags', 'tag', 'tag.value=:value', {
         value: tag,
       })
+      .leftJoinAndSelect('article.context', 'context')
       .orderBy('article.publishAt', 'DESC');
 
     return this.queryMiddle(query, queryParams);
@@ -161,6 +165,7 @@ export class ArticleService {
   public getLove() {
     const query = this.articleRepository
       .createQueryBuilder('article')
+      .leftJoinAndSelect('article.context', 'context')
       .orderBy('article.views', 'DESC')
       .limit(7);
 
@@ -189,6 +194,7 @@ export class ArticleService {
       this.articleRepository.find({
         where: { status: 'publish' },
         order: { publishAt: 'DESC' },
+        relations: ['content'],
       }),
     ).pipe(
       map(data => {
@@ -218,6 +224,7 @@ export class ArticleService {
       .where('article.title LIKE :keyword')
       .orWhere('article.summary LIKE :keyword')
       .orWhere('article.content LIKE :keyword')
+      .leftJoinAndSelect('article.content', 'content')
       .setParameter('keyword', `%${keyword}%`)
       .getMany();
   }
@@ -235,7 +242,9 @@ export class ArticleService {
       .createQueryBuilder('article')
       .orderBy('article.publishAt', 'DESC')
       .leftJoinAndSelect('article.category', 'category')
-      .leftJoinAndSelect('article.tags', 'tags');
+      .leftJoinAndSelect('article.tags', 'tags')
+      .leftJoinAndSelect('article.content', 'content');
+
     if (!articleId) {
       query.where('article.status=:status').setParameter('status', 'publish');
       return query.take(6).getMany();
@@ -331,6 +340,7 @@ export class ArticleService {
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.category', 'category')
       .leftJoinAndSelect('article.tags', 'tags')
+      .leftJoinAndSelect('article.content', 'content')
       .where('article.id=:id')
       .orWhere('article.title=:title')
       .setParameter('id', id)
@@ -347,36 +357,30 @@ export class ArticleService {
    * updateById
    * 更新文章
    */
-  public updateById(id, article: Partial<Article>) {
-    const oldArticle$ = from(this.articleRepository.findOne(id));
+  public updateById(id, article) {
     const { tags, category, status } = article;
-    const obs$: any[] = [oldArticle$];
-    if (tags) {
-      console.log(String(tags).split(','));
-      const tags$ = from(this.tagService.findByIds(String(tags).split(',')));
-      obs$.push(tags$);
-    }
-    if (category) {
-      const category$ = from(this.categoryService.findById(category));
-      obs$.push(category$);
-    }
 
-    return forkJoin(...obs$).pipe(
-      switchMap(data => {
-        const [oldArticle, tags, category] = data;
-
-        // const newContentArticle = this.articleContentRepository.merge({
-        //   content: article.content,
-        // });
+    return forkJoin([
+      this.tagService.findByIds(String(tags).split(',')),
+      this.categoryService.findById(category),
+      this.articleRepository.findOne(id, { relations: ['content'] }),
+    ]).pipe(
+      concatMap(([tags, category, old]) => {
+        const newContentArticle = this.articleContentRepository.merge(
+          old.content,
+          {
+            content: article.content,
+          },
+        );
         const newArticle = {
           ...article,
-          // content: newContentArticle,
-          views: oldArticle.views,
+          content: newContentArticle,
+          views: old.views,
           needPassword: !!article.password,
           publishAt:
-            oldArticle.status === 'draft' && status === 'publish'
+            old.status === 'draft' && status === 'publish'
               ? dayjs().format('YYYY-MM-DD HH:mm:ss')
-              : oldArticle.publishAt,
+              : old.publishAt,
         };
 
         if (category) {
@@ -386,16 +390,9 @@ export class ArticleService {
           Object.assign(newArticle, { tags });
         }
 
-        // console.log(oldArticle, `newArticle`, newArticle,
-        // `----32342432424242--4--24`,
-        // tags, category);
+        const updatedArticle = this.articleRepository.merge(old, newArticle);
 
-        const updatedArticle = this.articleRepository.merge(
-          oldArticle,
-          newArticle,
-        );
-
-        return from(this.articleRepository.save(updatedArticle));
+        return this.articleRepository.save(updatedArticle);
       }),
     );
   }

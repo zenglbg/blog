@@ -2,7 +2,7 @@ import { Column, Entity, BeforeInsert } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { createBcrypt, verifyBcrypt } from '@utils/index';
 import { Base } from '@entity/base.entity';
-import { Profile } from '@entity/profile.entity'
+import { Profile } from '@entity/profile.entity';
 @Entity({
   name: 'users',
 })
@@ -19,7 +19,6 @@ export class User extends Base {
   static encryptPassword(password) {
     return createBcrypt(password, 10);
   }
-
 
   @Column({ length: 10 })
   name: string;
@@ -40,8 +39,8 @@ export class User extends Base {
   @Column('simple-enum', { enum: ['locked', 'active'], default: 'active' })
   status: string; // 用户状态
 
-  @Column()
-  phone:Date
+  @Column({ type: 'text', default: null })
+  phone: string;
 
   /**
    * 插入数据前，对密码进行加密
