@@ -1,5 +1,21 @@
 ﻿export default [
   {
+    path: '/editor',
+    component: '../layouts/editorLayout',
+    routes: [
+      {
+        name: 'article',
+        path: '/editor/article',
+        component: './editor/article',
+      },
+      {
+        name: 'newpage',
+        path: '/editor/newpage',
+        component: './editor/newpage',
+      },
+    ],
+  },
+  {
     path: '/user',
     component: '../layouts/UserLayout',
     routes: [
@@ -32,7 +48,7 @@
           {
             path: '/article',
             name: 'article',
-            icon: "ContainerOutlined",
+            icon: 'ContainerOutlined',
             component: './article',
             authority: ['admin', 'user'],
             routes: [
@@ -53,8 +69,8 @@
                 name: 'tag',
                 component: './article/tag',
                 authority: ['admin', 'user'],
-              }
-            ]
+              },
+            ],
           },
           // {
           //   path: '/setting',

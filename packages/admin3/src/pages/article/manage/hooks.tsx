@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ProColumns } from '@ant-design/pro-table';
 import { Badge, Tag, Popconfirm, Divider } from 'antd';
+import { useDispatch, history } from 'umi';
+import { ArticleAction } from '@/models/article';
 
 export function useManageColumns() {
+  const dispatch = useDispatch();
   const columns: ProColumns<any>[] = [
     {
       title: '标题',
@@ -98,9 +101,7 @@ export function useManageColumns() {
       search: false,
       render: (_: any, record: any) => (
         <span>
-          <a href="/editor/article" target="__blank" onClick={() => handleArticle(record.id)}>
-            编辑
-          </a>
+          <a onClick={() => handleArticle(record)}>编辑</a>
           <Divider type="vertical" />
           <span></span>
           <a onClick={() => {}}>
@@ -120,7 +121,10 @@ export function useManageColumns() {
     },
   ];
 
-  const handleArticle = (id: string | number) => {};
+  const handleArticle = (record: IArticle) => {
+    dispatch(ArticleAction.setArticle(record));
+    history.push('/editor/article')
+  };
   const deleteArticle = (id: string | number) => {};
 
   return { columns };

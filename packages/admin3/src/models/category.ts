@@ -1,12 +1,12 @@
 import { Effect, Reducer } from 'umi';
 
-export interface StateType {
+export interface CategoryType {
   category?: ICategory;
 }
 
 export interface CategoryModelType {
   namespace: string;
-  state: StateType;
+  state: CategoryType;
   effects: {};
   reducers: {};
 }

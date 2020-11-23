@@ -1,7 +1,10 @@
 import { getArticles } from '@/services/article';
+import { createAction } from 'typesafe-actions';
 import { Effect, Reducer } from 'umi';
 
-export interface StateType {}
+export interface StateType {
+  article?: IArticle;
+}
 
 export interface ArticleModelType {
   namespace: string;
@@ -10,7 +13,7 @@ export interface ArticleModelType {
     getArticles: Effect;
   };
   reducers: {
-    setArticles: Reducer;
+    setArticle: Reducer<StateType>;
   };
 }
 
@@ -25,8 +28,12 @@ const Model: ArticleModelType = {
     },
   },
   reducers: {
-    setArticles() {},
+    setArticle(state, { payload }) {
+      return { ...state, article: payload };
+    },
   },
 };
-
+export class ArticleAction {
+  static setArticle = createAction('article/setArticle', (article: IArticle) => article)();
+}
 export default Model;
