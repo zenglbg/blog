@@ -3,7 +3,9 @@
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
 import { extend } from 'umi-request';
+import { history } from 'umi';
 import { notification } from 'antd';
+import { getUserToken } from './authority';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -28,6 +30,7 @@ const codeMessage = {
  */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
+
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
@@ -36,12 +39,15 @@ const errorHandler = (error: { response: Response }): Response => {
       message: `请求错误 ${status}: ${url}`,
       description: errorText,
     });
+
+ 
   } else if (!response) {
     notification.error({
       description: '您的网络发生异常，无法连接服务器',
       message: '网络异常',
     });
   }
+
   return response;
 };
 
@@ -50,7 +56,23 @@ const errorHandler = (error: { response: Response }): Response => {
  */
 const request = extend({
   errorHandler, // 默认错误处理
+  prefix: "/api",
   credentials: 'include', // 默认请求是否带上cookie
+});
+request.interceptors.request.use((url, options) => {
+  (options.headers as any).token = getUserToken();
+  return { url, options };
+});
+request.interceptors.response.use((response) => {
+  if (response.status === 401) {
+    history.push('/user/login');
+  }
+  return response.json().then((res) => {
+    if (res.success) {
+      return res.data;
+    }
+    return res
+  });
 });
 
 export default request;

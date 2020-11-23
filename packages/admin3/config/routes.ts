@@ -30,6 +30,38 @@
             component: './Welcome',
           },
           {
+            path: '/article',
+            name: 'article',
+            icon: "ContainerOutlined",
+            component: './article',
+            authority: ['admin', 'user'],
+            routes: [
+              {
+                path: '/article/manage',
+                name: 'manage',
+                component: './article/manage',
+                authority: ['admin', 'user'],
+              },
+              {
+                path: '/article/category',
+                name: 'category',
+                component: './article/category',
+                authority: ['admin', 'user'],
+              },
+              {
+                path: '/article/tag',
+                name: 'tag',
+                component: './article/tag',
+                authority: ['admin', 'user'],
+              }
+            ]
+          },
+          // {
+          //   path: '/setting',
+          //   name: 'setting',
+          //   icon: 'SettingOutlined',
+          // },
+          {
             path: '/admin',
             name: 'admin',
             icon: 'crown',

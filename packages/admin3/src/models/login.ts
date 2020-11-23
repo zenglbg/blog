@@ -7,10 +7,9 @@ import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
 
 export interface StateType {
-  status?: 'active' | 'blocked';
+  status?: 'ok' | 'error';
   type?: string;
   role?: 'user' | 'guest' | 'admin';
-  user?: IUser;
 }
 
 export interface LoginModelType {
@@ -40,7 +39,7 @@ const Model: LoginModelType = {
         payload: response,
       });
       // Login successfully
-      if (response.success) {
+      if (response) {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         message.success('🎉 🎉 🎉  登录成功！');
@@ -77,12 +76,12 @@ const Model: LoginModelType = {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      console.log(payload)
       setAuthority(payload.role);
+      localStorage.token = payload && payload.token;
       return {
         ...state,
-        status: payload.status,
-        type: payload.type,
+        status: payload ? 'ok' : 'error',
+        // type: payload,
       };
     },
   },

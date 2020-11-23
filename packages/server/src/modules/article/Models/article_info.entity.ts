@@ -40,10 +40,9 @@ export class Article extends Base {
     type => Category,
     category => category.articles,
     {
-      cascade: true,
-    },
+      onDelete: "CASCADE"
+    }
   )
-  @JoinTable()
   category: Category;
 
   @ManyToMany(

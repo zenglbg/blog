@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/models/user.entity';
-import { UserService } from '../user/services/user.service';
+import { UserService } from '../user/user.service';
 import { of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { exist } from '@hapi/joi';

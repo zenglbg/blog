@@ -103,7 +103,7 @@ const Login: React.FC<LoginProps> = (props) => {
                 prefix: <UserOutlined className={styles.prefixIcon} />,
               }}
               placeholder={intl.formatMessage({
-                id: 'pages.login.userName.placeholder',
+                id: 'pages.login.username.placeholder',
                 defaultMessage: '用户名: admin or user',
               })}
               rules={[

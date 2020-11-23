@@ -3,7 +3,8 @@ import { Repository } from 'typeorm';
 import { Category } from '../models/category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { from, of } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, concatMap } from 'rxjs/operators';
+import { Article } from '@modules/article/models/article_info.entity';
 
 @Injectable()
 export class CategoryService {
@@ -102,13 +103,14 @@ export class CategoryService {
   deleteById(id) {
     return from(this.categoryRepository.findOne(id))
       .pipe(
-        switchMap(existcategory => {
+        concatMap(existcategory => {
           console.log(`existcategory`, existcategory);
           if (existcategory) {
             return from(
               this.categoryRepository
                 .createQueryBuilder()
                 .delete()
+                .from(Article)
                 .where('id = :id', { id })
                 .execute(),
             );

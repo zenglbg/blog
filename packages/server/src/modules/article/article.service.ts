@@ -123,9 +123,9 @@ export class ArticleService {
   public findAll(queryParams: any = {}) {
     const query = this.articleRepository
       .createQueryBuilder('article')
+      .leftJoinAndSelect('article.content', 'content')
       .leftJoinAndSelect('article.tags', 'tag')
       .leftJoinAndSelect('article.category', 'category')
-      .leftJoinAndSelect('article.context', 'context')
       .orderBy('article.publishAt', 'DESC');
 
     return this.queryMiddle(query, queryParams);
@@ -139,10 +139,11 @@ export class ArticleService {
     const query = this.articleRepository
       .createQueryBuilder('article')
       .leftJoinAndSelect('article.category', 'category')
-      .leftJoinAndSelect('article.context', 'context')
+      .leftJoinAndSelect("article.context", "context")
       .where('category.value=:value', { value: category })
       .orderBy('article.publishAt', 'DESC');
 
+    console.log(queryParams);
     return this.queryMiddle(query, queryParams);
   }
 

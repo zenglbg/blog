@@ -17,7 +17,7 @@ export interface CurrentUser {
 }
 
 export interface UserModelState {
-  currentUser?: CurrentUser;
+  currentUser?: IUser;
 }
 
 export interface UserModelType {
@@ -29,7 +29,8 @@ export interface UserModelType {
   };
   reducers: {
     saveCurrentUser: Reducer<UserModelState>;
-    changeNotifyCount: Reducer<UserModelState>;
+    setUser: Reducer<UserModelState>;
+    // changeNotifyCount: Reducer<UserModelState>;
   };
 }
 
@@ -37,7 +38,7 @@ const UserModel: UserModelType = {
   namespace: 'user',
 
   state: {
-    currentUser: {},
+    currentUser: undefined,
   },
 
   effects: {
@@ -64,21 +65,27 @@ const UserModel: UserModelType = {
         currentUser: action.payload || {},
       };
     },
-    changeNotifyCount(
-      state = {
-        currentUser: {},
-      },
-      action,
-    ) {
+    setUser(state, action) {
       return {
         ...state,
-        currentUser: {
-          ...state.currentUser,
-          notifyCount: action.payload.totalCount,
-          unreadCount: action.payload.unreadCount,
-        },
+        user: action.payload || undefined,
       };
     },
+    // changeNotifyCount(
+    //   state = {
+    //     currentUser: {},
+    //   },
+    //   action,
+    // ) {
+    //   return {
+    //     ...state,
+    //     currentUser: {
+    //       ...state.currentUser,
+    //       notifyCount: action.payload.totalCount,
+    //       unreadCount: action.payload.unreadCount,
+    //     },
+    //   };
+    // },
   },
 };
 

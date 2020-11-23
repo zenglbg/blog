@@ -157,7 +157,18 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         );
       }}
       footerRender={() => defaultFooterDom}
-      menuDataRender={menuDataRender}
+      menuDataRender={(data) => {
+        return menuDataRender(
+          /**
+           * 这里可以获取服务器菜单
+           */
+          // data.concat({
+          //   path: '/dsada',
+          //   name: '32323131',
+          // }),
+          data
+        );
+      }}
       rightContentRender={() => <RightContent />}
       postMenuData={(menuData) => {
         menuDataRef.current = menuData || [];

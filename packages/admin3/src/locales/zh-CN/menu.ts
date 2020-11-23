@@ -1,5 +1,10 @@
 export default {
   'menu.welcome': '欢迎',
+  'menu.setting': '设置',
+  'menu.article': '文章管理',
+  'menu.article.manage': '列表',
+  'menu.article.category': '分类',
+  'menu.article.tag': '标签',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.admin': '管理页',

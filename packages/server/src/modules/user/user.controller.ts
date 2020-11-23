@@ -10,26 +10,24 @@ import {
   Query,
   Request,
   UseGuards,
+  Headers,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../services/user.service';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { RolesGuard, Roles } from '../../auth/guards/roles.guard';
+
+import { UserService } from './user.service';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard, Roles } from '../auth/guards/roles.guard';
 import {
   CreateUserDto,
   UpdateUserDto,
   UpdatePasswordUserDto,
-} from '../dtos/index.user.dto';
+} from './dtos/index.user.dto';
 import { Request as Req } from 'express';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('user')
 @UseGuards(RolesGuard)
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post('a')
   @Roles('visitor')
@@ -43,6 +41,13 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   public findAll(@Query() query) {
     return this.userService.findAll(query);
+  }
+
+  @Get('currentUser')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  public currentUser(@Headers('token') token) {
+    return this.userService.currentUser(token);
   }
 
   @Post('register')

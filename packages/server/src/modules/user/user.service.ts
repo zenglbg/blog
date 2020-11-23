@@ -1,8 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ApiException } from '../../../common/exceptions/api.exception';
-import { ApiErrorCode } from '../../../common/enums/api-error-code.enum';
+import { ApiException } from '../../common/exceptions/api.exception';
+import { ApiErrorCode } from '../../common/enums/api-error-code.enum';
 import { from, throwError, Observable, of, concat, combineLatest } from 'rxjs';
 import {
   switchMap,
@@ -14,9 +14,10 @@ import {
   concatMap,
 } from 'rxjs/operators';
 
-import { User } from '../models/user.entity';
-import { UpdatePasswordUserDto } from '../dtos/index.user.dto';
+import { User } from './models/user.entity';
+import { UpdatePasswordUserDto } from './dtos/index.user.dto';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,7 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private configService: ConfigService,
+    private jwtService: JwtService,
   ) {
     this.init();
   }
@@ -140,6 +142,11 @@ export class UserService {
    */
   public findByid(id) {
     return from(this.userRepository.findOne(id));
+  }
+
+  public currentUser(token) {
+    const { id } = this.jwtService.decode(token) as Partial<User>;
+    return this.userRepository.findOne(id);
   }
 
   /**
