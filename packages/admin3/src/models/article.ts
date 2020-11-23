@@ -1,5 +1,6 @@
-import { getArticles } from '@/services/article';
+import { addArticle, getArticles, updateArticle } from '@/services/article';
 import { createAction } from 'typesafe-actions';
+import { message } from 'antd';
 import { Effect, Reducer } from 'umi';
 
 export interface StateType {
@@ -10,6 +11,7 @@ export interface ArticleModelType {
   namespace: string;
   state: StateType;
   effects: {
+    pushArticle: Effect;
     getArticles: Effect;
   };
   reducers: {
@@ -26,6 +28,17 @@ const Model: ArticleModelType = {
       const response = yield call(getArticles, payload);
       console.log(response);
     },
+    *pushArticle({ payload }, { put, call, fork }) {
+      let response;
+      if (payload.id) {
+        response = yield call(updateArticle, payload.id, payload);
+      } else {
+        response = yield call(addArticle, payload);
+      }
+      if (response) {
+        message.success('🎉 🎉 🎉  登录成功！');
+      }
+    },
   },
   reducers: {
     setArticle(state, { payload }) {
@@ -35,5 +48,6 @@ const Model: ArticleModelType = {
 };
 export class ArticleAction {
   static setArticle = createAction('article/setArticle', (article: IArticle) => article)();
+  static pushArticle = createAction('article/pushArticle', (article: IArticle) => article)();
 }
 export default Model;

@@ -9,8 +9,8 @@ interface IEditorProps {
   titleText: React.ReactNode;
   titleExtra: React.ReactNode;
   initvalue: string;
-  previewStyle: 'tab' | 'vertical'
-  useCommandShortcut: boolean
+  previewStyle?: 'tab' | 'vertical';
+  useCommandShortcut?: boolean;
   getData: (html: string | undefined, md: string | undefined) => void;
 }
 
@@ -18,8 +18,8 @@ const EditorComponent: React.FunctionComponent<IEditorProps> = ({
   titleText,
   titleExtra,
   initvalue,
-  previewStyle="vertical",
-  useCommandShortcut=true,
+  previewStyle = 'vertical',
+  useCommandShortcut = true,
   getData,
 }) => {
   const ref = useRef<Editor>(null);
@@ -45,7 +45,7 @@ const EditorComponent: React.FunctionComponent<IEditorProps> = ({
           previewStyle={previewStyle}
           useCommandShortcut={useCommandShortcut}
           initialEditType="markdown"
-          minHeight="550px"
+          height="550px"
         />
       </article>
     </Layout>
