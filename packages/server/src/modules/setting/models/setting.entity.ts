@@ -50,6 +50,25 @@ export class Setting extends Base {
   @Column({ type: 'text', default: null })
   seoDesc: string;
 
+  @Column({ type: 'text', default: null, comment: '阿里云 region' })
+  ossRegion: string;
+
+  @Column({ type: 'text', default: null, comment: '阿里云 accessKeyId' })
+  ossAccessKeyId: string;
+
+  @Column({ type: 'text', default: null, comment: '阿里云  accessKeySecret' })
+  ossAccessKeySecret: string;
+
+  @Column({
+    type: 'boolean',
+    default: false,
+    comment: '阿里云 oss 是否开启 https',
+  })
+  ossHttps: boolean;
+
+  @Column({ type: 'text', default: null, comment: '阿里云 bucket' })
+  ossBucket: string;
+
   @Column({ type: 'text', default: null })
   smtpHost: string;
 

@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Request,
+  Headers,
   UseGuards,
   Body,
 } from '@nestjs/common';
@@ -25,7 +26,7 @@ export class SettingController {
 
   @Post('get')
   @HttpCode(HttpStatus.OK)
-  getSetting(@Request() req) {
-    return this.settingService.findAll(req);
+  getSetting(@Headers('token') token) {
+    return this.settingService.findAll(false, token);
   }
 }

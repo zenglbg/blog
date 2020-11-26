@@ -1,11 +1,24 @@
-import { Reducer } from 'umi';
+import { updateSetting, getSetting } from '@/services/setting';
+import { createAction } from 'typesafe-actions';
+import { Effect, Reducer } from 'umi';
 import defaultSettings, { DefaultSettings } from '../../config/defaultSettings';
+
+export interface SettingType {
+  defaultSettings: DefaultSettings;
+  userSetting: any;
+}
 
 export interface SettingModelType {
   namespace: 'settings';
-  state: DefaultSettings;
+  state: SettingType;
+  effects: {
+    upSetting: Effect;
+    getSetting: Effect;
+  };
   reducers: {
-    changeSetting: Reducer<DefaultSettings>;
+    setSetting: Reducer;
+    setAloneSetting: Reducer;
+    changeSetting: Reducer;
   };
 }
 
@@ -18,20 +31,70 @@ const updateColorWeak: (colorWeak: boolean) => void = (colorWeak) => {
 
 const SettingModel: SettingModelType = {
   namespace: 'settings',
-  state: defaultSettings,
+  state: {
+    defaultSettings: defaultSettings,
+    userSetting: {},
+  },
+  effects: {
+    *getSetting({ payload }, { put, call }) {
+      const response = yield call(getSetting, payload);
+      yield put(ActionSetting.setSetting(response));
+    },
+    *upSetting({ payload }, { put, call, select }) {
+      const userSetting = yield select((state: any) => state.settings.userSetting);
+      const data = {
+        ...userSetting,
+        ...payload,
+      };
+      const response = yield call(updateSetting, data);
+      console.log(response);
+      yield put(ActionSetting.setSetting(response));
+    },
+  },
   reducers: {
-    changeSetting(state = defaultSettings, { payload }) {
+    setAloneSetting(state, { payload }) {
+      return {
+        ...state,
+        userSetting: {
+          ...state.userSetting,
+          ...payload,
+        },
+      };
+    },
+    setSetting(state, { payload }) {
+      return { ...state, userSetting: payload };
+    },
+    changeSetting(state, { payload }) {
       const { colorWeak, contentWidth } = payload;
 
-      if (state.contentWidth !== contentWidth && window.dispatchEvent) {
+      if (state.defaultSettings.contentWidth !== contentWidth && window.dispatchEvent) {
         window.dispatchEvent(new Event('resize'));
       }
       updateColorWeak(!!colorWeak);
       return {
         ...state,
-        ...payload,
+        defaultSettings: payload,
       };
     },
   },
 };
+
+export class ActionSetting {
+  static getSetting = createAction('settings/getSetting', (settings: any) => settings)();
+  static upSetting = createAction('settings/upSetting', (settings: any) => settings)();
+  static setSetting = createAction('setSetting', (settings: any) => settings)();
+  static setAloneSetting = createAction(
+    'settings/setAloneSetting',
+    (objSetting: {
+      systemLogo?: string;
+      systemFavico?: string;
+      wechat?: string;
+      alipay?: string;
+    }) => objSetting,
+  )();
+  static changeSetting = createAction(
+    'settings/changeSetting',
+    (settings: DefaultSettings) => settings,
+  )();
+}
 export default SettingModel;

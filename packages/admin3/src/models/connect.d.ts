@@ -5,6 +5,8 @@ import { StateType } from './login';
 import { ArticleType } from './article';
 import { TagType } from './tag';
 import { CategoryType } from './category';
+import { SettingType } from './setting';
+import { FileType } from './file';
 
 export { GlobalModelState, UserModelState };
 
@@ -26,12 +28,13 @@ export interface Loading {
 export interface ConnectState {
   global: GlobalModelState;
   loading: Loading;
-  settings: ProSettings;
+  settings: SettingType;
   user: UserModelState;
   login: StateType;
   article: ArticleType;
   tag: TagType;
   category: CategoryType;
+  file: FileType;
 }
 
 export interface Route extends MenuDataItem {

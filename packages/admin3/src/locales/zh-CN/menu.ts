@@ -1,6 +1,10 @@
 export default {
   'menu.welcome': '欢迎',
   'menu.setting': '设置',
+  'menu.setting.oss': '阿里oss设置',
+  'menu.setting.seo': 'seo设置',
+  'menu.setting.smtp': '邮件设置',
+  'menu.setting.system': '系统设置',
   'menu.article': '文章管理',
   'menu.article.manage': '列表',
   'menu.article.category': '分类',

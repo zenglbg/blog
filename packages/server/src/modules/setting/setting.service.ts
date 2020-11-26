@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Setting } from './models/setting.entity';
 import { from } from 'rxjs';
-import { switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, withLatestFrom, concatMap } from 'rxjs/operators';
 
 @Injectable()
 export class SettingService {
@@ -19,6 +19,7 @@ export class SettingService {
    * @param setting
    */
   update(setting: Partial<Setting>) {
+    console.log(setting)
     const old$ = from(this.settingRepository.find());
 
     return old$.pipe(
@@ -27,15 +28,14 @@ export class SettingService {
           ? this.settingRepository.merge(old[0], setting)
           : this.settingRepository.create(setting),
       ),
-      switchMap(newSetting => this.settingRepository.save(newSetting)),
+      concatMap(newSetting => this.settingRepository.save(newSetting)),
     );
   }
 
   /**
    *
    */
-  public findAll(req, innerInvoke = false) {
-    let token = req.headers.token;
+  public findAll(innerInvoke = false, token = '') {
     const isAdmin$ = this.authService.isAdmin(token);
     const data$ = from(this.settingRepository.find());
     return data$.pipe(

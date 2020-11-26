@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   Post,
   UploadedFile,
   UseGuards,
@@ -30,5 +31,11 @@ export class FileController {
   @UseGuards(JwtAuthGuard)
   public file(@UploadedFile() file) {
     return this.fileService.uploadFile(file);
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  public getFiles() {
+    return this.fileService.getFiles();
   }
 }

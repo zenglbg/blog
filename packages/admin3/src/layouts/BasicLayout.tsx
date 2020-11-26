@@ -6,7 +6,6 @@
 import ProLayout, {
   MenuDataItem,
   BasicLayoutProps as ProLayoutProps,
-  Settings,
   DefaultFooter,
 } from '@ant-design/pro-layout';
 import React, { useEffect, useMemo, useRef } from 'react';
@@ -18,6 +17,7 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { getMatchMenu } from '@umijs/route-utils';
 import logo from '../assets/logo.svg';
+import { DefaultSettings } from 'config/defaultSettings';
 
 const noMatch = (
   <Result
@@ -38,7 +38,7 @@ export interface BasicLayoutProps extends ProLayoutProps {
   route: ProLayoutProps['route'] & {
     authority: string[];
   };
-  settings: Settings;
+  settings: DefaultSettings;
   dispatch: Dispatch;
 }
 export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
@@ -166,7 +166,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           //   path: '/dsada',
           //   name: '32323131',
           // }),
-          data
+          data,
         );
       }}
       rightContentRender={() => <RightContent />}
@@ -184,5 +184,5 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
 export default connect(({ global, settings }: ConnectState) => ({
   collapsed: global.collapsed,
-  settings,
+  settings: settings.defaultSettings,
 }))(BasicLayout);

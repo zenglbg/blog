@@ -2,15 +2,18 @@
   {
     path: '/editor',
     component: '../layouts/editorLayout',
+    authority: ['admin', 'user'],
     routes: [
       {
         name: 'article',
         path: '/editor/article',
+        authority: ['admin', 'user'],
         component: './editor/article',
       },
       {
         name: 'newpage',
         path: '/editor/newpage',
+        authority: ['admin', 'user'],
         component: './editor/newpage',
       },
     ],
@@ -72,11 +75,13 @@
               },
             ],
           },
-          // {
-          //   path: '/setting',
-          //   name: 'setting',
-          //   icon: 'SettingOutlined',
-          // },
+          {
+            path: '/setting',
+            name: 'setting',
+            component: './setting',
+            icon: 'SettingOutlined',
+            authority: ['admin'],
+          },
           {
             path: '/admin',
             name: 'admin',

@@ -76,6 +76,6 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
 };
 
 export default connect(({ settings }: ConnectState) => ({
-  theme: settings.navTheme,
-  layout: settings.layout,
+  theme: settings.defaultSettings.navTheme,
+  layout: settings.defaultSettings.layout,
 }))(GlobalHeaderRight);

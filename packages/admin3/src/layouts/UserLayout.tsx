@@ -67,4 +67,4 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
   );
 };
 
-export default connect(({ settings }: ConnectState) => ({ ...settings }))(UserLayout);
+export default connect(({ settings }: ConnectState) => ({ ...settings.defaultSettings }))(UserLayout);
