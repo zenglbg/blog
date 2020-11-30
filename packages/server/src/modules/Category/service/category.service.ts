@@ -101,29 +101,8 @@ export class CategoryService {
    * @param id
    */
   deleteById(id) {
-    return from(this.categoryRepository.findOne(id))
-      .pipe(
-        concatMap(existcategory => {
-          console.log(`existcategory`, existcategory);
-          if (existcategory) {
-            return from(
-              this.categoryRepository
-                .createQueryBuilder()
-                .delete()
-                .from(Article)
-                .where('id = :id', { id })
-                .execute(),
-            );
-          } else {
-            throw new HttpException('分类不存在', HttpStatus.BAD_REQUEST);
-          }
-        }),
-      )
-      .pipe(
-        map(result => {
-          console.log(result);
-          return result;
-        }),
-      );
+    return from(this.categoryRepository.findOne(id)).pipe(
+      map(category => this.categoryRepository.remove(category)),
+    );
   }
 }

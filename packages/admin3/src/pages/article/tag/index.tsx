@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ProTable from '@ant-design/pro-table';
-import { useTagColumns, useAddTag, useAction } from './hooks';
+import { useTagColumns } from './hooks';
 import { Button } from 'antd';
 import AddForm from './index-add';
 import { getTags } from '@/services/tag';
@@ -8,13 +8,17 @@ import { getTags } from '@/services/tag';
 interface ITagProps {}
 
 const Tag: React.FunctionComponent<ITagProps> = (props) => {
-  const { actionRef, reloadAndRest } = useAction();
-  const { modalVisible, setModalVisible, tag, setTag, editor } = useAddTag(reloadAndRest);
-  const { columns, timeColumn, actionColumn } = useTagColumns(
-    reloadAndRest,
-    setModalVisible,
+  const {
+    actionRef,
+    modalVisible,
+    columns,
+    timeColumn,
+    actionColumn,
+    tag,
     setTag,
-  );
+    setModalVisible,
+    editor,
+  } = useTagColumns();
   return (
     <>
       <ProTable<ITag, ITag>
@@ -45,20 +49,15 @@ const Tag: React.FunctionComponent<ITagProps> = (props) => {
           </Button>,
         ]}
       />
-
-      <AddForm modalVisible={modalVisible} setModalVisible={setModalVisible}>
-        <ProTable<ITag, ITag>
-          onSubmit={(value) => {
-            editor(value);
-          }}
-          rowKey="key"
-          type="form"
-          form={{
-            initialValues: tag,
-          }}
-          columns={columns}
+      {modalVisible ? (
+        <AddForm
+          modalVisible={modalVisible}
+          tag={tag}
+          setModalVisible={setModalVisible}
+          editor={editor}
+          setTag={setTag}
         />
-      </AddForm>
+      ) : null}
     </>
   );
 };

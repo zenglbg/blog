@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ActionType, ProColumns } from '@ant-design/pro-table';
-import { Badge, Tag, Popconfirm, Divider } from 'antd';
+import { Tag, Popconfirm, Divider } from 'antd';
 import { delTag, updateTag, addTag } from '@/services/tag';
-
-export function useTagColumns(
-  reloadAndRest: Function,
-  setModalVisible: Function,
-  setTag: Function,
-) {
+import { ActionTag, useDispatch, useSelector } from 'umi';
+import { ConnectState } from '@/models/connect';
+export function useTagColumns() {
   const columns: ProColumns<any>[] = [
     {
       title: '标签',
@@ -76,24 +73,10 @@ export function useTagColumns(
       </span>
     ),
   };
-
-  const doTag = (category: ITag) => {
-    setTag(category);
-    setModalVisible(true);
-  };
-
-  const deleteTag= (id: string) => {
-    /**
-     * @todo
-     * server 删除有问题待处理 */
-    delTag(id);
-    reloadAndRest();
-  };
-
-  return { columns, timeColumn, actionColumn };
-}
-export function useAction() {
+  const dispatch = useDispatch();
   const actionRef = useRef<ActionType>();
+  const formRef = useRef<any>();
+  const { tag, modalVisible } = useSelector<ConnectState, any>((state) => state.tag);
 
   const reload = () => {
     if (actionRef.current) {
@@ -105,14 +88,14 @@ export function useAction() {
       actionRef.current?.reloadAndRest?.();
     }
   };
-  return { actionRef, reload, reloadAndRest };
-}
-export function useAddTag(reloadAndRest: Function) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [tag, _setTag] = useState<ITag>();
 
   const setTag = (data: any) => {
-    _setTag(data);
+    dispatch(ActionTag.setTag(data));
+  };
+
+  
+  const setModalVisible = (visible: boolean) => {
+    dispatch(ActionTag.setModalVisible(visible));
   };
 
   const editor = (value: ITag) => {
@@ -129,11 +112,29 @@ export function useAddTag(reloadAndRest: Function) {
     });
   };
 
+  const doTag = (tag: ITag) => {
+    setTag(tag);
+    setModalVisible(true);
+  };
+
+  const deleteTag = (id: string) => {
+    /**
+     * @todo
+     * server 删除有问题待处理 */
+    delTag(id);
+    reloadAndRest();
+  };
+
   return {
+    actionRef,
+    formRef,
+    columns,
+    timeColumn,
+    actionColumn,
     modalVisible,
-    setModalVisible,
     tag,
     setTag,
+    setModalVisible,
     editor,
   };
 }

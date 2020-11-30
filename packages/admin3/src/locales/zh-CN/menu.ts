@@ -6,7 +6,7 @@ export default {
   'menu.setting.smtp': '邮件设置',
   'menu.setting.system': '系统设置',
   'menu.article': '文章管理',
-  'menu.article.manage': '列表',
+  'menu.article.manage': '文章列表',
   'menu.article.category': '分类',
   'menu.article.tag': '标签',
   'menu.more-blocks': '更多区块',

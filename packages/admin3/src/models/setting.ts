@@ -47,7 +47,6 @@ const SettingModel: SettingModelType = {
         ...payload,
       };
       const response = yield call(updateSetting, data);
-      console.log(response);
       yield put(ActionSetting.setSetting(response));
     },
   },

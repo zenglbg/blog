@@ -1,22 +1,26 @@
 import * as React from 'react';
 import ProTable from '@ant-design/pro-table';
-import { useCategoryColumns, useAddCategory, useAction } from './hooks';
+import { useCategoryColumns } from './hooks';
 import { getCategorys } from '@/services/category';
-import { Button } from 'antd';
+import { Button, Card, Form, Input } from 'antd';
 import AddForm from './index-add';
 
 interface ICategoryProps {}
 
 const Category: React.FunctionComponent<ICategoryProps> = (props) => {
-  const { actionRef, reloadAndRest } = useAction();
-  const { modalVisible, setModalVisible, category, setCategory, editor } = useAddCategory(
-    reloadAndRest,
-  );
-  const { columns, timeColumn, actionColumn } = useCategoryColumns(
-    reloadAndRest,
-    setModalVisible,
+  const {
+    actionRef,
+    formRef,
+    columns,
+    timeColumn,
+    actionColumn,
+    modalVisible,
+    category,
     setCategory,
-  );
+    setModalVisible,
+    editor,
+  } = useCategoryColumns();
+
   return (
     <>
       <ProTable<ICategory, ICategory>
@@ -44,20 +48,16 @@ const Category: React.FunctionComponent<ICategoryProps> = (props) => {
           </Button>,
         ]}
       />
-
-      <AddForm modalVisible={modalVisible} setModalVisible={setModalVisible}>
-        <ProTable<ICategory, ICategory>
-          onSubmit={(value) => {
-            editor(value);
-          }}
-          rowKey="key"
-          type="form"
-          form={{
-            initialValues: category,
-          }}
-          columns={columns}
+      {modalVisible ? (
+        <AddForm
+          modalVisible={modalVisible}
+          editor={editor}
+          category={category}
+          setCategory={setCategory}
+          setModalVisible={setModalVisible}
         />
-      </AddForm>
+        
+      ) : null}
     </>
   );
 };

@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ActionType, ProColumns } from '@ant-design/pro-table';
-import { Badge, Tag, Popconfirm, Divider } from 'antd';
+import { Tag, Popconfirm, Divider } from 'antd';
 import { delCategory, updateCategory, addCategory } from '@/services/category';
+import { ActionCategory, useDispatch, useSelector } from 'umi';
+import { ConnectState } from '@/models/connect';
 
-export function useCategoryColumns(
-  reloadAndRest: Function,
-  setModalVisible: Function,
-  setCategory: Function,
-) {
+export function useCategoryColumns() {
   const columns: ProColumns<any>[] = [
     {
       title: '标签',
@@ -76,6 +74,42 @@ export function useCategoryColumns(
       </span>
     ),
   };
+  const dispatch = useDispatch();
+  const actionRef = useRef<ActionType>();
+  const formRef = useRef<any>();
+  const { category, modalVisible } = useSelector<ConnectState, any>((state) => state.category);
+
+  const reload = () => {
+    if (actionRef.current) {
+      actionRef.current.reload();
+    }
+  };
+  const reloadAndRest = () => {
+    if (actionRef.current) {
+      actionRef.current?.reloadAndRest?.();
+    }
+  };
+
+  const setCategory = (data: any) => {
+    dispatch(ActionCategory.setCategory(data));
+  };
+  const setModalVisible = (visible: boolean) => {
+    dispatch(ActionCategory.setModalVisible(visible));
+  };
+
+  const editor = (value: ICategory) => {
+    if (category) {
+      updateCategory(category.id, value).then((res) => {
+        setModalVisible(false);
+        reloadAndRest();
+      });
+      return;
+    }
+    addCategory(value).then((res) => {
+      setModalVisible(false);
+      reloadAndRest();
+    });
+  };
 
   const doCategory = (category: ICategory) => {
     setCategory(category);
@@ -90,50 +124,16 @@ export function useCategoryColumns(
     reloadAndRest();
   };
 
-  return { columns, timeColumn, actionColumn };
-}
-export function useAction() {
-  const actionRef = useRef<ActionType>();
-
-  const reload = () => {
-    if (actionRef.current) {
-      actionRef.current.reload();
-    }
-  };
-  const reloadAndRest = () => {
-    if (actionRef.current) {
-      actionRef.current?.reloadAndRest?.();
-    }
-  };
-  return { actionRef, reload, reloadAndRest };
-}
-export function useAddCategory(reloadAndRest: Function) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [category, _setCategory] = useState<ICategory>();
-
-  const setCategory = (data: any) => {
-    _setCategory(data);
-  };
-
-  const editor = (value: ITag) => {
-    if (category) {
-      updateCategory(category.id, value).then((res) => {
-        setModalVisible(false);
-        reloadAndRest();
-      });
-      return;
-    }
-    addCategory(value).then((res) => {
-      setModalVisible(false);
-      reloadAndRest();
-    });
-  };
-
   return {
+    actionRef,
+    formRef,
+    columns,
+    timeColumn,
+    actionColumn,
     modalVisible,
-    setModalVisible,
     category,
     setCategory,
+    setModalVisible,
     editor,
   };
 }
