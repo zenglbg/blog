@@ -24,6 +24,7 @@ const EditorComponent: React.FunctionComponent<IEditorProps> = ({
 }) => {
   const ref = useRef<Editor>(null);
   useEffect(() => {
+    console.log(ref)
     ref.current?.getInstance().addHook('change', (type) => {
       const md = ref.current?.getInstance().getMarkdown();
       const html = ref.current?.getInstance().getHtml();

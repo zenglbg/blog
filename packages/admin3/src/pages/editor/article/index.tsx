@@ -10,23 +10,22 @@ interface IArticleProps {}
 const Article: React.FunctionComponent<IArticleProps> = (props) => {
   const dispatch = useDispatch();
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const _article = useSelector<ConnectState, Pick<ConnectState, 'article'>>(
+  const { article } = useSelector<ConnectState, Pick<ConnectState, 'article'>>(
     (state) => state.article,
   );
-  const [article, setArticle] = useState<IArticle>(_article.article || {});
-
-  const getData = debounce((html: string | undefined, md: string | undefined) => {
-    setArticle((article: IArticle) => {
-      article.content = html || '';
-      article.contentMarkdown = md || '';
-      console.log(article);
-      return article;
+  const [_article, set_article] = useState(article || {});
+  const getData = debounce((html: string | undefined, md?: string) => {
+    set_article((d: IArticle) => {
+      d.content = html || '';
+      d.contentMarkdown = md || '';
+      console.log(d);
+      return d;
     });
   }, 100);
 
   const checkAuth = () => {
     let canPublish = true;
-    void [
+    [
       ['title', '请输入文章标题'],
       ['content', '请输入文章内容'],
     ].find(([key, msg]) => {
@@ -67,16 +66,15 @@ const Article: React.FunctionComponent<IArticleProps> = (props) => {
             placeholder="请输入文章标题"
             onChange={(e) => {
               const title = e.target.value;
-              setArticle((article) => {
-                article.title = title;
-                console.log(article);
-                return article;
+              set_article((d: IArticle) => {
+                d.title = title;
+                return d;
               });
             }}
           />
         }
         titleExtra={menu}
-        initvalue={article && article.content}
+        initvalue={_article && _article.content}
         getData={getData}
       />
 

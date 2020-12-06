@@ -5,7 +5,7 @@ import { PlusOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Menu } from 'antd';
 import { useManageColumns } from './hooks';
 import { getArticles } from '@/services/article';
-import { history } from 'umi'
+import { history, Link } from 'umi';
 interface IManageProps {}
 
 const menu = (
@@ -16,7 +16,7 @@ const menu = (
   </Menu>
 );
 const Manage: React.FunctionComponent<IManageProps> = (props) => {
-  const { columns } = useManageColumns();
+  const { columns, handleArticle } = useManageColumns();
 
   return (
     <ProTable
@@ -33,9 +33,11 @@ const Manage: React.FunctionComponent<IManageProps> = (props) => {
         });
       }}
       toolBarRender={() => [
-        <Button key="button" icon={<PlusOutlined />} type="primary" onClick={() => history.push('/editor/article')}>
-          新建
-        </Button>,
+        <a key="btn" onClick={() => handleArticle()}>
+          <Button key="button" icon={<PlusOutlined />} type="primary">
+            新建
+          </Button>
+        </a>,
         <Dropdown key="menu" overlay={menu}>
           <Button>
             <EllipsisOutlined />

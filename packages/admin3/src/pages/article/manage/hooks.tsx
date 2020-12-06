@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { ProColumns } from '@ant-design/pro-table';
 import { Badge, Tag, Popconfirm, Divider } from 'antd';
-import { Link, useDispatch, useHistory } from 'umi';
+import { Link, useDispatch, history } from 'umi';
 import { ArticleAction } from '@/models/article';
 
 export function useManageColumns() {
   const dispatch = useDispatch();
-  const history = useHistory<any>();
+  const handleArticle = (record?: IArticle) => {
+    dispatch(ArticleAction.setArticle(record));
+  };
+  const deleteArticle = (id: string | number) => {};
+
   const columns: ProColumns<any>[] = [
     {
       title: '标题',
@@ -41,7 +45,7 @@ export function useManageColumns() {
       render: (category: any) =>
         category ? (
           <span>
-            <Tag color={'magenta'} key={category.value}>
+            <Tag color="magenta" key={category.value}>
               {category.label}
             </Tag>
           </span>
@@ -82,7 +86,7 @@ export function useManageColumns() {
       render: (views: any) => (
         <Badge
           count={views}
-          showZero={true}
+          showZero
           overflowCount={Infinity}
           style={{ backgroundColor: '#52c41a' }}
         />
@@ -102,11 +106,11 @@ export function useManageColumns() {
       search: false,
       render: (_: any, record: any) => (
         <span>
-          <Link to="/editor/article" target="_blank" onClick={() => handleArticle(record)}>
+          <Link to="/editor/article" target="__blank" onClick={() => handleArticle(record)}>
             编辑
           </Link>
           <Divider type="vertical" />
-          <span></span>
+          <span />
           <a onClick={() => {}}>
             <span>查看访问</span>
           </a>
@@ -124,10 +128,5 @@ export function useManageColumns() {
     },
   ];
 
-  const handleArticle = (record: IArticle) => {
-    dispatch(ArticleAction.setArticle(record));
-  };
-  const deleteArticle = (id: string | number) => {};
-
-  return { columns };
+  return { columns, handleArticle };
 }

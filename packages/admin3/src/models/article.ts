@@ -1,10 +1,11 @@
 import { addArticle, getArticles, updateArticle } from '@/services/article';
 import { createAction } from 'typesafe-actions';
 import { message } from 'antd';
-import { Effect, Reducer } from 'umi';
+import { Effect, Reducer, history } from 'umi';
 
 export interface StateType {
   article?: IArticle;
+  isArticle: boolean;
 }
 
 export interface ArticleModelType {
@@ -21,7 +22,9 @@ export interface ArticleModelType {
 
 const Model: ArticleModelType = {
   namespace: 'article',
-  state: {},
+  state: {
+    isArticle: false,
+  },
 
   effects: {
     *getArticles({ payload }, { put, call, fork }) {
@@ -47,7 +50,8 @@ const Model: ArticleModelType = {
   },
 };
 export class ArticleAction {
-  static setArticle = createAction('article/setArticle', (article: IArticle) => article)();
+  static setArticle = createAction('article/setArticle', (article?: IArticle) => article)();
+
   static pushArticle = createAction('article/pushArticle', (article: IArticle) => article)();
 }
 export default Model;
