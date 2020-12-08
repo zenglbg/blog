@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM staticfloat/nginx-certbot
 
 LABEL maintainer="Mahmoud Zalt <mahmoud@zalt.me>"
 
