@@ -12,7 +12,7 @@
 
 server {
     listen 80;
-    server_name  zenglbg.me;
+    server_name  zenglbg.com;
     return       301 https://zenglbg.com$request_uri;
 }
 
