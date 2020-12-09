@@ -1,7 +1,5 @@
 version: "3.3"
 
-
-
 networks:
   reaction:
     external:
@@ -52,14 +50,14 @@ services:
       - ./.env
 
   ### Redis ################################################
-  redis:
-    build: ./redis
-    volumes:
-      - ${DATA_PATH_HOST}/redis:/data
-    ports:
-      - "${REDIS_PORT}:6379"
-    depends_on:
-      - mysql
+  # redis:
+  #   build: ./redis
+  #   volumes:
+  #     - ${DATA_PATH_HOST}/redis:/data
+  #   ports:
+  #     - "${REDIS_PORT}:6379"
+  #   depends_on:
+  #     - mysql
 
 
   workspace:
@@ -78,4 +76,4 @@ services:
       - database__connection__database=${MYSQL_DATABASE}
     depends_on:
       - mysql
-      - redis
+      # - redis
