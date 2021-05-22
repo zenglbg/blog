@@ -1,0 +1,9 @@
+type User {
+  username: string!
+  email: string!
+  name: string!
+  location: string!
+  phoneNumber: string!
+  avatarUrl: string!
+  age: string
+}
