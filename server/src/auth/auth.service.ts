@@ -11,7 +11,6 @@ export class AuthService {
   }
 
   async doLogin({ username, password }) {
-    throw new ForbiddenException();
     return this.userService.validateUser(username, password);
   }
 }

@@ -56,7 +56,12 @@ export class UserService implements OnModuleInit {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.getByInfo({ username });
-    return user.isValidPassword(password);
-    // .isValidPassword(password);
+    if (user.isValidPassword(password)) {
+      return user.toJSON();
+    }
+    return {
+      data: null,
+      msg: `验证错误`,
+    };
   }
 }

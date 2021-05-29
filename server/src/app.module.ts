@@ -3,8 +3,9 @@ import {
   Module,
   NestModule,
   RequestMethod,
+  ValidationPipe,
 } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './users/user.module';
 import { PostsModule } from './posts/posts.module';
@@ -19,6 +20,7 @@ import { VedioModule } from './vedio/vedio.module';
 import { WeixinModule } from './weixin/weixin.module';
 import { LoggerMiddleWare } from './common/middleware/logger.middleware';
 import { HttpExceptionFilter } from './common/filters/http-exception';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 // import { AllExceptionFilter } from './common/filters/all-exception';
 @Module({
   imports: [
@@ -52,6 +54,15 @@ import { HttpExceptionFilter } from './common/filters/http-exception';
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
+
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor,
     },
     // {
     //   provide: APP_FILTER,
