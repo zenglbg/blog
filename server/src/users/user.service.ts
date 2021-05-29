@@ -53,4 +53,10 @@ export class UserService implements OnModuleInit {
   async getByInfo(info): Promise<typeUser> {
     return this.userModel.findOne(info);
   }
+
+  async validateUser(username: string, password: string): Promise<any> {
+    const user = await this.getByInfo({ username });
+    return user.isValidPassword(password);
+    // .isValidPassword(password);
+  }
 }

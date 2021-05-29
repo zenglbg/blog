@@ -81,7 +81,7 @@ export class User extends Document {
 }
 
 export type typeUser = {
-  isValidPassword(plainPwd: string, encryptedPwd: string): boolean;
+  isValidPassword(password: string): boolean;
 } & User;
 
 const UserSchema = SchemaFactory.createForClass(User);

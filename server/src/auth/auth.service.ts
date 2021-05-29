@@ -1,21 +1,17 @@
 import { HttpCode, HttpStatus, Injectable } from '@nestjs/common';
-import { ajax } from 'src/common/fetch';
+import { ForbiddenException } from 'src/common/exception/forbidden.exception';
 import { UserService } from 'src/users/user.service';
+
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UserService) {}
 
-  async doLogin({ username, password }) {
-    const user = await this.userService.getByInfo({ username });
-    const qqPage = await ajax('http://qq.com');
+  async createToken() {
+    return 11;
+  }
 
-    if (user) {
-      return user.isValidPassword(password, user.password);
-    }
-    return {
-      code: HttpStatus.OK,
-      msg: `未找到用户`,
-      qqPage,
-    };
+  async doLogin({ username, password }) {
+    throw new ForbiddenException();
+    return this.userService.validateUser(username, password);
   }
 }
