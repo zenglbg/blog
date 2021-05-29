@@ -1,14 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as request from 'request';
-import { User } from './users.schema';
+import { typeUser, User } from './users.schema';
 
 @Injectable()
-export class UserService {
+export class UserService implements OnModuleInit {
+  async onModuleInit() {
+    const user = await this.getByInfo({ username: 'admin' });
+
+    if (!user) {
+      const username = 'admin';
+      const password = 123;
+      console.log(`创建初始化数据，账号为${username}' 密码为： ${password}`);
+      this.setUser({
+        username,
+        password,
+        name: '系统管理员',
+        role: 1,
+      });
+    }
+  }
+
   constructor(
     @InjectModel('Users')
-    private readonly userModel: Model<User>,
+    private readonly userModel: Model<typeUser>,
   ) {}
 
   getAll() {
@@ -35,36 +50,7 @@ export class UserService {
     return this.userModel.findByIdAndDelete(_id);
   }
 
-  getSession(body) {
-    console.log(
-      '🚀 ~ file: user.controller.ts ~ line 7 ~ UserController ~ findAll ~ body',
-      body,
-    );
-    const appid = 'wxc96bf44363295aad';
-    const appSecret = 'a343236789dd4927130607266a1c1fd6';
-    const { code } = body;
-    console.log(
-      `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`,
-    );
-    return new Promise((resolve, reject) => {
-      request(
-        `https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`,
-        function (error, response, body) {
-          if (!error) {
-            console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-            console.log('body:', body); // Print the HTML for the Google homepage.
-            resolve(body);
-          } else {
-            console.error('error:', error); // Print the error if one occurred
-            reject(error);
-          }
-        },
-      );
-    });
-  }
-
-  doLogin({ username, password }) {
-    const user = this.userModel.findOne({ username });
-    return user;
+  async getByInfo(info): Promise<typeUser> {
+    return this.userModel.findOne(info);
   }
 }

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, HookAsyncCallback, HookNextFunction } from 'mongoose';
-import { compareSync, encryptPassword } from 'src/common/utils';
+import { Document, HookNextFunction } from 'mongoose';
+import { compareSync, encryptPassword, md5 } from 'src/common/utils';
 import { v4 } from 'uuid';
 
 export enum Roles {
@@ -9,8 +9,6 @@ export enum Roles {
   USER = 2,
   NOT_CERTIFIED = 3,
 }
-
-export type UserDocument = User & Document;
 
 @Schema()
 export class User extends Document {
@@ -34,7 +32,7 @@ export class User extends Document {
 
   @Prop({
     type: String,
-    required: true,
+    // required: true,
   })
   email: string;
 
@@ -47,25 +45,25 @@ export class User extends Document {
 
   @Prop({
     type: String,
-    required: true,
+    // required: true,
   })
   name: string;
 
   @Prop({
     type: String,
-    required: true,
+    // required: true,
   })
   location: string;
 
   @Prop({
     type: String,
-    required: true,
+    // required: true,
   })
   phoneNumber: string;
 
   @Prop({
     type: String,
-    required: true,
+    // required: true,
   })
   avatarUrl: string;
 
@@ -74,12 +72,23 @@ export class User extends Document {
     // required: true,
   })
   age: string;
+
+  @Prop({
+    type: String,
+    // required: true,
+  })
+  sign: string;
 }
+
+export type typeUser = {
+  isValidPassword(plainPwd: string, encryptedPwd: string): boolean;
+} & User;
 
 const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.pre('save', function (next: HookNextFunction) {
   this.password = encryptPassword(this.password);
+  this.sign = md5(v4());
   next();
 });
 

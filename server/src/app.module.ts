@@ -10,6 +10,7 @@ import { CategoryModule } from './category/category.module';
 import { MenuModule } from './menu/menu.module';
 import { MusicModule } from './music/music.module';
 import { VedioModule } from './vedio/vedio.module';
+import { WeixinModule } from './weixin/weixin.module';
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/base', {
@@ -35,6 +36,7 @@ import { VedioModule } from './vedio/vedio.module';
     MenuModule,
     MusicModule,
     VedioModule,
+    WeixinModule,
   ],
   controllers: [],
   providers: [],

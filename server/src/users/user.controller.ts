@@ -28,14 +28,4 @@ export class UserController {
   setUser(@Body() body: any) {
     return this.userService.setUser(body);
   }
-
-  @Post('getSession')
-  getSession(@Body() body: any) {
-    return this.userService.getSession(body);
-  }
-
-  @Post('login')
-  doLogin(@Body() body: any) {
-    return this.userService.doLogin(body);
-  }
 }
