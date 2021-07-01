@@ -1,0 +1,156 @@
+.text-title {
+    height: 44px;
+    line-height: 44px;
+    font-size: 60px;
+    font-weight: bold;
+    color: #162539;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+
+
+.list-text {
+    @include flex-column();
+    justify-content: space-between;
+    width: 663px;
+    height: 499px;
+    box-shadow: -22px 15px 21px 0px rgba(142, 211, 246, 0.19);
+    border-radius: 0px 0px 0px 40px;
+    margin: 56px auto 0;
+    box-sizing: border-box;
+    padding: 56px 29px 35px 0;
+    background: #fff;
+
+    .li-text {
+        padding-left: 92px;
+        text-align: left;
+        background: url('../../assets/index/icon-check-right.png') no-repeat 36px 8px / 32px 24px;
+    }
+}
+
+.box-bank {
+    background: #fff;
+    height: auto;
+    padding: 120px 0 140px;
+    text-align: center;
+
+    .img-wrapper {
+        background: url('../../assets/service/internet-banking@2x.png') no-repeat center / cover;
+        @include size(581px, 428px);
+        margin: 42px auto 0;
+    }
+}
+
+.box-momo {
+    padding-top: 88px;
+
+    .list-text {
+
+        height: 463px;
+        margin-top: 80px;
+    }
+
+
+
+    .img-wrapper {
+        background: url('../../assets/service/momo@2x.png') no-repeat center / cover;
+        @include size(603px, 652px);
+        margin: 0 auto;
+    }
+}
+
+.box-zalo {
+    padding-top: 140px;
+    background-color: #fff;
+
+
+
+
+    .img-wrapper {
+        background: url('../../assets/service/zalo-pay@2x.png') no-repeat center / cover;
+        @include size(587px, 464.4px);
+        margin: 80px auto 0;
+    }
+
+    .list-text {
+        margin-top: 128px;
+        height: 385px;
+    }
+}
+
+
+
+.box-viettel {
+    padding-top: 96px;
+
+    .img-wrapper {
+        background: url('../../assets/service/vietel-pay@2x.png') no-repeat center / cover;
+        @include size(625px, 648px);
+        margin: 42px auto 0;
+    }
+
+    .list-text {
+        margin-top: 90px;
+        height: 406px;
+    }
+}
+
+.box-cao {
+    padding-top: 96px;
+    padding-bottom: 155px;
+
+    .img-wrapper {
+        background: url('../../assets/service/mobile-card@2x.png') no-repeat center / cover;
+        @include size(748.9px, 481px);
+        margin: 98px auto 0;
+    }
+
+
+    .list-wrapper {
+        width: 663px;
+        height: 341px;
+        background: #FFFFFF;
+        box-shadow: -22px 15px 21px 0px rgba(142, 211, 246, 0.19);
+        border-radius: 0px 0px 0px 40px;
+        margin: 0 auto;
+
+
+        .list-text {
+            height: auto;
+            box-shadow: none;
+        }
+
+
+        .list-ol-text {
+            padding-left: 94px + 35px;
+            font-size: 30px;
+            font-weight: 500;
+            color: #162539;
+
+
+            .li-ol-text {
+                height: 36px;
+                position: relative;
+
+                &:nth-child(n+2) {
+                    margin-top: 1em;
+                }
+
+                &::before {
+                    content: '';
+                    display: block;
+                    background: url('../../assets/service/Ellipse\ 3\ copy@2x.png') no-repeat center / cover;
+                    @include size(9px);
+                    @include position-center-y();
+                    left: -35px;
+                }
+            }
+
+        }
+    }
+}
+
+
+
+

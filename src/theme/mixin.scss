@@ -1,0 +1,63 @@
+
+
+
+@mixin size($w, $h:false) {
+    width: $w;
+    height: $w;
+
+    @if $h {
+        height: $h;
+    }
+}
+
+@mixin clearfix() {
+    *zoom: 1;
+
+    &::before,
+    &::after {
+        display: block;
+        content: '';
+        clear: both;
+        visibility: hidden;
+        height: 0;
+    }
+
+}
+
+/* ----------------------------------- 混合 ----------------------------------- */
+@mixin flex {
+    display: flex;
+    align-items: center;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@mixin flex-center-xy {
+    @include flex();
+    justify-content: center;
+}
+
+@mixin fz($s, $c, $w:normal) {
+    font-size: $s;
+    color: $c;
+    font-weight: $w;
+    font-style: normal;
+    line-height: 1em;
+    font-family: Helvetica Neue;
+}
+
+
+@mixin position-center-y {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@mixin radius($px) {
+    border-radius: $px;
+    overflow: hidden;
+}
