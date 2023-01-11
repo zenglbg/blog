@@ -19,7 +19,7 @@
     "@zeit/next-typescript": "^1.1.1",
     "antd": "^3.26.7",
     "class-transformer": "^0.2.3",
-    "class-validator": "^0.11.0",
+    "class-validator": "^0.14.0",
     "consolidate": "^0.15.1",
     "draft-js": "^0.11.4",
     "ejs": "^3.0.1",
