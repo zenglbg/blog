@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello(): any {
     return {
-      message: `hello 邓鑫艳`,
+      message: `zlbg的十年`,
     };
   }
 }
