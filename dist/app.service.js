@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 let AppService = class AppService {
     getHello() {
         return {
-            message: `是时候专注的做一件事情了`,
+            message: `hello 邓鑫艳`,
         };
     }
 };
