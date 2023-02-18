@@ -10,3 +10,6 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:0-18
 
 # [Optional] Uncomment if you want to install more global node modules
 # RUN su node -c "npm install -g <your-package-list-here>"
+# RUN su node -c "yarn" && su node -c 'yarn build'
+RUN yarn && yarn build
+# CMD ['node', 'dist/main.js']

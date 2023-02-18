@@ -12,10 +12,14 @@ services:
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
+    # command: node dist/main.js
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
     networks:
       - net
+    depends_on:
+      - db
+      - redis
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
@@ -28,9 +32,17 @@ services:
       - '80:80'
       - '3332:3332'
       - '3338:3338'
+    depends_on:
+      - app
     networks:
       - net
     
+  redis:
+    image: redis:latest
+    networks:
+      - net
+
+
 
   db:
     image: postgres:latest
