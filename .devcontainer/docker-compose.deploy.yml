@@ -1,52 +1,48 @@
 version: '3.8'
 
 services:
-  app:
-    container_name: zlbg
-    build:
-      context: .
-      dockerfile: Dockerfile
-
-    volumes:
-      - ../..:/workspaces:cached
-
-    # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
-    # command: node dist/main.js
-    # command: yarn && yarn build && yarn start:prod
-
-    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    networks:
-      - net
-    depends_on:
-      - db
-      - redis
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
-    
-  web:
+  depoly:
     image: nginx:latest
+    container_name: zlbg.cc
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ./nginx-prod:/etc/nginx/conf.d
     ports:
       - '80:80'
       - '3332:3332'
       - '3338:3338'
     depends_on:
-      - app
-
+      - prod
     networks:
       - net
+
+  prod:
+    container_name: zlbg
+    build:
+      context: .
+      target: production
+      dockerfile: Dockerfile
+    volumes:
+      - ../..:/workspaces:cached
+    working_dir: /workspaces/blog
+    command: yarn && yarn build && yarn start:prod
+    # command: ['npm', 'run', 'start:prod']
+    networks:
+      - net
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    
   
   redis:
+    container_name: redis
     image: redis:latest
     networks:
       - net
 
-
-
   db:
     image: postgres:latest
+    container_name: mysql
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
