@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getHello(): any {
     return {
-      code: 'djhfksf',
+      message: `是时候专注的做一件事情了`,
     };
   }
 }
