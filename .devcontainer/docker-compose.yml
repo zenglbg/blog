@@ -44,7 +44,6 @@ services:
       - net
 
 
-
   db:
     image: postgres:latest
     restart: unless-stopped
