@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { AppModule } from './app/app.module';
+import { AppModule } from './app.module';
+import { PrismaService } from './prisma.service';
 import { join } from 'path';
 
 const PORT = 3000;
@@ -12,7 +13,8 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('hbs');
 
-  app.set;
+  const prismaService = app.get(PrismaService);
+  await prismaService.enableShutdownHooks(app);
 
   await app.listen(PORT);
 
