@@ -25,11 +25,27 @@ services:
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
-
+  acme.sh:
+    #教程 https://juejin.cn/post/7044777965262995470
+    # docker exec acme.sh --register-account -m zenglbg@gmail.com --issue --dns dns_gd -d zlbg.cc -d *.zlbg.cc --force --dnssleep
+    # https://github.com/acmesh-official/acme.sh/wiki/Run-acme.sh-in-docker
+    image: neilpang/acme.sh
+    container_name: acme.sh
+    restart: always
+    command: daemon
+    environment:
+      GD_Secret: Pxn1R4xP8PegGUNFKxbHXc
+      GD_Key: eoBfvMne5tsZ_4cw6xWKwxxmKLwepBLDgJn
+    volumes:
+      - ../certs:/acme.sh
+    networks:
+      - net
+ 
   web:
     image: nginx:latest
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ../certs:/etc/nginx/certs
     ports:
       - '80:80'
       - '3332:3332'
