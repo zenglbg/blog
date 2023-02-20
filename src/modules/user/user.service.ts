@@ -13,8 +13,8 @@ export class UserService {
     });
   }
 
-  findAll() {
-    return this.prisma.user.findMany();
+  findAll(where: Prisma.UserFindManyArgs) {
+    return this.prisma.user.findMany(where);
   }
 
   findOne(
@@ -25,12 +25,17 @@ export class UserService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  update(id: number, updateUserDto: Prisma.UserUpdateInput) {
+    return this.prisma.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.prisma.user.delete({
+      where: { id },
+    });
   }
 
   createProfile(profile: Prisma.ProfileCreateInput): Promise<Profile | null> {

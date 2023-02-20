@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -21,6 +22,35 @@ export class UserController {
       email,
       name,
     });
+  }
+
+  @Get()
+  findAll(
+    @Query() { page, size }: { page: number; size: number },
+    @Body() where: CreateUserDto,
+  ) {
+    return this.userService.findAll({
+      take: +size,
+      skip: (+page - 1) * size,
+      where,
+    });
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne({
+      id: +id,
+    });
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(+id, updateUserDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(+id);
   }
 
   @Post('profile')
@@ -40,27 +70,5 @@ export class UserController {
   @Get('profile/:id')
   getProfile(@Param('id') id: string) {
     return this.userService.getProfile(+id);
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne({
-      id: +id,
-    });
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
   }
 }
