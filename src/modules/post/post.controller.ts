@@ -9,21 +9,32 @@ import {
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { CreatePostDto } from './dto/create-post.dto';
 
 @Controller('post')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Post()
-  create(
-    @Body() postData: { title: string; content?: string; authorEmail: string },
-  ) {
-    const { title, content, authorEmail } = postData;
+  create(@Body() postData: CreatePostDto) {
+    const { title, content, email, categoryId } = postData;
+    console.log(
+      '🚀 ~ file: post.controller.ts:21 ~ PostController ~ create ~ title, content, email, categoryId ',
+      title,
+      content,
+      email,
+      categoryId,
+    );
     return this.postService.create({
       title,
       content,
       author: {
-        connect: { email: authorEmail },
+        connect: { email },
+      },
+      category: {
+        connect: {
+          id: +categoryId,
+        },
       },
     });
   }
@@ -39,8 +50,23 @@ export class PostController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postService.update(+id, updatePostDto);
+  update(
+    @Param('id') id: string,
+    @Body() { title, content, email, categoryId, published }: UpdatePostDto,
+  ) {
+    return this.postService.update(+id, {
+      title,
+      content,
+      published,
+      author: {
+        connect: { email },
+      },
+      category: {
+        connect: {
+          id: +categoryId,
+        },
+      },
+    });
   }
 
   @Delete(':id')
