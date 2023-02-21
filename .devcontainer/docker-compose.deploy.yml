@@ -49,6 +49,8 @@ services:
       - '3000:3000'
     networks:
       - net
+    depends_on:
+      - prod
     restart: unless-stopped
 
   prod:
