@@ -7,6 +7,7 @@ services:
     volumes:
       - ./nginx-prod:/etc/nginx/conf.d
       - ../certs:/etc/nginx/certs
+      - ../../files:/usr/share/nginx/file
     ports:
       - '80:80'
       - '443:443'

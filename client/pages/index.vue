@@ -1,11 +1,15 @@
 <template>
   <div>
     <h2>
-      <button @click="refresh">posts</button>
+      <button @click="getData">posts</button>
 
-      <div class="posts">
+      <div class="posts" v-if="posts">
+        <h1>
+          {{ posts.length }}
+        </h1>
+
         <ul>
-          <li v-for="item in data">
+          <li v-for="item in posts">
             <p>{{ item.title }}</p>
             <p>{{ item.content }}</p>
           </li>
@@ -17,10 +21,14 @@
 
 <script setup>
 // Define params wherever, through `defineProps()`, `useRoute()`, etc.
-const { data, pending, refresh } = await useAsyncData('getposts', () =>
-  $fetch(`http://localhost/post`),
-);
+// const { data, pending, refresh } = await useAsyncData('getposts', () =>
+//   $fetch(`http://localhost/post`),
+// );
 
+const { data: posts, refresh: getData } = await useFetch(
+  'http://localhost/post',
+);
+console.log('🚀 ~ file: index.vue:25 ~ posts:', posts.value);
 </script>
 
 <style lang="scss">
