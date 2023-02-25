@@ -1,11 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
-
+import { CreateChatDto } from './dto/create-chat.dto';
+import { ChatGptService } from 'nestjs-chatgpt';
 @Injectable()
 export class ChatService {
-  create(createChatDto: CreateChatDto) {
-    return 'This action adds a new chat';
+  constructor(private readonly chatGptService: ChatGptService) {}
+
+  create(createChatgptDto: CreateChatDto) {
+    console.log(
+      '🚀 ~ file: chat.service.ts:11 ~ ChatService ~ create ~ createChatgptDto:',
+      createChatgptDto,
+    );
+    return this.chatGptService.generateTextGPT3(createChatgptDto);
   }
 
   findAll() {
