@@ -12,7 +12,7 @@ export class ChatService {
 
   qa({ prompt }: CreateChatDto) {
     // return this.generateTextGPT3(createChatgptDto);
-    return this.openai.qa({ prompt });
+    return this.openai.qa({ prompt }).then((res) => (res[0] || {}).text);
   }
 
   img({ prompt }: CreateChatDto) {

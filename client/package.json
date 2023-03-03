@@ -9,9 +9,11 @@
     "deploy": "yarn && yarn build && node .output/server/index.mjs"
   },
   "devDependencies": {
-    "nuxt": "^3.2.2"
+    "nuxt": "^3.2.2",
+    "@element-plus/nuxt": "^1.0.3",
+    "sass": "^1.58.3"
   },
   "dependencies": {
-    "sass": "^1.58.3"
+    "element-plus": "^2.2.32"
   }
 }

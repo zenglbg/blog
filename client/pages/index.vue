@@ -1,21 +1,8 @@
 <template>
   <div>
-    <h2>
-      <button @click="getData">posts</button>
-
-      <div class="posts" v-if="posts">
-        <h1>
-          {{ posts.length }}
-        </h1>
-
-        <ul>
-          <li v-for="item in posts">
-            <p>{{ item.title }}</p>
-            <p>{{ item.content }}</p>
-          </li>
-        </ul>
-      </div>
-    </h2>
+    <h1>
+      <NuxtLink to="/chat/chat">前往chat页面</NuxtLink>
+    </h1>
   </div>
 </template>
 
