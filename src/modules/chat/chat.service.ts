@@ -1,17 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, Inject } from '@nestjs/common';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { CreateChatDto } from './dto/create-chat.dto';
-import { ChatGptService } from 'nestjs-chatgpt';
+import { CreateChatgptDto, EditorChatgptDto } from './dto/create-chatgpt.dto';
+import { OpenaiService } from '../openai/openai.service';
+
 @Injectable()
 export class ChatService {
-  constructor(private readonly chatGptService: ChatGptService) {}
+  constructor(
+    @Inject('OpenaiService') private readonly openai: OpenaiService,
+  ) {}
 
-  create(createChatgptDto: CreateChatDto) {
-    console.log(
-      '🚀 ~ file: chat.service.ts:11 ~ ChatService ~ create ~ createChatgptDto:',
-      createChatgptDto,
-    );
-    return this.chatGptService.generateTextGPT3(createChatgptDto);
+  qa({ prompt }: CreateChatDto) {
+    // return this.generateTextGPT3(createChatgptDto);
+    return this.openai.qa({ prompt });
+  }
+
+  img({ prompt }: CreateChatDto) {
+    return this.openai.img({ prompt });
+  }
+
+  editor({ input, instruction }: EditorChatgptDto) {
+    return this.openai.editorText({ input, instruction });
   }
 
   findAll() {
@@ -29,4 +38,53 @@ export class ChatService {
   remove(id: number) {
     return `This action removes a #${id} chat`;
   }
+
+  // async generateTextGPT3({ prompt }: CreateChatgptDto) {
+  //   return this.generateText({ prompt, model: 'text-davinci-003' });
+  // }
+  // async generateText({ prompt, model }: CreateChatgptDto) {
+  //   try {
+  //     const response = await axios.post<ChatGptResponse>(
+  //       'https://api.openai.com/v1/completions',
+  //       {
+  //         model,
+  //         prompt,
+  //         temperature: 1,
+  //         max_tokens: 100,
+  //       },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           authorization: `Bearer ${this.apiKey}`,
+  //         },
+  //       },
+  //     );
+  //     return response.data;
+  //   } catch (error: any) {
+  //     throw new HttpException('Falha ao gerar texto', error.response.status);
+  //   }
+  // }
+
+  // async generateEditor({ model, prompt }) {
+  //   try {
+  //     const response = await axios.post<ChatGptResponse>(
+  //       'https://api.openai.com/v1/completions',
+  //       {
+  //         model,
+  //         prompt,
+  //         temperature: 1,
+  //         max_tokens: 100,
+  //       },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           authorization: `Bearer ${this.apiKey}`,
+  //         },
+  //       },
+  //     );
+  //     return response.data;
+  //   } catch (error: any) {
+  //     throw new HttpException('Falha ao gerar texto', error.response.status);
+  //   }
+  // }
 }

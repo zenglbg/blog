@@ -6,18 +6,34 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
+import { EditorChatgptDto } from './dto/create-chatgpt.dto';
 
 @Controller('chat')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
-  @Post()
-  create(@Body() createChatDto: CreateChatDto) {
-    return this.chatService.create(createChatDto);
+  @Post('qa')
+  qa(@Body() createChatDto: CreateChatDto) {
+    return this.chatService.qa(createChatDto);
+  }
+
+  @Get('img')
+  img(@Query() createChatDto: CreateChatDto) {
+    console.log(
+      '🚀 ~ file: chat.controller.ts:27 ~ ChatController ~ img ~ createChatDto:',
+      createChatDto,
+    );
+    return this.chatService.img(createChatDto);
+  }
+
+  @Post('editor')
+  editor(@Body() editor: EditorChatgptDto) {
+    return this.chatService.editor(editor);
   }
 
   @Get()
