@@ -34,8 +34,9 @@ export class OpenaiService {
     const res = await this.openai.createCompletion({
       model: 'text-davinci-003',
       prompt,
-      temperature: 1,
-      max_tokens: 100,
+      temperature: 0.3,
+      max_tokens: 3000,
+      top_p: 1,
     });
     return res.data.choices;
   }
