@@ -7,14 +7,19 @@ import { ChatModule } from './modules/chat/chat.module';
 import { CategoryModule } from './modules/category/category.module';
 // import { ChatGptModule } from 'src/common/chatgpt';
 import { OpenaiModule } from './modules/openai/openai.module';
-
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env.deploy', '.env'],
+    }),
     UserModule,
     PostModule,
     ChatModule,
     CategoryModule,
-    OpenaiModule.forRoot('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'),
+    // OpenaiModule.forRoot('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'),
+    OpenaiModule.forRoot(process.env.openapiKey),
   ],
   controllers: [AppController],
   providers: [
