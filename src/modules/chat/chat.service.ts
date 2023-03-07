@@ -6,9 +6,7 @@ import { OpenaiService } from '../openai/openai.service';
 
 @Injectable()
 export class ChatService {
-  constructor(
-    @Inject('OpenaiService') private readonly openai: OpenaiService,
-  ) {}
+  constructor(private readonly openai: OpenaiService) {}
 
   qa({ prompt }: CreateChatDto) {
     // return this.generateTextGPT3(createChatgptDto);

@@ -8,6 +8,7 @@ import { CategoryModule } from './modules/category/category.module';
 // import { ChatGptModule } from 'src/common/chatgpt';
 import { OpenaiModule } from './modules/openai/openai.module';
 import { ConfigModule } from '@nestjs/config';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
