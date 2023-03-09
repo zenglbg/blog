@@ -14,7 +14,8 @@ services:
       - '3332:3332'
       - '3338:3338'
     depends_on:
-      - client
+      # - client
+      - prod  
       - acme.sh
     networks:
       - net
@@ -38,22 +39,22 @@ services:
  
  
   
-  client:
-    container_name: client
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ../..:/workspaces:cached
-    working_dir: /workspaces/blog/client
-    command: ['npm', 'run', 'deploy']
-    ports:
-      - '3000:3000'
-    networks:
-      - net
-    depends_on:
-      - prod
-    restart: unless-stopped
+  # client:
+  #   container_name: client
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ../..:/workspaces:cached
+  #   working_dir: /workspaces/blog/client
+  #   command: ['npm', 'run', 'deploy']
+  #   ports:
+  #     - '3000:3000'
+  #   networks:
+  #     - net
+  #   depends_on:
+  #     - prod
+  #   restart: unless-stopped
 
   prod:
     container_name: zlbg
